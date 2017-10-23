@@ -1,0 +1,17 @@
+{
+  "root": true,
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node" :true
+  },
+  "rules": {
+
+  },
+  "extends": "standard",
+  "globals": {
+    "avalon": true,
+    "process.env": true,
+    "import":true
+  }
+}
