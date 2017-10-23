@@ -4,7 +4,8 @@ const RoleService = require('../service/RoleService')
 const NodeService = require('../service/NodeService')
 
 /* 用户相关接口 */
-router.post('/user/create', (ctx) => UserService.createUser(ctx))// 创建用户
+router.get('/user/queryPage', (ctx) => UserService.queryPage(ctx))
+router.post('/user/add', (ctx) => UserService.add(ctx))
 router.post('/user/:id', (ctx) => UserService.updateUser(ctx))// 更新用户
 router.get('/user/getUserInfo', (ctx) => UserService.getUserInfo(ctx))// 获取登录用户信息
 

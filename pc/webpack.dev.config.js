@@ -42,10 +42,13 @@ module.exports = merge(webpackBaseConfig, {
       chunks: ['vendors', 'login','login.css'],
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new CopyWebpackPlugin([{
-      from: path.join(__dirname, 'libs/layui'),
-      to: 'layui/'
-    }])
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery',
+      Popper: ['popper.js', 'default']
+    })
+
   ],
   devServer: {
     contentBase: './dist',

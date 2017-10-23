@@ -25,4 +25,16 @@ module.exports = class SystemUtil {
   static checkPassword (password, dbPassword) {
     return bcrypt.compareSync(password, dbPassword)
   }
+  static async queryPage (dao, condition, pageNo, pageSize) {
+    let success = true
+    let message = '查询成功'
+    let values = await dao.findAndCount({
+      where: condition,
+      limit: pageSize,
+      offset: (pageNo - 1) * pageSize
+    })
+    values.pageNo = pageNo
+    values.pageSize = pageSize
+    return this.createResult({success, message, values})
+  }
 }

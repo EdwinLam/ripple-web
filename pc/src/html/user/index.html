@@ -1,0 +1,37 @@
+<div class="container-fluid" ms-controller="userIndexVm">
+    <wbr :widget="{$id:'userAdd',is:'user-add'}" />
+
+    <div class="row">
+        <div class="col">
+            <div class="function-name">用户管理</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-md-2 offset-md-10">
+            <button type="button" class="btn btn-primary" ms-click="@openAdd">添加</button>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>用户名</th>
+                <th>号码</th>
+                <th>创建日期</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1,001</td>
+                <td>Lorem</td>
+                <td>ipsum</td>
+                <td>dolor</td>
+                <td>sit</td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -23,16 +23,4 @@ module.exports = class AuthService {
     } : null
     ctx.body = SystemUtil.createResult({success: isSuccess, message: message, values: value})
   }
-
-  /**
-   * 判断号码是否已经存在
-   * @param {number} phone 电话号码
-   */
-  static async isExistPhone (ctx) {
-    let phone = ctx.query.phone
-    const user = await userDao.findOne({where: {phone: phone}})
-    const isExists = user != null
-    const message = (isExists ? '存在' : '不存在') + phone + '手机的用户'
-    ctx.body = SystemUtil.createResult({success: isExists, message: message})
-  }
 }

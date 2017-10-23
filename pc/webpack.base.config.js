@@ -26,13 +26,25 @@ module.exports = {
       },
 
       {
-        test: /\.sass/,
-        use: ExtractTextPlugin.extract({
-          use: ['postcss-loader', 'sass-loader'],
-          fallback: 'style-loader'
-        })
+        test: /\.(scss)$/,
+        use: [{
+          loader: 'style-loader', // inject CSS to page
+        }, {
+          loader: 'css-loader', // translates CSS into CommonJS modules
+        }, {
+          loader: 'postcss-loader', // Run post css actions
+          options: {
+            plugins: function () { // post css plugins, can be exported to postcss.config.js
+              return [
+                require('precss'),
+                require('autoprefixer')
+              ];
+            }
+          }
+        }, {
+          loader: 'sass-loader' // compiles SASS to CSS
+        }]
       },
-
       {
         test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
         loader: 'url-loader?limit=1024'
