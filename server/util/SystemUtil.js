@@ -14,11 +14,11 @@ module.exports = class SystemUtil {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10))
   }
   /* 统一返回格式标砖 */
-  static createResult ({success, message, values}) {
+  static createResult ({success, message, data}) {
     return {
       success: success,
       message: message,
-      values: values  ?  values :{}
+      data: data  ?  data :{}
     }
   }
   /* 检查密码 */
@@ -28,13 +28,13 @@ module.exports = class SystemUtil {
   static async queryPage (dao, condition, pageNo, pageSize) {
     let success = true
     let message = '查询成功'
-    let values = await dao.findAndCount({
+    let data = await dao.findAndCount({
       where: condition,
       limit: pageSize,
       offset: (pageNo - 1) * pageSize
     })
-    values.pageNo = pageNo
-    values.pageSize = pageSize
-    return this.createResult({success, message, values})
+    data.pageNo = pageNo
+    data.pageSize = pageSize
+    return this.createResult({success, message, data})
   }
 }

@@ -1,11 +1,12 @@
 <div class="container-fluid" ms-controller="userIndexVm">
     <wbr :widget="{$id:'userAdd',is:'user-add'}" />
-
-    <div class="row">
-        <div class="col">
-            <div class="function-name">用户管理</div>
-        </div>
-    </div>
+    <wbr :widget="{$id:'userEdit',is:'user-edit'}" />
+    <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">权限管理</a></li>
+            <li class="breadcrumb-item"><a href="#">用户管理</a></li>
+        </ol>
+    </nav>
     <div class="row">
         <div class="col col-md-2 offset-md-10">
             <button type="button" class="btn btn-primary" ms-click="@openAdd">添加</button>
@@ -23,15 +24,20 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>1,001</td>
-                <td>Lorem</td>
-                <td>ipsum</td>
-                <td>dolor</td>
-                <td>sit</td>
+            <tr ms-for="(index,el) in @userItems">
+                <td ms-text="el.id"></td>
+                <td ms-text="el.userName"></td>
+                <td ms-text="el.phone"></td>
+                <td ms-text="el.createdAt|date"></td>
+                <td>
+                    <button type="button" class="btn btn-primary" ms-click="@openEdit(el)">编辑</button>
+                    <button type="button" class="btn btn-primary" ms-click="@destroy(el)">删除</button>
+
+                </td>
             </tr>
 
             </tbody>
         </table>
+        <wbr :widget="{is:'pagination',currentPage:@currentPage,totalPages:@totalPages,totalRecord:@totalRecord,pageSize:@pageSize,onPageClick:@query(1)}" />
     </div>
 </div>

@@ -6,8 +6,10 @@ const NodeService = require('../service/NodeService')
 /* 用户相关接口 */
 router.get('/user/queryPage', (ctx) => UserService.queryPage(ctx))
 router.post('/user/add', (ctx) => UserService.add(ctx))
-router.post('/user/:id', (ctx) => UserService.updateUser(ctx))// 更新用户
-router.get('/user/getUserInfo', (ctx) => UserService.getUserInfo(ctx))// 获取登录用户信息
+router.post('/user/:id', (ctx) => UserService.update(ctx))
+router.get('/user/getUserInfo', (ctx) => UserService.getUserInfo(ctx))
+router.del('/user/:id', (ctx) =>UserService.destroy(ctx))
+router.post('/user/:id', (ctx) => UserService.update(ctx))
 
 /* 角色相关接口 */
 router.post('/role/create', (ctx) => RoleService.createRole(ctx))// 创建角色

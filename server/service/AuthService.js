@@ -17,10 +17,10 @@ module.exports = class AuthService {
     const userInfo = await userDao.findOne({where: {phone: phone}})
     const isSuccess = userInfo != null && SystemUtil.checkPassword(password, userInfo.password)
     const message = isSuccess ? '身份验证成功' : '用户名或者密码错误'
-    const value = isSuccess ? {
+    const data = isSuccess ? {
       token: SystemUtil.createJwt(userInfo.id, userInfo.name),
       userInfo: userInfo
     } : null
-    ctx.body = SystemUtil.createResult({success: isSuccess, message: message, values: value})
+    ctx.body = SystemUtil.createResult({success: isSuccess, message: message, data: data})
   }
 }

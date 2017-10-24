@@ -19,4 +19,17 @@ export default class AuthApi {
       data
     })
   }
+  static update(data) {
+    return fetch({
+      url: '/api/user/'+data.id,
+      method: 'post',
+      data
+    })
+  }
+  static destroy (id) {
+    return fetch({
+      url: '/api/user/' + id,
+      method: 'delete'
+    })
+  }
 }

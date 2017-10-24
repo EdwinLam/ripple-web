@@ -27,26 +27,33 @@ module.exports = class UserService{
     let userName = ctx.request.body.userName
     let phone = ctx.request.body.phone
     let password = ctx.request.body.password
-    if (StringUtil.isNull(phone))
+    console.log(StringUtil.isNull(phone))
+    if (StringUtil.isNull(phone)) {
       ctx.body = SystemUtil.createResult({success: false, message: '号码不能为空'})
-    if (StringUtil.isNull(userName))
+      return
+    }
+    if (StringUtil.isNull(userName)) {
       ctx.body = SystemUtil.createResult({success: false, message: '用户名不能为空'})
-    if (StringUtil.isNull(password))
+      return
+    }
+    if (StringUtil.isNull(password)) {
       ctx.body = SystemUtil.createResult({success: false, message: '密码不能为空'})
+      return
+    }
     // 检查是否已存在相同号码
     const userInfo = await userDao.findOne({where: {phone: phone}})
     const isExistsUser = userInfo != null
     if (!isExistsUser) {
       const message = '新建用户' + userName + '成功'
-      const value = await userDao.create({
+      const data = await userDao.create({
         userName: userName,
         password: SystemUtil.enCodePassword(password),
         phone: phone
       })
-      ctx.body = SystemUtil.createResult({success: true, message: message, values: value})
+      ctx.body = SystemUtil.createResult({success: true, message, data})
     } else {
       const message = '已存在' + phone + '手机的用户'
-      ctx.body = SystemUtil.createResult({success: false, message: message})
+      ctx.body = SystemUtil.createResult({success: false,message})
     }
   }
 
@@ -55,21 +62,31 @@ module.exports = class UserService{
    * @param {Number} id 唯一id
    * @param {String} name 用户名
    */
-  static async updateUser (ctx) {
-    const nickname = ctx.request.body.nickname
+  static async update (ctx) {
+    const userName = ctx.request.body.userName
     const id = ctx.params.id
-    const updatedAt = new Date().getTime()
-    if (StringUtil.isNull(nickname)) {
+    if (StringUtil.isNull(userName)) {
       ctx.body = SystemUtil.createResult({success: false, message: '名称不能为空'})
     }
-    await userDao.update({nickname,updatedAt}, {where: {id}})
+    await userDao.update({userName}, {where: {id}})
     ctx.body = SystemUtil.createResult({success: true, message: '更新成功'})
+  }
+
+  /*
+   * 删除
+   * @param {Number} id 唯一id
+   */
+  static async destroy (ctx) {
+    const count = await userDao.destroy({where: {id: ctx.params.id}})
+    const isSuccess = count > 0
+    const message = isSuccess ? '删除数据成功' : '删除数据失败'
+    ctx.body = SystemUtil.createResult({success: isSuccess, message: message})
   }
 
   static async getUserInfo (ctx) {
     let  userInfo = await userDao.findOne({where: {id: ctx.state.user.id}})
     //获取权限信息
-    ctx.body =SystemUtil.createResult({success: true, message: '获取成功', values:{
+    ctx.body =SystemUtil.createResult({success: true, message: '获取成功', data:{
       userInfo:userInfo
     }})
   }

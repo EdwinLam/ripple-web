@@ -1,7 +1,6 @@
 import '@/css/style.css'
 import routerService from '@/service/routerService'
 import UserApi from 'api/UserApi'
-import 'components/common/common-header'
 const root = avalon.define({
   $id: 'root',
   currPage: '',

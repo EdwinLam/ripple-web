@@ -3,6 +3,12 @@
     this.loadingIndex = -1
     this.loadingCount = 0
   }
+  alert(config){
+    avalon.vmodels['commonAlert'].openInit(config)
+  }
+  confirm(config){
+    avalon.vmodels['commonConfirm'].openInit(config)
+  }
   openLoading() {
     // this.loadingCount++
     // if(this.loadingIndex!==-1) return

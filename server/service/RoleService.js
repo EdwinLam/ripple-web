@@ -24,13 +24,13 @@ module.exports =class RoleService {
       const updatedAt = new Date().getTime()
       const status = 1
       const code = uuidv1()
-      const value = await this.Dao.create({
+      const data = await this.Dao.create({
         pCode,pName,name,createdAt,updatedAt,status,code
       })
-      ctx.body = SystemUtil.createResult({success: true, message: message, values: value})
+      ctx.body = SystemUtil.createResult({success: true, message, data})
     } else {
       const message = pName+'已存在' + name + '角色'
-      ctx.body = SystemUtil.createResult({success: false, message: message})
+      ctx.body = SystemUtil.createResult({success: false, message})
     }
   }
 

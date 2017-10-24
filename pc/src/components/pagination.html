@@ -1,0 +1,13 @@
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <li class="page-item"  ms-class='{disabled: @isDisabled("prev",1)}'>
+            <a class="page-link"  href="javascript:void(0)"  ms-click='@cbProxy($event,"prev")'>上一页</a>
+        </li>
+        <li class="page-item" ms-for='page in @pages' ms-class='{active: page === @currentPage}'>
+            <a class="page-link"  href="javascript:void(0)" ms-click='@cbProxy($event,page)'>{{page}}</a>
+        </li>
+        <li class="page-item" ms-class='{disabled: @isDisabled("next",@totalPages)}'>
+            <a class="page-link"  href="javascript:void(0)"  ms-click='@cbProxy($event,"next")'>下一页</a>
+        </li>
+    </ul>
+</nav>

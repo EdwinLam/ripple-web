@@ -10,8 +10,9 @@
 
 </head>
 <body class="layui-layout-body" ms-controller="root">
-
 <wbr :widget="{$id:'commonHeader',is:'common-header',userInfo:@userInfo}" />
+<wbr :widget="{$id:'commonAlert',is:'common-alert'}" />
+<wbr :widget="{$id:'commonConfirm',is:'common-confirm'}" />
 
 <div class="container-fluid">
   <div class="row">
@@ -32,7 +33,7 @@
       </ul>
     </nav>
     <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
-      <div ms-html="@currPage"></div>
+        <div ms-html="@currPage"></div>
     </main>
   </div>
 </div>

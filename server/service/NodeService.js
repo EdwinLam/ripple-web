@@ -56,6 +56,6 @@ module.exports = class NodeService {
       where={code:code}
     }
     const result = await this.Dao.findAndCount({where})
-    ctx.body = SystemUtil.createResult({success: true, message: '成功获取', values: result})
+    ctx.body = SystemUtil.createResult({success: true, message: '成功获取', data: result})
   }
 }
