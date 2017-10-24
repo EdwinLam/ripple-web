@@ -4,10 +4,6 @@ module.exports = function(sequelize, DataTypes) {
     roleName: {
       type: DataTypes.STRING,
       allowNull: true
-    },
-    headImage: {
-      type: DataTypes.STRING,
-      allowNull: true
     }
   })
   role.associate = function(modules){

@@ -1,35 +1,40 @@
 const StringUtil = require('../util/StringUtil.js')
 const SystemUtil = require('../util/SystemUtil.js')
-const _ = require('lodash');
+const roleDao = require('../models')['role']
 module.exports =class RoleService {
 
   /**
+   * 分页查询数据
+   * @param {pageNo} 当前页
+   * @param {pageNo} 总页数
+   */
+  static async queryPage (ctx) {
+    let pageNo = parseInt(ctx.query.pageNo) || 1
+    let pageSize = parseInt(ctx.query.pageSize) || 10
+    delete ctx.query.pageNo
+    delete ctx.query.pageSize
+    ctx.body =await SystemUtil.queryPage(roleDao,ctx.query,pageNo,pageSize)
+  }
+
+  /**
    * 新建角色
-   * @param {String} pCode 父角色Code 根目录为0
-   * @param {String} pName 父角色名称
    * @param {name} password 角色名称
    */
-  async createRole (ctx) {
-    const pCode = ctx.request.body.pCode
-    const pName = ctx.request.body.pName
-    const name = ctx.request.body.name
-    if (StringUtil.someNull([name])) {
+  static async add (ctx) {
+    const roleName = ctx.request.body.roleName
+    if (StringUtil.someNull([roleName])) {
       ctx.body = SystemUtil.createResult({success: false, message: '角色名不能为空'})
     }
-    const roleInfo = await this.Dao.findOne({where: {pCode,name}})
+    const roleInfo = await roleDao.findOne({where: {roleName}})
     const isExistsRole = roleInfo != null
     if (!isExistsRole) {
-      const message = '新建角色' + name + '成功'
-      const createdAt = new Date().getTime()
-      const updatedAt = new Date().getTime()
-      const status = 1
-      const code = uuidv1()
-      const data = await this.Dao.create({
-        pCode,pName,name,createdAt,updatedAt,status,code
+      const message = '新建角色' + roleName + '成功'
+      const data = await roleDao.create({
+        roleName
       })
       ctx.body = SystemUtil.createResult({success: true, message, data})
     } else {
-      const message = pName+'已存在' + name + '角色'
+      const message = '已存在' + roleName + '角色'
       ctx.body = SystemUtil.createResult({success: false, message})
     }
   }
@@ -39,15 +44,25 @@ module.exports =class RoleService {
    * @param {Number} id 唯一id
    * @param {String} name 用户名
    */
-  async updateRole (ctx) {
-    const name = ctx.request.body.name
+  static async update (ctx) {
+    const roleName = ctx.request.body.roleName
     const id = ctx.params.id
-    const updatedAt = new Date().getTime()
-    if (StringUtil.isNull(name)) {
+    if (StringUtil.isNull(roleName)) {
       ctx.body = SystemUtil.createResult({success: false, message: '名称不能为空'})
     }
-    await this.Dao.update({name,updatedAt}, {where: {id}})
+    await roleDao.update({roleName}, {where: {id}})
     ctx.body = SystemUtil.createResult({success: true, message: '更新成功'})
+  }
+
+  /*
+   * 删除
+   * @param {Number} id 唯一id
+   */
+  static async destroy (ctx) {
+    const count = await roleDao.destroy({where: {id: ctx.params.id}})
+    const isSuccess = count > 0
+    const message = isSuccess ? '删除数据成功' : '删除数据失败'
+    ctx.body = SystemUtil.createResult({success: isSuccess, message: message})
   }
 
 }

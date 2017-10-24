@@ -1,34 +1,28 @@
 import fetch from './fetch'
-export default class UserApi {
-  static getUserInfo () {
-    return fetch({
-      url: '/api/user/getUserInfo',
-      method: 'get'
-    })
-  }
+export default class RoleApi {
   static queryPage () {
     return fetch({
-      url: '/api/user/queryPage',
+      url: '/api/role/queryPage',
       method: 'get'
     })
   }
   static add (data) {
     return fetch({
-      url: '/api/user/add',
+      url: '/api/role/add',
       method: 'post',
       data
     })
   }
   static update(data) {
     return fetch({
-      url: '/api/user/'+data.id,
+      url: '/api/role/'+data.id,
       method: 'post',
       data
     })
   }
   static destroy (id) {
     return fetch({
-      url: '/api/user/' + id,
+      url: '/api/role/' + id,
       method: 'delete'
     })
   }
