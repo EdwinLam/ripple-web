@@ -17,8 +17,11 @@ router.del('/role/:id', (ctx) =>RoleService.destroy(ctx))
 router.post('/role/:id', (ctx) => RoleService.update(ctx))
 
 /* 节点相关接口 */
-router.post('/node/create', (ctx) => NodeService.create(ctx))
+router.get('/node/getAllModules', (ctx) => NodeService.getAllModules(ctx))
+router.get('/node/queryPage', (ctx) => NodeService.queryPage(ctx))
+router.post('/node/add', (ctx) => NodeService.add(ctx))
+router.del('/node/:id', (ctx) =>NodeService.destroy(ctx))
 router.post('/node/:id', (ctx) => NodeService.update(ctx))
-router.get('/node/getCanSelectNodes', (ctx) => NodeService.getCanSelectNodes(ctx))//获取角色可以选择的节点
+
 
 module.exports = router

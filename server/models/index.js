@@ -13,7 +13,10 @@ const sequelize = new Sequelize(DBConfig.database, DBConfig.username, DBConfig.p
     min: 0,
     idle: 30000
   },
-  define: {}
+  define: {
+    timestamps:true,
+    paranoid:true,
+  }
 })
 fs.readdirSync(__dirname)
   .filter(function (file) {

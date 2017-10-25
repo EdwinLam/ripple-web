@@ -17,7 +17,7 @@ module.exports =class RoleService {
   }
 
   /**
-   * 新建角色
+   * 新建
    * @param {name} password 角色名称
    */
   static async add (ctx) {

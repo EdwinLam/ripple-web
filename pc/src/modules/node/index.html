@@ -1,0 +1,56 @@
+<div class="container-fluid" ms-controller="nodeIndexVm">
+    <wbr :widget="{$id:'nodeAdd',is:'node-add'}" />
+    <wbr :widget="{$id:'nodeEdit',is:'node-edit'}" />
+    <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">权限管理</a></li>
+            <li class="breadcrumb-item"><a href="#">功能管理</a></li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="col col-md-10">
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">类型</label>
+                <div class="col-sm-8">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ms-text="@level|parseLevelName"></button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="javascript:void(0)" ms-click="@level=0">模块</a>
+                            <a class="dropdown-item" href="javascript:void(0)" ms-click="@level=1">功能</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-md-2">
+            <button type="button" class="btn btn-primary" ms-click="@openAdd">添加</button>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>名称</th>
+                <th>类型</th>
+                <th>创建日期</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ms-for="(index,el) in @nodeItems">
+                <td ms-text="el.id"></td>
+                <td ms-text="el.nodeName"></td>
+                <td ms-text="el.level|parseLevelName"></td>
+                <td ms-text="el.createdAt|date"></td>
+                <td>
+                    <button type="button" class="btn btn-primary" ms-click="@openEdit(el)">编辑</button>
+                    <button type="button" class="btn btn-primary" ms-click="@destroy(el)">删除</button>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+        <wbr :widget="{is:'pagination',currentPage:@currentPage,totalPages:@totalPages,totalRecord:@totalRecord,pageSize:@pageSize,onPageClick:@query(1)}" />
+    </div>
+</div>
