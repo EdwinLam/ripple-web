@@ -1,6 +1,6 @@
 import template from './node-edit.html'
 import NodeApi from 'api/NodeApi'
-import CommonUtil from 'utils/CommonUtil'
+import CommonService from 'service/CommonService'
 
 avalon.component('node-edit', {
     template: template,
@@ -18,7 +18,7 @@ avalon.component('node-edit', {
           $('#node-edit').modal('hide')
           this.afterSave()
         }
-        CommonUtil.alert({message:res.message})
+        CommonService.alert({message:res.message})
       }
     }
 });

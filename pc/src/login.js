@@ -1,6 +1,6 @@
 import '@/css/login.css'
 import AuthApi from 'api/AuthApi'
-import authUtil from 'utils/authUtil'
+import AuthService from '@/service/AuthService'
 const loginVm = avalon.define({
   $id: 'loginVm',
   phone: '',
@@ -19,7 +19,7 @@ const loginVm = avalon.define({
       } else {
         const res = await AuthApi.login(loginVm.phone,loginVm.password)
         if(res.success){
-          authUtil.setToken(res.values.token)
+          AuthService.setToken(res.values.token)
           window.location.href='/index.html'
         }else{
           layer.alert(res.message, {icon: 2})

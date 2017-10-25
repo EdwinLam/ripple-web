@@ -1,6 +1,6 @@
 import template from './role-edit.html'
 import RoleApi from 'api/RoleApi'
-import CommonUtil from 'utils/CommonUtil'
+import CommonService from 'service/CommonService'
 
 avalon.component('role-edit', {
     template: template,
@@ -18,7 +18,7 @@ avalon.component('role-edit', {
           $('#role-edit').modal('hide')
           this.afterSave()
         }
-        CommonUtil.alert({message:res.message})
+        CommonService.alert({message:res.message})
       }
     }
 });

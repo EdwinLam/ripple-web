@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <title>后台管理系统</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[0] %>">
+    <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[1] %>">
+
+</head>
+<body class="layui-layout-body" ms-controller="root">
+<wbr :widget="{$id:'header',is:'header',userInfo:@userInfo}" />
+<wbr :widget="{$id:'alert',is:'alert'}" />
+<wbr :widget="{$id:'confirm',is:'confirm'}" />
+
+<div class="container-fluid">
+  <div class="row">
+      <wbr :widget="{$id:'menu',is:'menu'}" />
+      <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
+        <div ms-html="@currPage"></div>
+    </main>
+  </div>
+</div>
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="<%= htmlWebpackPlugin.files.js[0] %>"></script>
+    <script type="text/javascript" src="<%= htmlWebpackPlugin.files.js[1] %>"></script>
+</body>
+</html>

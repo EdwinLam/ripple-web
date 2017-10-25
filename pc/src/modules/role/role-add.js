@@ -1,6 +1,6 @@
 import template from './role-add.html'
 import RoleApi from 'api/RoleApi'
-import CommonUtil from 'utils/CommonUtil'
+import CommonService from 'service/CommonService'
 
 avalon.component('role-add', {
     template: template,
@@ -20,7 +20,7 @@ avalon.component('role-add', {
           $('#role-add').modal('hide')
           this.afterSave()
         }
-        CommonUtil.alert({message:res.message})
+        CommonService.alert({message:res.message})
       }
     }
 });

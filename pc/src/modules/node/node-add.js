@@ -1,6 +1,6 @@
 import template from './node-add.html'
 import NodeApi from 'api/NodeApi'
-import CommonUtil from 'utils/CommonUtil'
+import CommonService from 'service/CommonService'
 
 avalon.component('node-add', {
     template: template,
@@ -42,7 +42,7 @@ avalon.component('node-add', {
           $('#node-add').modal('hide')
           this.afterSave()
         }
-        CommonUtil.alert({message:res.message})
+        CommonService.alert({message:res.message})
       },
       getModuleName:function(){
         return !this.moduleItems.length?'暂无可选模块':

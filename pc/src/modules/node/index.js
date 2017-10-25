@@ -1,7 +1,7 @@
 import NodeApi from 'api/NodeApi'
 import './node-add'
 import './node-edit'
-import CommonUtil from 'utils/CommonUtil'
+import CommonService from 'service/CommonService'
 avalon.filters.parseLevelName=function(val){
   return val===0?'模块':'功能'
 }
@@ -35,7 +35,7 @@ const vm = avalon.define({
     vm.totalPages = Math.ceil(vm.totalRecord / vm.pageSize)
   },
   destroy:async function(el){
-    CommonUtil.confirm({message:'是否删除该用户',afterConfirm: async function () {
+    CommonService.confirm({message:'是否删除该用户',afterConfirm: async function () {
       const res = await NodeApi.destroy(el.id)
       vm.query(1)
     }})

@@ -1,8 +1,7 @@
 import RoleApi from 'api/RoleApi'
 import './role-add'
 import './role-edit'
-import CommonUtil from 'utils/CommonUtil'
-
+import CommonService from 'service/CommonService'
 
 const vm = avalon.define({
   $id: 'roleIndexVm',
@@ -34,7 +33,7 @@ const vm = avalon.define({
     vm.totalPages = Math.ceil(vm.totalRecord / vm.pageSize)
   },
   destroy:async function(el){
-    CommonUtil.confirm({message:'是否删除该用户',afterConfirm: async function () {
+    CommonService.confirm({message:'是否删除该用户',afterConfirm: async function () {
       const res = await RoleApi.destroy(el.id)
       console.log(res)
       vm.query(1)

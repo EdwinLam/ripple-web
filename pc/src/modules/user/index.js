@@ -1,7 +1,7 @@
 import UserApi from 'api/UserApi'
 import './user-add'
 import './user-edit'
-import CommonUtil from 'utils/CommonUtil'
+import CommonService from 'service/CommonService'
 
 
 const vm = avalon.define({
@@ -33,7 +33,7 @@ const vm = avalon.define({
     console.log(res)
   },
   destroy:async function(el){
-    CommonUtil.confirm({message:'是否删除该用户',afterConfirm: async function () {
+    CommonService.confirm({message:'是否删除该用户',afterConfirm: async function () {
       const res = await UserApi.destroy(el.id)
       console.log(res)
       vm.query(1)

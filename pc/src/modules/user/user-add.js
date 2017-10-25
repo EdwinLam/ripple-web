@@ -1,6 +1,6 @@
 import template from './user-add.html'
 import UserApi from 'api/UserApi'
-import CommonUtil from 'utils/CommonUtil'
+import CommonService from 'service/CommonService'
 
 avalon.component('user-add', {
     template: template,
@@ -24,7 +24,7 @@ avalon.component('user-add', {
           $('#user-add').modal('hide')
           this.afterSave()
         }
-        CommonUtil.alert({message:res.message})
+        CommonService.alert({message:res.message})
       }
     }
 });

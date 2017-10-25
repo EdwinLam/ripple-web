@@ -1,6 +1,6 @@
 import axios from 'axios'
-import authUtil from 'utils/authUtil'
-import CommonUtil from 'utils/CommonUtil'
+import AuthService from '@/service/AuthService'
+import CommonService from '@/service/CommonService'
 
 // 创建axios实例
 const service = axios.create({
@@ -10,25 +10,25 @@ const service = axios.create({
 
 // request拦截器
 service.interceptors.request.use(config => {
-  CommonUtil.openLoading()
+  CommonService.openLoading()
   // Do something before request is sent
-  if (authUtil.getToken()) {
-    config.headers['Authorization'] =  'Bearer ' + authUtil.getToken()
+  if (AuthService.getToken()) {
+    config.headers['Authorization'] =  'Bearer ' + AuthService.getToken()
   }
   return config
 }, error => {
-  CommonUtil.closeLoading()
+  CommonService.closeLoading()
   Promise.reject(error)
 })
 
 // respone拦截器
 service.interceptors.response.use(
   response => {
-    CommonUtil.closeLoading()
+    CommonService.closeLoading()
     return response.data
   },
   error => {
-    CommonUtil.closeLoading()
+    CommonService.closeLoading()
     return Promise.reject(error)
   }
 )

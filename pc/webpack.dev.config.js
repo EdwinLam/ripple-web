@@ -30,14 +30,14 @@ module.exports = merge(webpackBaseConfig, {
     new HtmlWebpackPlugin({
       favicon: path.join(__dirname, 'qky2.ico'),
       filename: './index.html',
-      template: './src/template/index.ejs',
-      chunks: ['vendors', 'main','main.css'],
+      template: './src/index.ejs',
+      chunks: ['vendors', 'index','index.css'],
       inject: false
     }),
     new HtmlWebpackPlugin({
       favicon: path.join(__dirname, 'qky2.ico'),
       filename: './login.html',
-      template: './src/template/login.ejs',
+      template: './src/login.ejs',
       inject: false,
       chunks: ['vendors', 'login','login.css'],
     }),

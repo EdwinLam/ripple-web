@@ -3,7 +3,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   entry: {
-    main: './src/main',
+    index: './src/index',
     vendors: './src/vendors',
     login:'./src/login'
   },
@@ -60,9 +60,10 @@ module.exports = {
     alias: {
       '@': path.resolve(__dirname, './src'),
       'components': path.resolve(__dirname, './src/components'),
+      'modules': path.resolve(__dirname, './src/modules'),
+      'service': path.resolve(__dirname, './src/service'),
       'libs': path.resolve(__dirname, './libs'),
       'api': path.resolve(__dirname, './src/api'),
-      'utils': path.resolve(__dirname, './src/utils')
     }
   }
 }
