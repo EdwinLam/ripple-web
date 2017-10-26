@@ -91,7 +91,7 @@ Page({
 	signIn(cb) {
 		if (App.WxService.getStorageSync('token')) return
     AuthApi.login({
-			phone: '13824789789',
+			phone: '13824789780',
 			password: '123123',
 		})
 		.then(res => {

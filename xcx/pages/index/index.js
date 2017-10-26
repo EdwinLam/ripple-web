@@ -14,6 +14,7 @@ Page({
         prompt: {
             hidden: !0,
         },
+        grids: [0, 1, 2, 3, 4, 5]
     },
     swiperchange(e) {
         // console.log(e.detail.current)
@@ -52,17 +53,12 @@ Page({
         App.WxService.navigateTo('/pages/search/index')
     },
     getBanners() {
-    	// App.HttpService.getBanners({is_show: !0})
         this.banner.queryAsync({isShow: 1})
         .then(res => {
-            const data = res.data
-        	console.log(data)
-        	if (data.meta.code == 0) {
-                data.data.items.forEach(n => n.path = App.renderImage(n.images[0].path))
-        		this.setData({
-                    images: data.data.items
-                })
-        	}
+          const items = res.data.rows[0].bannerImages
+          this.setData({
+            images: items
+          })
         })
     },
     getClassify() {

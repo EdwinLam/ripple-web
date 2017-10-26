@@ -56,7 +56,7 @@ class HttpResource {
                         url: '/pages/login/index'
                     })
                 }
-                return response
+                return response.data
             },
             responseError(responseError) {
                 wx.hideLoading()

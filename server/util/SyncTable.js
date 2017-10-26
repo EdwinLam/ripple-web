@@ -1,4 +1,32 @@
 const db = require('../models')
+const userDao=db['user']
+const bannerDao=db['banner']
+const bannerImageDao=db['bannerImage']
+console.log('》 数据库同步开始...')
 db.sequelize.sync({force:true}).then(function(){
-console.log('同步完成')
+  const user={
+    userName:'约翰史密斯',
+    phone:'13824789780',
+    password:'$10$HIH2Bx.hTKqxE38Vl1mIAeWm0MrgXImhFlYwrqogBMzrU1fdqlOte'
+  }
+  const banner={
+    title:'测试',
+    remark:'测试',
+    sort:1,
+    isShow:1,
+    bannerImages: [
+      { path: '../../assets/images/mcb/mc1.jpg',url:'http://www.baidu.com'},
+      { path: '../../assets/images/mcb/mc2.jpg',url:'http://www.baidu.com'},
+      { path: '../../assets/images/mcb/mc3.jpg',url:'http://www.baidu.com'},
+      { path: '../../assets/images/mcb/mc4.jpg',url:'http://www.baidu.com'}
+    ]
+  }
+  userDao.create(user).then(function(){
+    bannerDao.create(banner ,{
+      include: [bannerImageDao]
+    }).then(function(){
+      process.exit()
+      console.log('》数据库同步完成')
+    })
+  })
 })
