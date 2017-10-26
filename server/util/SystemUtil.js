@@ -1,6 +1,7 @@
 const SystemConfig = require('../config/SystemConfig')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+const db=require('../models')
 module.exports = class SystemUtil {
   /* 创建jwt */
   static createJwt (id, name) {
@@ -25,13 +26,15 @@ module.exports = class SystemUtil {
   static checkPassword (password, dbPassword) {
     return bcrypt.compareSync(password, dbPassword)
   }
-  static async queryPage (dao, condition, pageNo, pageSize) {
+  static async queryPage (dao, condition, pageNo, pageSize,include) {
     let success = true
     let message = '查询成功'
+    include = !include?[]:include
     let data = await dao.findAndCount({
       where: condition,
       limit: pageSize,
-      offset: (pageNo - 1) * pageSize
+      offset: (pageNo - 1) * pageSize,
+      include
     })
     data.pageNo = pageNo
     data.pageSize = pageSize

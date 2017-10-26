@@ -19,7 +19,7 @@ Page({
         // console.log(e.detail.current)
     },
     onLoad() {
-        this.banner = App.HttpResource('/banner/:id', {id: '@id'})
+        this.banner = App.HttpResource('/banners/:id', {id: '@id'})
         this.goods = App.HttpResource('/goods/:id', {id: '@id'})
         this.classify = App.HttpResource('/classify/:id', {id: '@id'})
 
@@ -53,7 +53,7 @@ Page({
     },
     getBanners() {
     	// App.HttpService.getBanners({is_show: !0})
-        this.banner.queryAsync({is_show: !0})
+        this.banner.queryAsync({isShow: 1})
         .then(res => {
             const data = res.data
         	console.log(data)

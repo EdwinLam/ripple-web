@@ -37,7 +37,7 @@ App({
 	WxValidate: (rules, messages) => new WxValidate(rules, messages), 
 	HttpResource: (url, paramDefaults, actions, options) => new HttpResource(url, paramDefaults, actions, options).init(), 
 	HttpService: new HttpService({
-		baseURL: __config.basePath,
+		baseURL: __config.domain,
 	}), 
 	WxService: new WxService, 
 	__config, 

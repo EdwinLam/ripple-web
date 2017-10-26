@@ -1,5 +1,5 @@
 const App = getApp()
-
+import AuthApi from '../../api/AuthApi'
 Page({
 	data: {
 		logged: !1
@@ -90,17 +90,14 @@ Page({
 	},
 	signIn(cb) {
 		if (App.WxService.getStorageSync('token')) return
-		App.HttpService.signIn({
-			username: 'admin', 
-			password: '123456', 
+    AuthApi.login({
+			phone: '13824789789',
+			password: '123123',
 		})
 		.then(res => {
-            const data = res.data
-            console.log(data)
-			if (data.meta.code == 0) {
-				App.WxService.setStorageSync('token', data.data.token)
+			console.log( res)
+				App.WxService.setStorageSync('token', res.data.token)
 				cb()
-			}
 		})
 	},
 })
