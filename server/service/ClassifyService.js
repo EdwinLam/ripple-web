@@ -15,7 +15,12 @@ module.exports = class ClassifyService {
     let pageSize = parseInt(ctx.query.pageSize) || 10
     delete ctx.query.pageNo
     delete ctx.query.pageSize
-    ctx.body =await SystemUtil.queryPage(classifyDao,ctx.query,pageNo,pageSize)
+    const include= [{
+      model: db['good'],
+      limit: 2,
+      order: [['id','desc']]
+    }]
+    ctx.body =await SystemUtil.queryPage(classifyDao,ctx.query,pageNo,pageSize,include)
   }
 
   static async get(ctx){

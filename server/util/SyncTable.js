@@ -2,6 +2,7 @@ const db = require('../models')
 const userDao=db['user']
 const classifyDao=db['classify']
 const bannerDao=db['banner']
+const goodDao=db['good']
 
 const bannerImageDao=db['bannerImage']
 console.log('》 数据库同步开始...')
@@ -19,6 +20,7 @@ db.sequelize.sync({force:true}).then(function(){
     {classifyName:'豆制食品',path:'/url'},
     {classifyName:'时令水果',path:'/url'},
   ]
+
   const banner={
     title:'测试',
     remark:'测试',
@@ -31,13 +33,20 @@ db.sequelize.sync({force:true}).then(function(){
       { path: '../../assets/images/mcb/mc4.jpg',url:'http://www.baidu.com'}
     ]
   }
+  const goods =[
+    {goodName:'苹果',price:20,classifyId:1},
+    {goodName:'学历',price:20,classifyId:1},
+    {goodName:'香蕉',price:20,classifyId:1}
+  ]
   userDao.create(user).then(function(){
     bannerDao.create(banner ,{
       include: [bannerImageDao]
     }).then(function(){
       classifyDao.bulkCreate(classifies).then(function(){
-        process.exit()
-        console.log('》数据库同步完成')
+        goodDao.bulkCreate(goods).then(function(){
+          console.log('》数据库同步完成')
+          process.exit()
+        })
       })
     })
   })
