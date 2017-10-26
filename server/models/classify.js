@@ -1,10 +1,13 @@
 /* 分类 */
 module.exports = function(sequelize, DataTypes) {
   const  classify = sequelize.define('classify', {
-    path: {
+    classifyName: {
       type: DataTypes.STRING
     },
-    url: {
+    remark: {
+      type: DataTypes.STRING
+    },
+    iconUrl:{
       type: DataTypes.STRING
     }
   })
