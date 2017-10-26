@@ -4,10 +4,10 @@ export default class commonUtil {
         this.loadingCount = 0
     }
     static alert(config){
-        avalon.vmodels['commonAlert'].openInit(config)
+        avalon.vmodels['alert'].openInit(config)
     }
     static confirm(config){
-        avalon.vmodels['commonConfirm'].openInit(config)
+        avalon.vmodels['confirm'].openInit(config)
     }
     static openLoading() {
         // this.loadingCount++

@@ -10,7 +10,7 @@ db.sequelize.sync({force:true}).then(function(){
   const user={
     userName:'约翰史密斯',
     phone:'13824789780',
-    password:'$10$HIH2Bx.hTKqxE38Vl1mIAeWm0MrgXImhFlYwrqogBMzrU1fdqlOte'
+    password:'$10$Yj7qT6PkmhDevm2dRlfNGugfYWQKfk3bsTQz7ytO8Ics5Ss37XpIy'
   }
   let classifies = [
     {classifyName:'蔬菜瓜果',path:'/url'},
