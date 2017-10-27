@@ -9,6 +9,9 @@ module.exports = function(sequelize, DataTypes) {
     },
     remark:{
       type: DataTypes.STRING
+    },
+    thumbUrl:{
+      type: DataTypes.STRING
     }
   })
   good.associate = function(modules){

@@ -9,6 +9,9 @@ module.exports = function(sequelize, DataTypes) {
     },
     iconUrl:{
       type: DataTypes.STRING
+    },
+    thumbUrl:{
+      type: DataTypes.STRING
     }
   })
   return classify

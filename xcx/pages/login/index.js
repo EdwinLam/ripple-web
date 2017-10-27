@@ -1,5 +1,6 @@
 const App = getApp()
 import AuthApi from '../../api/AuthApi'
+
 Page({
 	data: {
 		logged: !1

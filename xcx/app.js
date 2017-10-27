@@ -1,5 +1,6 @@
 import WxValidate from './assets/plugins/wx-validate/WxValidate'
 import WxService from './assets/plugins/wx-service/WxService'
+import'./assets/plugins/wx-component/index'
 import HttpResource from './helpers/HttpResource'
 import HttpService from './helpers/HttpService'
 import __config from './etc/config'
@@ -35,7 +36,7 @@ App({
         return `${this.__config.domain}${path}`
     },
 	WxValidate: (rules, messages) => new WxValidate(rules, messages), 
-	HttpResource: (url, paramDefaults, actions, options) => new HttpResource(url, paramDefaults, actions, options).init(), 
+	HttpResource: (url, paramDefaults, actions, options) => new HttpResource(url, paramDefaults, actions, options).init(),
 	HttpService: new HttpService({
 		baseURL: __config.domain,
 	}), 
