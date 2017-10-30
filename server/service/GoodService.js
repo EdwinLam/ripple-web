@@ -4,6 +4,20 @@ const SystemUtil = require('../util/SystemUtil.js')
 
 module.exports = class GoodService {
   /**
+   * 模糊查询
+   * @param {pageNo} 当前页
+   * @param {pageNo} 总页数
+   */
+  static async queryByKeyWord(ctx){
+    const keyWord = ctx.query.keyWord || ''
+    const res = await  M['good'].findAll({
+      where: { goodName: { $like: '%'+keyWord+'%' } },
+      include: [ M['classify']]
+    })
+    ctx.body = SystemUtil.createResult({success: true, message: '查询成功',data:res})
+  }
+
+  /**
    * 获取首页展示物品
    * @param {pageNo} 当前页
    * @param {pageNo} 总页数
@@ -38,7 +52,9 @@ module.exports = class GoodService {
     let success = true
     let message = '查询成功'
     const id = ctx.params.id
-    const data = M['good'].findById(id)
+    const data = await M['good'].findById(id,{
+      include:M['goodImage']
+    })
     if(data){
       ctx.body = SystemUtil.createResult({success, message,data})
     }else{

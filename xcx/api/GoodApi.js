@@ -5,4 +5,11 @@ export default class GoodApi{
       data:{size}
     })
   }
+
+  static queryByKeyWord(keyWord){
+    return App.HttpService.getRequest('/api/good/queryByKeyWord', {
+      data:{keyWord}
+    })
+  }
+
 }

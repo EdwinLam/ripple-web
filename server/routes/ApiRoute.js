@@ -5,12 +5,15 @@ const NodeService = require('../service/NodeService')
 const BannerService = require('../service/BannerService')
 const ClassifyService = require('../service/ClassifyService')
 const GoodService = require('../service/GoodService')
+const CartService = require('../service/CartService')
 
 /* 基本resource接口生成 */
 const needToGenerateItems = [
   {key:'banners',service:BannerService},
   {key:'classifies',service:ClassifyService},
-  {key:'goods',service:GoodService}
+  {key:'goods',service:GoodService},
+  {key:'carts',service:CartService}
+
 ]
 
 
@@ -40,10 +43,11 @@ router.post('/role/:id', (ctx) => RoleService.update(ctx))
 router.get('/node/getAllModules', (ctx) => NodeService.getAllModules(ctx))
 router.get('/node/queryPage', (ctx) => NodeService.queryPage(ctx))
 router.post('/node/add', (ctx) => NodeService.add(ctx))
-router.del('/node/:id', (ctx) =>NodeService.destroy(ctx))
+router.del('/node/:id', (ctx) => NodeService.destroy(ctx))
 router.post('/node/:id', (ctx) => NodeService.update(ctx))
 
 /* 商品相关接口 */
 router.get('/good/indexGoodShow', (ctx) => GoodService.indexGoodShow(ctx))
+router.get('/good/queryByKeyWord', (ctx) => GoodService.queryByKeyWord(ctx))
 
 module.exports = router

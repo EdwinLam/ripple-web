@@ -1,36 +1,53 @@
-<import src="../../components/searchBar/index.wxml"/>
-<import src="../../components/swiper/index.wxml"/>
-<template is="searchBar" data="{{...searchBar}}"/>
-<template is="swiper" data="{{...swiper}}"/>
-
-<view class="weui-grids">
-            <block wx:for="{{classifyItems}}" wx:key="*this">
-                <navigator url="" class="weui-grid" hover-class="weui-grid_active">
-                    <image class="weui-grid__icon" src="../../assets/images/icon_tabbar.png" />
-                    <view class="weui-grid__label">{{item.classifyName}}</view>
-                </navigator>
-            </block>
- </view>
-
-<view wx:for="{{classifyItems}}"  wx:key="*this">
-      <image class="classify-banner"  src="{{ item.thumbUrl }}" />
-      <view class="weui-grids">
-                  <block wx:for="{{ item.goods }}" wx:key=""  wx:for-item="good" >
-                      <navigator url="" class="good-item" hover-class="weui-grid_active">
-                          <image class='item-image' src="{{ good.thumbUrl }}" />
-                          <text>{{ good.goodName }}</text>
-                          <view>
-                                <text class="text-orangered">¥ {{ good.price }}</text>
-                                <image class="icon" src="../../assets/images/iconfont-plus-circle.png" />
-                          </view>
-                           <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-                                                  <view class="weui-media-box__desc">
-
-                                                  </view>
-
-                            </view>
-                      </navigator>
-                  </block>
-       </view>
-
+<!--搜索框部分-->
+<view class="ripple-search-bar">
+  <view class="ripple-search-bar__from">
+    <view class="ripple-search-bar__box">
+      <icon class="ripple-icon-search__in-box" type="search" size="14"></icon>
+      <input type="text" class="ripple-search-bar__input" placeholder="搜索" value="{{inputVal}}" bindinput="inputTyping" auto-focus/>
+      <view class="ripple-icon-clear" bindtap="clearInput" hidden="{{inputVal===''}}">
+        <icon type="clear" size="14"></icon>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="weui-cells searchbar-result" hidden="{{ !inputVal}}">
+  <view class="weui-cell" hover-class="weui-cell_active" wx:for="{{ searchItems }}" wx:key="" bindtap="redirectTo" data-keyword="{{ item._id }}" hidden="{{!searchItems.length}}">
+    <view class="weui-cell__bd">{{ item.goodName }}</view>
+  </view>
+  <view class="weui-cell__ft">约 {{ searchItems.length}} 个结果</view>
+</view>
+<!--幻灯片部分-->
+<swiper class="swiper_box" hidden='{{!!inputVal}}' indicator-dots="{{ indicatorDots }}" autoplay="{{ autoplay }}" current="{{ current }}" interval="{{ interval }}" duration="{{ duration }}" circular="{{ circular }}">
+  <block wx:for="{{ sliderItems }}" wx:key="">
+    <swiper-item>
+      <image src="{{ item.path }}" class="slide-image" />
+    </swiper-item>
+  </block>
+</swiper>
+<!--九宫格部分-->
+<view class="weui-grids" hidden='{{!!inputVal}}'>
+  <block wx:for="{{classifyItems}}" wx:key="">
+    <navigator url="" class="weui-grid" hover-class="weui-grid_active">
+      <image class="weui-grid__icon" src="../../assets/images/icon_tabbar.png" />
+      <view class="weui-grid__label">{{item.classifyName}}</view>
+    </navigator>
+  </block>
+</view>
+<!--首页物品展示部分-->
+<view wx:for="{{classifyItems}}" wx:key="" hidden='{{!!inputVal}}'>
+  <image class="classify-banner" src="{{item.thumbUrl}}" />
+  <view class="weui-grids">
+      <navigator url="" class="good-item" hover-class="weui-grid_active" bindtap="navigateTo" wx:for="{{ item.goods }}" wx:key="" wx:for-item="good"  data-id="{{ item.id }}">
+        <image class='item-image' src="{{ good.thumbUrl }}" />
+        <text>{{ good.goodName }}</text>
+        <view>
+          <text class="text-orangered">¥ {{ good.price }}</text>
+          <image class="icon" src="../../assets/images/iconfont-plus-circle.png" />
+        </view>
+        <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+          <view class="weui-media-box__desc">
+          </view>
+        </view>
+      </navigator>
+  </view>
 </view>

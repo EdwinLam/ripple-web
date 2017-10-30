@@ -8,9 +8,7 @@ Page({
         interval: 3000,
         duration: 1000,
         current: 0,
-        goods: {
-            item: {}
-        }
+        goodItem:{}
     },
     swiperchange(e) {
         this.setData({
@@ -38,7 +36,7 @@ Page({
         })
     },
     previewImage(e) {
-        const urls = this.data.goods && this.data.goods.item.images.map(n => n.path)
+        const urls = this.data.goodItem && this.data.goodItem.imageItems.map(n => n.path)
         const index = e.currentTarget.dataset.index
         const current = urls[Number(index)]
         
@@ -55,18 +53,14 @@ Page({
         })
     },
     getDetail(id) {
-    	// App.HttpService.getDetail(id)
         this.goods.getAsync({id: id})
         .then(res => {
             const data = res.data
-            console.log(data)
-        	if (data.meta.code == 0) {
-                data.data.images.forEach(n => n.path = App.renderImage(n.path))
+            data.goodImages.forEach(n => n.path = App.renderImage(n.path))
+          console.log(data)
         		this.setData({
-                    'goods.item': data.data, 
-                    total: data.data.images.length, 
-                })
-        	}
-        })
+              goodItem: data
+            })
+        	})
     },
 })

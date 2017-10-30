@@ -7,9 +7,9 @@ const bannerImageDao = db['bannerImage']
 console.log('》 数据库同步开始...')
 const createClassify = (callback) => {
   const goods = [
-    {goodName: '苹果', price: 20,thumbUrl:'../../assets/images/mcb/good/1.jpg', goodImages: [{path: '../../assets/images/mcb/good/1.jpg'}]},
-    {goodName: '学历', price: 20,thumbUrl:'../../assets/images/mcb/good/1.jpg', goodImages: [{path: '../../assets/images/mcb/good/1.jpg'}]},
-    {goodName: '香蕉', price: 20,thumbUrl:'../../assets/images/mcb/good/1.jpg', goodImages: [{path: '../../assets/images/mcb/good/1.jpg'}]}
+    {goodName: '苹果', price: 20,thumbUrl:'../../assets/images/mcb/good/1.jpg', goodImages: [{path: './images/mcb/good/1.jpg'}]},
+    {goodName: '学历', price: 20,thumbUrl:'../../assets/images/mcb/good/1.jpg', goodImages: [{path: './images/mcb/good/1.jpg'}]},
+    {goodName: '香蕉', price: 20,thumbUrl:'../../assets/images/mcb/good/1.jpg', goodImages: [{path: './images/mcb/good/1.jpg'}]}
   ]
   let data = {
     classifyName: '蔬菜瓜果',
@@ -45,9 +45,9 @@ const createBanner = (callback) => {
     isShow: 1,
     bannerImages: [
       {path: '../../assets/images/mcb/mc1.jpg', url: 'http://www.baidu.com'},
-      {path: '../../assets/images/mcb/mc2.jpg', url: 'http://www.baidu.com'},
-      {path: '../../assets/images/mcb/mc3.jpg', url: 'http://www.baidu.com'},
-      {path: '../../assets/images/mcb/mc4.jpg', url: 'http://www.baidu.com'}
+      {path: '../../assets/images/mcb/mc1.jpg', url: 'http://www.baidu.com'},
+      {path: '../../assets/images/mcb/mc1.jpg', url: 'http://www.baidu.com'},
+      {path: '../../assets/images/mcb/mc1.jpg', url: 'http://www.baidu.com'}
     ]
   }
   bannerDao.create(banner, {
