@@ -3,9 +3,7 @@ const App = getApp()
 Page({
     data: {
         canEdit: !1,
-        carts: {
-            items: []
-        },
+        cartItem: {},
         prompt: {
             hidden: !0,
             icon: '../../assets/images/iconfont-cart-empty.png',
@@ -31,22 +29,19 @@ Page({
         }
     },
     onLoad() {
+      this.cart = App.HttpResource('/carts/:id', {id: '@id'})
     },
     onShow() {
         this.getCarts()
     },
     getCarts() {
-        App.HttpService.getCartByUser()
+      this.cart.queryAsync({userId: 1})
         .then(res => {
-            const data = res.data
-            console.log(data)
-            if (data.meta.code == 0) {
-                data.data.forEach(n => n.goods.thumb_url = App.renderImage(n.goods.images[0] && n.goods.images[0].path))
-                this.setData({
-                    'carts.items': data.data,
-                    'prompt.hidden': data.data.length,
-                })
-            }
+            console.log(res)
+          this.setData({
+            cartItem:  res.data.rows[0]
+          })
+
         })
     },
     onPullDownRefresh() {

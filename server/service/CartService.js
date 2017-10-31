@@ -1,9 +1,45 @@
 const M = require('../models')
 const StringUtil = require('../util/StringUtil.js')
 const SystemUtil = require('../util/SystemUtil.js')
+const _ = require('lodash');
 
 module.exports = class CartService {
-
+  static async addToCart(ctx){
+    let success = true
+    let message = '添加成功'
+    const userId = ctx.request.body.userId
+    let goodIds = ctx.request.body.goodIds
+    // 获取用户信息
+    const  user = await M['user'].findOne({where:{id:userId}})
+    // 判断用户的购物车
+    let cart = await M['cart'].findOne({where:{userId}})
+    const cartGoods = await cart.getGoods()
+    let filterArray = []
+    cartGoods.forEach(async function (el, index) {
+      if (goodIds.indexOf(el.CartGoods.goodId) !== -1) {
+        filterArray.push(el.CartGoods.goodId)
+        el.CartGoods.goodNum = el.CartGoods.goodNum + 1
+        await el.CartGoods.save()
+      }
+    })
+    goodIds=_.difference(goodIds,filterArray);
+    // 获取添加的货物
+    const goods = await M['good'].findAll({
+      where: {
+        id:{
+          $in: goodIds
+        }
+      }
+    })
+    goods.forEach(function(el){
+      el.CartGoods={
+        goodNum:1
+      }
+    })
+    //添加物品到购物车
+    cart.addGoods(goods)
+    ctx.body = SystemUtil.createResult({success, message})
+  }
   /**
    * 根据条件查询
    * @param {pageNo} 当前页
@@ -17,7 +53,7 @@ module.exports = class CartService {
     const include= [
       M['user'],M['good']
     ]
-    ctx.body =await SystemUtil.queryPage(M['cart'],ctx.query,pageNo,pageSize)
+    ctx.body =await SystemUtil.queryPage(M['cart'],ctx.query,pageNo,pageSize,include)
   }
 
   static async get(ctx){
@@ -28,7 +64,7 @@ module.exports = class CartService {
       include:[ M['user'],M['good']]
     })
     if(data){
-      ctx.body = SystemUtil.createResult({success, message,data})
+      ctx.body = SystemUtil.createResult({success,message,data})
     }else{
       success = false
       message = '不存在id为'+id+'的数据'
@@ -54,10 +90,9 @@ module.exports = class CartService {
   static async update (ctx) {
     const nodeName = ctx.request.body.nodeName
     const id = ctx.params.id
-    if (StringUtil.isNull(name)) {
+    if (StringUtil.isNull(name))
       ctx.body = SystemUtil.createResult({success: false, message: '名称不能为空'})
-    }
-    await M['cart'].update( {where: {id}})
+    await M['cart'].update({where: {id}})
     ctx.body = SystemUtil.createResult({success: true, message: '更新成功'})
   }
 

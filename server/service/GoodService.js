@@ -29,9 +29,12 @@ module.exports = class GoodService {
       { model: M['good'],
         limit: size,
         order: [['id','desc']],
-        include:M['goodImage']
+        include:[
+          {model:M['goodImage']}
+        ]
       },
-      {model:M['classifyImage']}
+      {model:M['classifyImage']},
+
     ]})
     ctx.body = SystemUtil.createResult({success: true, message: '查询成功',data:res})
   }

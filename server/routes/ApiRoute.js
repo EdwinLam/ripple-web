@@ -13,7 +13,6 @@ const needToGenerateItems = [
   {key:'classifies',service:ClassifyService},
   {key:'goods',service:GoodService},
   {key:'carts',service:CartService}
-
 ]
 
 
@@ -50,4 +49,6 @@ router.post('/node/:id', (ctx) => NodeService.update(ctx))
 router.get('/good/indexGoodShow', (ctx) => GoodService.indexGoodShow(ctx))
 router.get('/good/queryByKeyWord', (ctx) => GoodService.queryByKeyWord(ctx))
 
+/*购物车相关接口*/
+router.post('/cart/addToCart', (ctx) => CartService.addToCart(ctx))
 module.exports = router

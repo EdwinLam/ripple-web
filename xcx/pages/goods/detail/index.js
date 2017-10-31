@@ -1,4 +1,5 @@
 const App = getApp()
+import CartApi from '../../../api/CartApi'
 
 Page({
     data: {
@@ -24,19 +25,16 @@ Page({
     onShow() {
         this.getDetail(this.data.id)
     },
-    addCart(e) {
-        const goods = this.data.goods.item._id
-        App.HttpService.addCartByUser(goods)
-        .then(res => {
-            const data = res.data
-            console.log(data)
-            if (data.meta.code == 0) {
-                this.showToast(data.meta.message)
-            }
-        })
+    addCart (e) {
+      const goodIds = [1,2,3]
+      const userId = 1
+      CartApi.addToCart({userId,goodIds}).then((res)=>{
+        console.log(res)
+        this.showToast('添加购物车成功！')
+      })
     },
     previewImage(e) {
-        const urls = this.data.goodItem && this.data.goodItem.imageItems.map(n => n.path)
+        const urls = this.data.goodItem && this.data.goodItem.goodImages.map(n => n.path)
         const index = e.currentTarget.dataset.index
         const current = urls[Number(index)]
         
