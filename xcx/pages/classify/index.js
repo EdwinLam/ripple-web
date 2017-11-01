@@ -2,29 +2,20 @@ const App = getApp()
 
 Page({
     data: {
-        activeIndex: 0, 
+        classifyItems: [],
+        goodItems:[],
         goods: {},
-        classify: {},
-        prompt: {
-            hidden: !0,
-        },
+        classify: {}
     },
     onLoad() {
-        this.classify = App.HttpResource('/classify/:id', {id: '@id'})
+        this.classify = App.HttpResource('/classifies/:id', {id: '@id'})
         this.goods = App.HttpResource('/goods/:id', {id: '@id'})
         this.getSystemInfo()
         this.onRefresh()
     },
     initData() {
         this.setData({
-            classify: {
-                items: [],
-                params: {
-                    page : 1,
-                    limit: 10,
-                },
-                paginate: {}
-            }
+          classifyItems:[]
         })
     },
     navigateTo(e) {
@@ -34,28 +25,12 @@ Page({
         })
     },
     getList() {
-        const classify = this.data.classify
-        const params = classify.params
-
-        // App.HttpService.getClassify(params)
-        this.classify.queryAsync(params)
+        this.classify.queryAsync()
         .then(res => {
-            const data = res.data
-            console.log(data)
-            if (data.meta.code == 0) {
-                classify.items = [...classify.items, ...data.data.items]
-                classify.paginate = data.data.paginate
-                classify.params.page = data.data.paginate.next
-                classify.params.limit = data.data.paginate.perPage
-                this.setData({
-                    classify: classify, 
-                    'prompt.hidden': classify.items.length, 
-                    activeIndex: 0, 
-                    'goods.params.type': classify.items[0]._id, 
-                })
-
-                this.getGoods()
-            }
+          this.setData({
+            classifyItems: res.data.rows,
+          })
+          this.getGoods()
         })
     },
     onRefresh() {
@@ -92,17 +67,15 @@ Page({
             },
             paginate: {}
         }
-
         this.setData({
             goods: goods
         })
     },
-    getGoods() {
+    getGoods(classifyId) {
         const goods = this.data.goods
         const params = goods.params
-
         // App.HttpService.getGoods(params)
-        this.goods.queryAsync(params)
+        this.goods.queryAsync({where:{classifyId}})
         .then(res => {
             const data = res.data
             console.log(data)
