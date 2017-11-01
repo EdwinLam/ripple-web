@@ -30,7 +30,7 @@ Page({
           this.setData({
             classifyItems: res.data.rows,
           })
-          this.getGoods()
+          this.getGoods(this.data.classifyItems[0].id)
         })
     },
     onRefresh() {
@@ -46,9 +46,7 @@ Page({
         const dataset = e.currentTarget.dataset
         const index = dataset.index
         const id = dataset.id
-
         this.initGoods()
-
         this.setData({
             activeIndex: index, 
             'goods.params.type': id, 
@@ -57,39 +55,17 @@ Page({
         this.getGoods()
     },
     initGoods() {
-        const type = this.data.goods.params && this.data.goods.params.type || ''
-        const goods = {
-            items: [],
-            params: {
-                page : 1,
-                limit: 10,
-                type : type,
-            },
-            paginate: {}
-        }
-        this.setData({
-            goods: goods
-        })
+
     },
     getGoods(classifyId) {
         const goods = this.data.goods
         const params = goods.params
         // App.HttpService.getGoods(params)
-        this.goods.queryAsync({where:{classifyId}})
+        this.goods.queryAsync({classifyId})
         .then(res => {
-            const data = res.data
-            console.log(data)
-            if (data.meta.code == 0) {
-                data.data.items.forEach(n => n.thumb_url = App.renderImage(n.images[0] && n.images[0].path))
-                goods.items = [...goods.items, ...data.data.items]
-                goods.paginate = data.data.paginate
-                goods.params.page = data.data.paginate.next
-                goods.params.limit = data.data.paginate.perPage
-                this.setData({
-                    goods: goods,
-                    'prompt.hidden': goods.items.length,
-                })
-            }
+          this.setData({
+            goodItems: res.data.rows
+          })
         })
     },
     onRefreshGoods() {

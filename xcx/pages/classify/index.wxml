@@ -14,7 +14,23 @@
     </view>
     <view class="content">
       <scroll-view scroll-y="true" style="height: {{ (deviceHeight - 49) + 'px' }}" bindscrolltolower="getMoreGoods" bindscrolltoupper="onRefreshGoods">
-        <template is="list" data="{{ goods, prompt }}" />
+       <view class="scroll-list">
+       		<view class="weui-panel weui-panel_access" wx:if="{{ !!goodItems.length }}">
+                   <view class="weui-panel__bd">
+                       <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" wx:for="{{ goodItems }}" wx:key="" bindtap="navigateTo" data-id="{{ item.id }}">
+                           <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                               <image class="weui-media-box__thumb" src="{{ item.thumbUrl }}" />
+                           </view>
+                           <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                               <view class="weui-media-box__title">{{ item.goodName }}</view>
+                               <view class="weui-media-box__desc">
+                                   <text class="text-orangered">¥ {{ item.price }}</text>
+                               </view>
+                           </view>
+                       </view>
+                   </view>
+               </view>
+       	</view>
       </scroll-view>
     </view>
   </view>
