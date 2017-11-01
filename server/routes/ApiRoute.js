@@ -51,4 +51,7 @@ router.get('/good/queryByKeyWord', (ctx) => GoodService.queryByKeyWord(ctx))
 
 /*购物车相关接口*/
 router.post('/cart/addToCart', (ctx) => CartService.addToCart(ctx))
+router.post('/cart/setCartGood', (ctx) => CartService.setCartGood(ctx))
+router.post('/cart/getUserCart', (ctx) => CartService.getUserCart(ctx))
+
 module.exports = router

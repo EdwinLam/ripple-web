@@ -4,10 +4,35 @@ const SystemUtil = require('../util/SystemUtil.js')
 const _ = require('lodash');
 
 module.exports = class CartService {
+  /**
+   * 根据条件查询
+   * @param {pageNo} 当前页
+   * @param {pageNo} 总页数
+   */
+  static async getUserCart (ctx) {
+    let success = true
+    let message = '查询成功'
+    const userId = ctx.state.user.id
+    const data = await M['cart'].findOne({where:{userId},include: [
+      M['user'],M['good']
+    ]})
+    ctx.body = SystemUtil.createResult({success, message,data})
+  }
+
+  static async setCartGood(ctx){
+    const goodNum = ctx.request.body.goodNum
+    const goodId = ctx.request.body.goodId
+    let success = true
+    let message = '修改成功'
+    let good = await M['good'].findOne({where:{id:goodId},include:[{model:M['cart'],where:{userId:ctx.state.user.id}}]})
+    good.carts[0].CartGoods.update({goodNum:goodNum})
+    ctx.body = SystemUtil.createResult({success, message})
+  }
+
   static async addToCart(ctx){
     let success = true
     let message = '添加成功'
-    const userId = ctx.request.body.userId
+    const userId = ctx.state.user.id
     let goodIds = ctx.request.body.goodIds
     // 获取用户信息
     const  user = await M['user'].findOne({where:{id:userId}})
@@ -40,6 +65,7 @@ module.exports = class CartService {
     cart.addGoods(goods)
     ctx.body = SystemUtil.createResult({success, message})
   }
+
   /**
    * 根据条件查询
    * @param {pageNo} 当前页

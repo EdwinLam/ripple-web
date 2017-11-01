@@ -39,17 +39,17 @@ class HttpResource {
               if (request.url.indexOf('/api') !== -1 && wx.getStorageSync('token')) {
                     request.header.Authorization = 'Bearer ' + wx.getStorageSync('token')
                 }
-                wx.showLoading({
-                    title: '加载中', 
-                })
+                // wx.showLoading({
+                //     title: '加载中',
+                // })
                 return request
             },
             requestError(requestError) {
-                wx.hideLoading()
+                // wx.hideLoading()
                 return Promise.reject(requestError)
             },
             response(response) {
-                wx.hideLoading()
+                // wx.hideLoading()
                 if(response.statusCode === 401) {
                     wx.removeStorageSync('token')
                     wx.redirectTo({
@@ -59,7 +59,7 @@ class HttpResource {
                 return response.data
             },
             responseError(responseError) {
-                wx.hideLoading()
+                // wx.hideLoading()
                 return Promise.reject(responseError)
             },
         }
