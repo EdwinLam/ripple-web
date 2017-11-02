@@ -1,5 +1,4 @@
-const App = getApp()
-import CartApi from '../../api/CartApi'
+const A = getApp()
 
 Page({
     data: {
@@ -21,7 +20,7 @@ Page({
         const index = e.currentTarget.dataset.index
         switch(index) {
             case 0:
-                App.WxService.switchTab('/pages/index/index')
+                A.WxService.switchTab('/pages/index/index')
                 break
             default:
                 break
@@ -33,13 +32,16 @@ Page({
         this.getCarts()
     },
     getCarts() {
-      CartApi.getUserCart()
+      A.API['cart'].getUserCart()
         .then(res => {
+          res.data.goods=res.data.goods?res.data.goods:[]
           res.data.goods.forEach(function(el){
               el.isCanEdit = false
           })
+          console.log(res)
           this.setData({
-            goodItems:  res.data.goods
+            goodItems:  res.data.goods,
+            'prompt.hidden': res.data.goods.length,
           })
         })
     },
@@ -47,99 +49,71 @@ Page({
         this.getCarts()
     },
     navigateTo(e) {
-        App.WxService.navigateTo('/pages/goods/detail/index', {
+        A.WxService.navigateTo('/pages/goods/detail/index', {
             id: e.currentTarget.dataset.id
         })
     },
     confirmOrder(e) {
-        App.WxService.setStorageSync('confirmOrder', this.data.carts.items)
-        App.WxService.navigateTo('/pages/order/confirm/index')
+        A.WxService.setStorageSync('confirmOrder', this.data.goodItems)
+        A.WxService.navigateTo('/pages/order/confirm/index')
     },
     del(e) {
         const id = e.currentTarget.dataset.id
-        App.WxService.showModal({
+        A.WxService.showModal({
             title: '友情提示', 
             content: '确定要删除这个宝贝吗？', 
         })
         .then(data => {
             if (data.confirm == 1) {
-                App.HttpService.delCartByUser(id)
+                A.API['cart'].delCartGood(id)
                 .then(res => {
-                    const data = res.data
                     console.log(data)
-                    if (data.meta.code == 0) {
-                        this.getCarts()
-                    }
                 })
             }
         })
     },
     clear() {
-        App.WxService.showModal({
+        A.WxService.showModal({
             title: '友情提示', 
             content: '确定要清空购物车吗？', 
-        })
-        .then(data => {
+        }).then(data => {
             if (data.confirm == 1) {
-                App.HttpService.clearCartByUser()
-                .then(res => {
-                    const data = res.data
-                    console.log(data)
-                    if (data.meta.code == 0) {
-                        this.getCarts()
-                    }
+                A.API['cart'].clearCart().then(res =>{
+                  this.getCarts()
                 })
             }
         })
     },
     onTapEdit(e) {
-      const index = e.currentTarget.dataset.index
-      const good = this.data.goodItems[index]
+      const good = A.COM.getEl(e,this.data.goodItems)
       good.isCanEdit=!good.isCanEdit
       this.setData({
         goodItems: this.data.goodItems
       })
     },
     bindKeyInput(e) {
-          const index = e.currentTarget.dataset.index
-          const good = this.data.goodItems[index]
-          const CartGoods =good.CartGoods
-      const goodId = good.id
-
-      const id = e.currentTarget.dataset.id
-        const total = Math.abs(CartGoods.goodNum)
-        if (total < 0 || total > 100) return
-          CartApi.setCartGood({good,goodNum:total}).then(()=>{
-            CartGoods.goodNum=total
-            this.setData({
-              goodItems: this.data.goodItems
-            })
-          })
+      var total = e.detail.value
+      const good = A.COM.getEl(e,this.data.goodItems)
+      if (total < 1 || total>100) return
+      this.saveCartGood({goodId:good.id,goodNum:total,good})
     },
     decrease(e) {
-        const index = e.currentTarget.dataset.index
-        const good = this.data.goodItems[index]
-        const CartGoods =good.CartGoods
-        const goodId = good.id
-        if (CartGoods.goodNum === 1) return
-        CartGoods.goodNum =  CartGoods.goodNum-1
-        CartApi.setCartGood({goodId,goodNum:CartGoods.goodNum}).then(()=>{
-          this.setData({
-            goodItems: this.data.goodItems
-          })
-        })
+      const good = A.COM.getEl(e,this.data.goodItems)
+      const goodNum =  good.cartGoods.goodNum-1
+      if (goodNum < 1) return
+      this.saveCartGood({goodId:good.id,goodNum,good})
     },
     increase(e) {
-      const index = e.currentTarget.dataset.index
-      const good = this.data.goodItems[index]
-      const CartGoods =good.CartGoods
-      const goodId = good.id
-      if (CartGoods.goodNum === 100) return
-      CartGoods.goodNum =  CartGoods.goodNum+1
-      CartApi.setCartGood({goodId,goodNum:CartGoods.goodNum}).then(()=>{
-        this.setData({
-          goodItems: this.data.goodItems
-        })
-      })
+      const good = A.COM.getEl(e,this.data.goodItems)
+      const goodNum =  good.cartGoods.goodNum+1
+      if (goodNum > 100) return
+      this.saveCartGood({goodId:good.id,goodNum,good})
     },
+    saveCartGood({goodId,goodNum,good}){
+      good.cartGoods.goodNum = goodNum
+      this.setData({
+        goodItems: this.data.goodItems
+      })
+      A.API['cart'].setCartGood({goodId,goodNum})
+    }
 })

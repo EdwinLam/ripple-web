@@ -1,8 +1,9 @@
 import WxValidate from './assets/plugins/wx-validate/WxValidate'
 import WxService from './assets/plugins/wx-service/WxService'
-import HttpResource from './helpers/HttpResource'
-import HttpService from './helpers/HttpService'
-import __config from './etc/config'
+import __config from './config/index'
+import API from './api/index'
+import RES from './resource/index'
+import COM from './helpers/CommonService'
 
 App({
 	onLaunch() {
@@ -32,13 +33,12 @@ App({
 	renderImage(path) {
         if (!path) return ''
         if (path.indexOf('http') !== -1) return path
-        return `${this.__config.domain}${path}`
+        return `${this.domain}${path}`
     },
 	WxValidate: (rules, messages) => new WxValidate(rules, messages), 
-	HttpResource: (url, paramDefaults, actions, options) => new HttpResource(url, paramDefaults, actions, options).init(),
-	HttpService: new HttpService({
-		baseURL: __config.domain,
-	}), 
-	WxService: new WxService, 
-	__config, 
+  WxService: new WxService,
+  RES,
+	API,
+	COM,
+	...__config
 })

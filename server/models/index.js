@@ -14,8 +14,7 @@ const sequelize = new Sequelize(DBConfig.database, DBConfig.username, DBConfig.p
     idle: 30000
   },
   define: {
-    timestamps:true,
-    paranoid:true,
+    timestamps:true
   }
 })
 fs.readdirSync(__dirname)

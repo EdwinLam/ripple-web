@@ -1,8 +1,8 @@
-const App = getApp()
+const A = getApp()
 
 Page({
     data: {
-        address: {},
+        addressItems:[],
         prompt: {
             hidden: !0,
             icon: '../../../assets/images/iconfont-addr-empty.png',
@@ -11,71 +11,41 @@ Page({
         },
     },
     onLoad() {
-        this.address = App.HttpResource('/address/:id', {id: '@id'})
         this.onPullDownRefresh()
-    },
-    initData() {
-        this.setData({
-            address: {
-                items: [],
-                params: {
-                    page : 1,
-                    limit: 10,
-                },
-                paginate: {}
-            }
-        })
     },
     toAddressEdit(e) {
         console.log(e)
-        App.WxService.navigateTo('/pages/address/edit/index', {
+        A.WxService.navigateTo('/pages/address/edit/index', {
             id: e.currentTarget.dataset.id
         })
     },
     toAddressAdd(e) {
         console.log(e)
-        App.WxService.navigateTo('/pages/address/add/index')
+        A.WxService.navigateTo('/pages/address/add/index')
     },
-    setDefalutAddress(e) {
+  setDefaultAddress(e) {
         const id = e.currentTarget.dataset.id
-        App.HttpService.setDefalutAddress(id)
+    console.log(id)
+        A.API['address'].setDefaultAddress({id})
         .then(res => {
-            const data = res.data
-            console.log(data)
-            if (data.meta.code == 0) {
-                this.onPullDownRefresh()
-            }
+            this.getAddressItems()
         })
     },
-    getList() {
-        const address = this.data.address
-        const params = address.params
-
-        // App.HttpService.getAddressList(params)
-        this.address.queryAsync(params)
+    getAddressItems() {
+       A.RES['address'].queryAsync()
         .then(res => {
-            const data = res.data
-            console.log(data)
-            if (data.meta.code == 0) {
-                address.items = [...address.items, ...data.data.items]
-                address.paginate = data.data.paginate
-                address.params.page = data.data.paginate.next
-                address.params.limit = data.data.paginate.perPage
-                this.setData({
-                    address: address,
-                    'prompt.hidden': address.items.length,
-                })
-            }
+          this.setData({
+            addressItems: res.data.rows,
+            'prompt.hidden': res.data.rows.length,
+          })
         })
     },
     onPullDownRefresh() {
         console.info('onPullDownRefresh')
-        this.initData()
-        this.getList()
+        this.getAddressItems()
     },
     onReachBottom() {
         console.info('onReachBottom')
-        if (!this.data.address.paginate.hasNext) return
-        this.getList()
+        this.getAddressItems()
     },
 })

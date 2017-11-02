@@ -6,13 +6,16 @@ const BannerService = require('../service/BannerService')
 const ClassifyService = require('../service/ClassifyService')
 const GoodService = require('../service/GoodService')
 const CartService = require('../service/CartService')
+const AddressService = require('../service/AddressService')
 
 /* 基本resource接口生成 */
 const needToGenerateItems = [
   {key:'banners',service:BannerService},
   {key:'classifies',service:ClassifyService},
   {key:'goods',service:GoodService},
-  {key:'carts',service:CartService}
+  {key:'carts',service:CartService},
+  {key:'addresses',service:AddressService}
+
 ]
 
 
@@ -53,5 +56,10 @@ router.get('/good/queryByKeyWord', (ctx) => GoodService.queryByKeyWord(ctx))
 router.post('/cart/addToCart', (ctx) => CartService.addToCart(ctx))
 router.post('/cart/setCartGood', (ctx) => CartService.setCartGood(ctx))
 router.post('/cart/getUserCart', (ctx) => CartService.getUserCart(ctx))
+router.post('/cart/clearCart', (ctx) => CartService.clearCart(ctx))
+router.post('/cart/delCartGood', (ctx) => CartService.delCartGood(ctx))
+
+/*地址相关接口*/
+router.post('/address/setDefaultAddress', (ctx) => AddressService.setDefaultAddress(ctx))
 
 module.exports = router

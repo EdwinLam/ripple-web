@@ -1,15 +1,7 @@
-const App = getApp()
-import GoodApi from '../../api/GoodApi'
-
+const A = getApp()
 Page({
   data: {
     inputVal:'',
-    indicatorDots: !0,
-    autoplay: !1,
-    current: 0,
-    interval: 3000,
-    duration: 1000,
-    circular: !0,
     prompt: {
       hidden: !0,
     },
@@ -18,7 +10,6 @@ Page({
     sliderItems:[]
   },
   onLoad() {
-    this.banner = App.HttpResource('/banners/:id', {id: '@id'})
     this.getBanners()
     this.getClassify()
   },
@@ -28,13 +19,12 @@ Page({
     })
   },
   navigateTo(e) {
-    console.log('ok')
-    App.WxService.navigateTo('/pages/goods/detail/index', {
+    A.WxService.navigateTo('/pages/goods/detail/index', {
       id: e.currentTarget.dataset.id
     })
   },
   getBanners() {
-    this.banner.queryAsync({isShow: 1})
+    A.RES['banner'].queryAsync({isShow: 1})
       .then(res => {
         const items = res.data.rows[0].bannerImages
         this.setData({
@@ -43,7 +33,7 @@ Page({
       })
   },
   getClassify() {
-    GoodApi.indexGoodShow(5).then((res)=>{
+    A.API['good'].indexGoodShow(5).then((res)=>{
         this.setData({
           classifyItems: res.data
         })
@@ -59,7 +49,7 @@ Page({
   },
   search:function(){
     if (!this.data.inputVal) return
-    GoodApi.queryByKeyWord(this.data.inputVal).then((res)=>{
+    A.API['good'].queryByKeyWord(this.data.inputVal).then((res)=>{
       this.setData({
         searchItems: res.data
       })

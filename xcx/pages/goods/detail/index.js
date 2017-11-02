@@ -1,23 +1,17 @@
-const App = getApp()
+const A = getApp()
 import CartApi from '../../../api/CartApi'
 
 Page({
     data: {
-        indicatorDots: !0,
-        vertical: !1,
-        autoplay: !1,
-        interval: 3000,
-        duration: 1000,
         current: 0,
         goodItem:{}
     },
     swiperchange(e) {
-        this.setData({
+      this.setData({
             current: e.detail.current, 
-        })
+       })
     },
     onLoad(option) {
-        this.goods = App.HttpResource('/goods/:id', {id: '@id'})
         this.setData({
             id: option.id
         })
@@ -26,9 +20,8 @@ Page({
         this.getDetail(this.data.id)
     },
     addCart (e) {
-      const goodIds = [1,2,3]
-      const userId = 1
-      CartApi.addToCart({userId,goodIds}).then((res)=>{
+      const goodId = this.data.id
+      A.API['cart'].addToCart({goodId}).then((res)=>{
         console.log(res)
         this.showToast('添加购物车成功！')
       })
@@ -37,25 +30,23 @@ Page({
         const urls = this.data.goodItem && this.data.goodItem.goodImages.map(n => n.path)
         const index = e.currentTarget.dataset.index
         const current = urls[Number(index)]
-        
-        App.WxService.previewImage({
+        A.WxService.previewImage({
             current: current, 
             urls: urls, 
         })
     },
     showToast(message) {
-        App.WxService.showToast({
+        A.WxService.showToast({
             title   : message, 
             icon    : 'success', 
             duration: 1500, 
         })
     },
     getDetail(id) {
-        this.goods.getAsync({id: id})
+        A.RES['good'].getAsync({id: id})
         .then(res => {
             const data = res.data
-            data.goodImages.forEach(n => n.path = App.renderImage(n.path))
-          console.log(data)
+            data.goodImages.forEach(n => n.path = A.renderImage(n.path))
         		this.setData({
               goodItem: data
             })

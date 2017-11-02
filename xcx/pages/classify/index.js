@@ -1,4 +1,4 @@
-const App = getApp()
+const A = getApp()
 
 Page({
     data: {
@@ -8,78 +8,60 @@ Page({
         classify: {}
     },
     onLoad() {
-        this.classify = App.HttpResource('/classifies/:id', {id: '@id'})
-        this.goods = App.HttpResource('/goods/:id', {id: '@id'})
         this.getSystemInfo()
         this.onRefresh()
     },
-    initData() {
-        this.setData({
-          classifyItems:[]
-        })
-    },
+
     navigateTo(e) {
-        console.log(e)
-        App.WxService.navigateTo('/pages/goods/detail/index', {
+        A.WxService.navigateTo('/pages/goods/detail/index', {
             id: e.currentTarget.dataset.id
         })
     },
-    getList() {
-        this.classify.queryAsync()
+    getClassifyItems() {
+       A.RES['classify'].queryAsync()
         .then(res => {
           this.setData({
             classifyItems: res.data.rows,
+            classify:res.data.rows[0]
           })
-          this.getGoods(this.data.classifyItems[0].id)
+          this.getGoodItems()
         })
     },
     onRefresh() {
-        this.initData()
-        this.initGoods()
-        this.getList()
+        this.getClassifyItems()
     },
     getMore() {
-        if (!this.data.classify.paginate.hasNext) return
-        this.getList()
+        this.getClassifyItems()
     },
     changeTab(e) {
-        const dataset = e.currentTarget.dataset
-        const index = dataset.index
-        const id = dataset.id
-        this.initGoods()
+        const index = e.currentTarget.dataset.index
+        const classify = this.data.classifyItems[index]
         this.setData({
-            activeIndex: index, 
-            'goods.params.type': id, 
+          classify:classify
         })
-
-        this.getGoods()
+        this.getGoodItems()
     },
-    initGoods() {
-
-    },
-    getGoods(classifyId) {
+    getGoodItems() {
         const goods = this.data.goods
         const params = goods.params
-        // App.HttpService.getGoods(params)
-        this.goods.queryAsync({classifyId})
+        // A.HttpService.getGoods(params)
+        A.RES['good'].queryAsync({classifyId:this.data.classify.id})
         .then(res => {
+          console.log(res)
           this.setData({
             goodItems: res.data.rows
           })
         })
     },
     onRefreshGoods() {
-        this.initGoods()
-        this.getGoods()
+        this.getGoodItems()
     },
     getMoreGoods() {
-        if (!this.data.goods.paginate.hasNext) return
-        this.getGoods()
+        this.getGoodItems()
     },
     getSystemInfo() {
-        App.WxService.getSystemInfo()
+        A.WxService.getSystemInfo()
         .then(data => {
-            console.log(data)
             this.setData({
                 deviceWidth: data.windowWidth, 
                 deviceHeight: data.windowHeight, 

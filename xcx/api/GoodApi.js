@@ -1,13 +1,13 @@
-const App = getApp()
+import httpService from '../helpers/HttpService'
 export default class GoodApi{
   static indexGoodShow(size){
-    return App.HttpService.getRequest('/api/good/indexGoodShow', {
+    return httpService.getRequest('/api/good/indexGoodShow', {
       data:{size}
     })
   }
 
   static queryByKeyWord(keyWord){
-    return App.HttpService.getRequest('/api/good/queryByKeyWord', {
+    return httpService.getRequest('/api/good/queryByKeyWord', {
       data:{keyWord}
     })
   }

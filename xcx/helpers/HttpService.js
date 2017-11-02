@@ -1,8 +1,9 @@
 import WxRequest from '../assets/plugins/wx-request/lib/index'
+import __config from '../config/index'
 
-export default class HttpService extends WxRequest {
-	constructor(options) {
-		super(options)
+class HttpService extends WxRequest {
+	constructor() {
+		super({baseURL: __config.domain})
     this.interceptors.use({
             request(request) {
             	request.header = request.header || {}
@@ -36,3 +37,5 @@ export default class HttpService extends WxRequest {
         })
 	}
 }
+
+export default new HttpService()

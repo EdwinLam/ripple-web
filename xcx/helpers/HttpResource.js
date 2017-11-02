@@ -1,4 +1,4 @@
-import __config from '../etc/config'
+import __config from '../config/index'
 import WxResource from '../assets/plugins/wx-resource/lib/index'
 
 class HttpResource {

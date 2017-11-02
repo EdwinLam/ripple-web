@@ -6,7 +6,7 @@
     <view class="weui-panel__hd">
         <text class="info-meta" wx:if="{{ !item.isCanEdit }}" data-value="edit" data-index="{{index}}" bindtap="onTapEdit">编辑</text>
         <text class="info-meta" wx:if="{{ item.isCanEdit }}" bindtap="onTapEdit" data-index="{{index}}">完成</text>
-        <text class="info-meta" bindtap="del" data-id="{{ item.id }}">删除</text>
+        <text class="info-meta" bindtap="del" data-id="{{item.id}}">删除</text>
     </view>
     <view class="weui-panel__bd">
         <navigator url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
@@ -19,14 +19,14 @@
                     <text class="text-orangered">¥ {{ item.price }}</text>
                 </view>
                 <view class="weui-media-box__info">
-                    <view class="weui-media-box__info__meta">数量 x{{ item.CartGoods.goodNum }}</view>
+                    <view class="weui-media-box__info__meta">数量 x{{ item.cartGoods.goodNum }}</view>
                     <view class="weui-media-box__info__meta">单价 x{{ item.price }}</view>
-                    <view class="weui-media-box__info__meta">总价 x{{ item.CartGoods.goodNum*item.price }}</view>
+                    <view class="weui-media-box__info__meta">总价 x{{ item.cartGoods.goodNum*item.price }}</view>
                 </view>
                 <view class="quantity-wrapper" wx:if="{{ item.isCanEdit }}">
                     <view class="customize-qua">
                         <view class="quantity-decrease" bindtap="decrease" data-index="{{index}}"></view>
-                        <input class="quantity" type="number" data-index="{{index}}" value="{{ item.CartGoods.goodNum }}" bindinput="bindKeyInput" />
+                        <input class="quantity" type="number" data-index="{{index}}" value="{{ item.cartGoods.goodNum }}" bindinput="bindKeyInput" />
                         <view class="quantity-increase" bindtap="increase" data-index="{{index}}"></view>
                     </view>
                 </view>

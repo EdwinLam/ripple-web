@@ -12,57 +12,56 @@ module.exports = class CartService {
   static async getUserCart (ctx) {
     let success = true
     let message = '查询成功'
-    const userId = ctx.state.user.id
+    const userId = 1
     const data = await M['cart'].findOne({where:{userId},include: [
       M['user'],M['good']
     ]})
     ctx.body = SystemUtil.createResult({success, message,data})
   }
 
+  static async getCart(){
+    const userId = 1
+    const data = await M['cart'].findOrCreate({where:{userId},defaults:{userId}})
+    return data
+  }
+
+  static async clearCart (ctx) {
+    let success = true
+    let message = '清空成功'
+    const cart = await this.getCart()
+    await M['cartGoods'].destroy({where: {cartId:cart[0].dataValues.id}})
+    ctx.body = SystemUtil.createResult({success, message})
+  }
+
+  static async delCartGood(ctx){
+    const userId = 1
+    const goodId = ctx.request.body.goodId
+    let success = true
+    let message = '删除成功'
+    await M['cartGoods'].destroy({where: {goodId,userId}})
+    ctx.body = SystemUtil.createResult({success, message})
+  }
+
   static async setCartGood(ctx){
     const goodNum = ctx.request.body.goodNum
     const goodId = ctx.request.body.goodId
+    const cart = await this.getCart()
+    const cartId = cart[0].dataValues.id
     let success = true
     let message = '修改成功'
-    let good = await M['good'].findOne({where:{id:goodId},include:[{model:M['cart'],where:{userId:ctx.state.user.id}}]})
-    good.carts[0].CartGoods.update({goodNum:goodNum})
+    await M['cartGoods'].update({goodNum}, {where: {cartId,goodId}})
     ctx.body = SystemUtil.createResult({success, message})
   }
 
   static async addToCart(ctx){
     let success = true
     let message = '添加成功'
-    const userId = ctx.state.user.id
-    let goodIds = ctx.request.body.goodIds
-    // 获取用户信息
-    const  user = await M['user'].findOne({where:{id:userId}})
-    // 判断用户的购物车
-    let cart = await M['cart'].findOne({where:{userId}})
-    const cartGoods = await cart.getGoods()
-    let filterArray = []
-    cartGoods.forEach(async function (el, index) {
-      if (goodIds.indexOf(el.CartGoods.goodId) !== -1) {
-        filterArray.push(el.CartGoods.goodId)
-        el.CartGoods.goodNum = el.CartGoods.goodNum + 1
-        await el.CartGoods.save()
-      }
-    })
-    goodIds=_.difference(goodIds,filterArray);
-    // 获取添加的货物
-    const goods = await M['good'].findAll({
-      where: {
-        id:{
-          $in: goodIds
-        }
-      }
-    })
-    goods.forEach(function(el){
-      el.CartGoods={
-        goodNum:1
-      }
-    })
-    //添加物品到购物车
-    cart.addGoods(goods)
+    let goodId = 1
+    const cart = await this.getCart()
+    const cartId = cart[0].dataValues.id
+    const cartGoods =await M['cartGoods'].findOrCreate({where: {goodId,cartId},defaults:{goodId,cartId,goodNum:0}})
+    const goodNum =cartGoods[0].dataValues.goodNum+1
+    await M['cartGoods'].update({goodNum}, {where: {cartId,goodId}})
     ctx.body = SystemUtil.createResult({success, message})
   }
 

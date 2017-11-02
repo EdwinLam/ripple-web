@@ -1,4 +1,4 @@
-const App = getApp()
+const A = getApp()
 
 Page({
     data: {
@@ -8,7 +8,7 @@ Page({
 			gender : 'male', 
 			tel    : '', 
 			address: '', 
-			is_def : !1, 
+			isDef : !1,
         },
         radio: [
             {
@@ -23,7 +23,7 @@ Page({
         ],
     },
     onLoad() {
-    	this.WxValidate = App.WxValidate({
+    	this.WxValidate = A.WxValidate({
 			name: {
 				required: true, 
 				minlength: 2, 
@@ -49,12 +49,9 @@ Page({
 				required: '请输入收货人地址', 
 			},
 		})
-
-        this.address = App.HttpResource('/address/:id', {id: '@id'})
-    },
+		},
 	radioChange(e) {		 
 		console.log('radio发生change事件，携带value值为：', e.detail.value)
-		const params = e.detail.value
 		const value = e.detail.value
 		const radio = this.data.radio
 		radio.forEach(n => n.checked = n.value === value)
@@ -70,7 +67,7 @@ Page({
 
 		if (!this.WxValidate.checkForm(e)) {
 			const error = this.WxValidate.errorList[0]
-			App.WxService.showModal({
+			A.WxService.showModal({
 				title: '友情提示', 
 					content: `${error.param} : ${error.msg}`, 
 					showCancel: !1, 
@@ -78,26 +75,23 @@ Page({
 			return false
 		}
 
-		// App.HttpService.postAddress(params)
-		this.address.saveAsync(params)
+		// A.HttpService.postAddress(params)
+		A.RES['address'].saveAsync(params)
 		.then(res => {
-            const data = res.data
-            console.log(data)
-			if (data.meta.code == 0) {
-				this.showToast(data.meta.message)
-			}
+				console.log(res)
+				this.showToast(data.message)
 		})
 	},
 	showToast(message) {
-		App.WxService.showToast({
+		A.WxService.showToast({
 			title   : message, 
 			icon    : 'success', 
 			duration: 1500, 
 		})
-		.then(() => App.WxService.navigateBack())
+		.then(() => A.WxService.navigateBack())
 	},
 	chooseLocation() {
-		App.WxService.chooseLocation()
+		A.WxService.chooseLocation()
 	    .then(data => {
 	        console.log(data)
 	        this.setData({

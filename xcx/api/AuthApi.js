@@ -1,7 +1,7 @@
-const App = getApp()
+import httpService from '../helpers/HttpService'
 export default class AuthApi{
   static login(data){
-    return App.HttpService.postRequest('/auth/login', {
+    return httpService.postRequest('/auth/login', {
       data
     })
   }
