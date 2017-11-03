@@ -1,72 +1,36 @@
 const router = require('koa-router')()
-const UserService = require('../service/UserService')
-const RoleService = require('../service/RoleService')
-const NodeService = require('../service/NodeService')
-const BannerService = require('../service/BannerService')
-const ClassifyService = require('../service/ClassifyService')
-const GoodService = require('../service/GoodService')
-const CartService = require('../service/CartService')
-const AddressService = require('../service/AddressService')
-const OrderService = require('../service/OrderService')
-const service = require('../service')
-
-/* 基本resource接口生成 */
-const needToGenerateItems = [
-  {key:'banners',service:BannerService},
-  {key:'classifies',service:ClassifyService},
-  {key:'goods',service:GoodService},
-  {key:'carts',service:CartService},
-  {key:'addresses',service:AddressService},
-  {key:'orders',service:OrderService}
-]
-
-needToGenerateItems.forEach(function(item){
-  router.get('/'+item.key, (ctx) => item.service.list(ctx))
-  router.get('/'+item.key+'/:id', (ctx) => item.service.get(ctx))
-  router.post('/'+item.key, (ctx) => item.service.save(ctx))
-  router.post('/'+item.key+'/:id', (ctx) => item.service.update(ctx))
-  router.del('/'+item.key+'/:id', (ctx) =>item.service.delete(ctx))
-})
-
+const S = require('../service')
 
 /* 用户相关接口 */
-router.get('/user/getUserInfo', (ctx) => UserService.getUserInfo(ctx))
-router.get('/user/queryPage', (ctx) => UserService.queryPage(ctx))
-router.post('/user/add', (ctx) => UserService.add(ctx))
-router.del('/user/:id', (ctx) =>UserService.destroy(ctx))
-router.post('/user/:id', (ctx) => UserService.update(ctx))
-
-/* 角色相关接口 */
-router.get('/role/queryPage', (ctx) => RoleService.queryPage(ctx))
-router.post('/role/add', (ctx) => RoleService.add(ctx))
-router.del('/role/:id', (ctx) =>RoleService.destroy(ctx))
-router.post('/role/:id', (ctx) => RoleService.update(ctx))
+router.get('/user/getUserInfo', (ctx) => S['user'].getUserInfo(ctx))
 
 /* 节点相关接口 */
-router.get('/node/getAllModules', (ctx) => NodeService.getAllModules(ctx))
-router.get('/node/queryPage', (ctx) => NodeService.queryPage(ctx))
-router.post('/node/add', (ctx) => NodeService.add(ctx))
-router.del('/node/:id', (ctx) => NodeService.destroy(ctx))
-router.post('/node/:id', (ctx) => NodeService.update(ctx))
-
-
+router.get('/node/getAllModules', (ctx) => S['node'].getAllModules(ctx))
 
 /* 商品相关接口 */
-router.get('/good/indexGoodShow', (ctx) => service['good'].indexGoodShow(ctx))
-router.get('/good/queryByKeyWord', (ctx) => service['good'].queryByKeyWord(ctx))
+router.get('/good/indexGoodShow', (ctx) => S['good'].indexGoodShow(ctx))
+router.get('/good/queryByKeyWord', (ctx) => S['good'].queryByKeyWord(ctx))
 
 /*购物车相关接口*/
-router.post('/cart/addToCart', (ctx) => service['cart'].addToCart(ctx))
-router.post('/cart/setCartGood', (ctx) => service['cart'].setCartGood(ctx))
-router.post('/cart/getUserCart', (ctx) => service['cart'].getUserCart(ctx))
-router.post('/cart/clearCart', (ctx) => service['cart'].clearCart(ctx))
-router.post('/cart/delCartGood', (ctx) => service['cart'].delCartGood(ctx))
+router.post('/cart/addToCart', (ctx) => S['cart'].addToCart(ctx))
+router.post('/cart/setCartGood', (ctx) => S['cart'].setCartGood(ctx))
+router.post('/cart/getUserCart', (ctx) => S['cart'].getUserCart(ctx))
+router.post('/cart/clearCart', (ctx) => S['cart'].clearCart(ctx))
+router.post('/cart/delCartGood', (ctx) => S['cart'].delCartGood(ctx))
 
 /*地址相关接口*/
-router.post('/address/setDefaultAddress', (ctx) => service['address'].setDefaultAddress(ctx))
-router.get('/address/getDefaultAddress', (ctx) => service['address'].getDefaultAddress(ctx))
+router.post('/address/setDefaultAddress', (ctx) => S['address'].setDefaultAddress(ctx))
+router.get('/address/getDefaultAddress', (ctx) => S['address'].getDefaultAddress(ctx))
 
 /*订单相关接口*/
-router.post('/order/saveOrder', (ctx) => service['order'].saveOrder(ctx))
+router.post('/order/saveOrder', (ctx) => S['order'].saveOrder(ctx))
+
+for(let key in  S){
+  router.get('/'+key, (ctx) => S[key].list(ctx))
+  router.get('/'+key+'/:id', (ctx) => S[key].get(ctx))
+  router.post('/'+key, (ctx) => S[key].save(ctx))
+  router.post('/'+key+'/:id', (ctx) => S[key].update(ctx))
+  router.del('/'+key+'/:id', (ctx) =>S[key].delete(ctx))
+}
 
 module.exports = router

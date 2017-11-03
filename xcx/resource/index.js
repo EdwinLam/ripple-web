@@ -1,9 +1,9 @@
 import HttpResource from '../helpers/HttpResource'
 
 export default {
-  banner:new HttpResource('/banners/:id', {id: '@id'}).init(),
-  good:new HttpResource('/goods/:id', {id: '@id'}).init(),
-  classify:new HttpResource('/classifies/:id', {id: '@id'}).init(),
-  address:new HttpResource('/addresses/:id', {id: '@id'}).init(),
-  order:new HttpResource('/orders/:id', {id: '@id'}).init(),
+  banner:new HttpResource('/banner/:id', {id: '@id'}).init(),
+  good:new HttpResource('/good/:id', {id: '@id'}).init(),
+  classify:new HttpResource('/classify/:id', {id: '@id'}).init(),
+  address:new HttpResource('/address/:id', {id: '@id'}).init(),
+  order:new HttpResource('/order/:id', {id: '@id'}).init(),
 }

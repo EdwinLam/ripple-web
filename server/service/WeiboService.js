@@ -1,4 +1,4 @@
-const UserDao = require('../models')['user']
+const M = require('../models')
 const userApi = require('../api/weibo/UserApi.js')
 const SystemUtil = require('../util/SystemUtil.js')
 
@@ -16,7 +16,7 @@ class WeiboService  {
       }
       token = res.value.access_token
       uid = res.value.uid
-      userInfo = await UserDao.findOne({where: {weiboUid: uid}})
+      userInfo = await M['user'].findOne({where: {weiboUid: uid}})
       localToken = SystemUtil.createJwt(userInfo.id, userInfo.name)
     }
     const weiboUserInfo = await UserApi.userShow(uid, token)

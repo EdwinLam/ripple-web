@@ -7,6 +7,7 @@ fs.readdirSync(__dirname)
     return (file.indexOf(".") !== 0) && (file !== "index.js");
   }).forEach(function (file) {
     const key = _.camelCase(file.replace("Service.js",""))
-    service[key] = require("./"+file);
+    const oClass = require("./"+file)
+    service[key] = new oClass()
 })
 module.exports = service;

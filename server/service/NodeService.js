@@ -1,28 +1,18 @@
 const nodeDao = require('../models')['node']
 const StringUtil = require('../util/StringUtil.js')
 const SystemUtil = require('../util/SystemUtil.js')
+const BaseService = require("./BaseService")
 
-module.exports = class NodeService {
-
-  /**
-   * 分页查询数据
-   * @param {pageNo} 当前页
-   * @param {pageNo} 总页数
-   */
-  static async queryPage (ctx) {
-    let pageNo = parseInt(ctx.query.pageNo) || 1
-    let pageSize = parseInt(ctx.query.pageSize) || 10
-    delete ctx.query.pageNo
-    delete ctx.query.pageSize
-    ctx.body =await SystemUtil.queryPage(nodeDao,ctx.query,pageNo,pageSize)
+module.exports = class NodeService extends BaseService{
+  constructor () {
+    super('node')
   }
-
   /**
    * 获取所有模块
    * @param {pageNo} 当前页
    * @param {pageNo} 总页数
    */
-   static async getAllModules(ctx){
+  async getAllModules(ctx){
     let success = true
     let message = '新建成功'
     let data = await nodeDao.findAll({
@@ -38,7 +28,7 @@ module.exports = class NodeService {
    * @param {String} pName 父分组名称
    * @param {name} password 角色名称
    */
-  static async add (ctx) {
+  async save (ctx) {
     let success = true
     let message = '新建成功'
     const nodeId = ctx.request.body.nodeId
@@ -55,31 +45,5 @@ module.exports = class NodeService {
       success = false
       ctx.body = SystemUtil.createResult({success,  message})
     }
-  }
-
-  /*
-   * 更新分组
-   * @param {Number} id 唯一id
-   * @param {String} name 用户名
-   */
-  static async update (ctx) {
-    const nodeName = ctx.request.body.nodeName
-    const id = ctx.params.id
-    if (StringUtil.isNull(name)) {
-      ctx.body = SystemUtil.createResult({success: false, message: '名称不能为空'})
-    }
-    await nodeDao.update( {where: {id}})
-    ctx.body = SystemUtil.createResult({success: true, message: '更新成功'})
-  }
-
-  /*
-   * 删除
-   * @param {Number} id 唯一id
-   */
-  static async destroy (ctx) {
-    const count = await nodeDao.destroy({where: {id: ctx.params.id}})
-    const isSuccess = count > 0
-    const message = isSuccess ? '删除数据成功' : '删除数据失败'
-    ctx.body = SystemUtil.createResult({success: isSuccess, message: message})
   }
 }
