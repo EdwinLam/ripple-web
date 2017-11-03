@@ -12,7 +12,7 @@ module.exports = class OrderService {
     const totalAmount = goodItems.length
     let payAmount = 0
     goodItems.forEach(item=>payAmount+=item.totalPrice)
-
+    const goodIds =  goodItems.map(item=>{return item.id})
     const order = await db['order'].create({
       totalAmount,
       payAmount,
@@ -21,6 +21,8 @@ module.exports = class OrderService {
       recipientTel:address.tel,
       recipientAddress:address.address
     })
+    const userId = 1
+    const cart = await db['cart'].findOne({where:{userId}})
     const orderGoods = goodItems.map(item=>{
       return {
         orderId:order.id,
@@ -30,7 +32,8 @@ module.exports = class OrderService {
       }
     })
     await db['orderGoods'].bulkCreate(orderGoods)
-    ctx.body = SystemUtil.createResult({success, message})
+    await db['cartGoods'].destroy({where: {cartId:cart.dataValues.id,goodId:{$in:goodIds}}})
+    ctx.body = SystemUtil.createResult({success, message,data:order})
   }
   static async setDefaultAddress(ctx){
     let success = true
@@ -59,7 +62,7 @@ module.exports = class OrderService {
     let success = true
     let message = '查询成功'
     const id = ctx.params.id
-    const data = orderDao.findById(id)
+    const data =await orderDao.findById(id)
     if (data) {
       ctx.body = SystemUtil.createResult({success, message, data})
     } else {

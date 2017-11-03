@@ -69,14 +69,9 @@ Page({
         })
         A.API['order'].saveOrder({address,goodItems})
         .then(res => {
-            console.log(res)
+          A.WxService.redirectTo('/pages/order/detail/index', {
+            id: res.data.id
+          })
         })
-    },
-    clear() {
-        A.HttpService.clearCartByUser()
-        .then(res => {
-            const data = res.data
-            console.log(data)
-        })
-    },
+    }
 })

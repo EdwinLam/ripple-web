@@ -1,13 +1,11 @@
-const App = getApp()
+const A = getApp()
 
 Page({
     data: {
-        order: {
-            item: {},
-        },
+        order:{}
     },
     onLoad(option) {
-        this.order = App.HttpResource('/order/:id', {id: '@id'})
+        console.log(option)
         this.setData({
             id: option.id
         })
@@ -16,16 +14,12 @@ Page({
         this.getOrderDetail(this.data.id)
     },
     getOrderDetail(id) {
-        // App.HttpService.getOrderDetail(id)
-        this.order.getAsync({id: id})
+        // A.HttpService.getOrderDetail(id)
+        A.RES['order'].getAsync({id: id})
         .then(res => {
-            const data = res.data
-            console.log(data)
-            if (data.meta.code == 0) {
-                this.setData({
-                    'order.item': data.data
-                })
-            }
+          this.setData({
+            order: res.data
+          })
         })
     },
 })

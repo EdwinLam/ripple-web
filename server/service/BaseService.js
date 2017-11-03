@@ -3,26 +3,7 @@ const addressDao = db['address']
 const StringUtil = require('../util/StringUtil.js')
 const SystemUtil = require('../util/SystemUtil.js')
 
-module.exports = class AddressService {
-  static async setDefaultAddress(ctx){
-    let success = true
-    let message = '查询成功'
-    const userId =1
-    const id = ctx.request.body.id
-    await db['address'].update({isDef:0}, {where: {userId}})
-    await db['address'].update({isDef:1}, {where: {id}})
-    ctx.body = SystemUtil.createResult({success, message})
-  }
-
-  static async getDefaultAddress(ctx){
-    let success = true
-    let message = '查询成功'
-    const userId =1
-    const id = ctx.request.body.id
-    const data = await db['address'].findOne({where: {userId,isDef:1}})
-    ctx.body = SystemUtil.createResult({success, message})
-  }
-
+module.exports = class BaseService {
   /**
    * 根据条件查询
    * @param {pageNo} 当前页
@@ -65,17 +46,11 @@ module.exports = class AddressService {
   }
 
   /*
-   * 更新分组
-   * @param {Number} id 唯一id
-   * @param {String} name 用户名
+   * 更新
    */
   static async update (ctx) {
-    const nodeName = ctx.request.body.nodeName
     const id = ctx.params.id
-    if (StringUtil.isNull(name)) {
-      ctx.body = SystemUtil.createResult({success: false, message: '名称不能为空'})
-    }
-    await addressDao.update({where: {id}})
+    await addressDao.update(ctx.request.body,{where: {id}})
     ctx.body = SystemUtil.createResult({success: true, message: '更新成功'})
   }
 

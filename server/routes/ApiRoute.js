@@ -8,6 +8,7 @@ const GoodService = require('../service/GoodService')
 const CartService = require('../service/CartService')
 const AddressService = require('../service/AddressService')
 const OrderService = require('../service/OrderService')
+const service = require('../service')
 
 /* 基本resource接口生成 */
 const needToGenerateItems = [
@@ -17,10 +18,7 @@ const needToGenerateItems = [
   {key:'carts',service:CartService},
   {key:'addresses',service:AddressService},
   {key:'orders',service:OrderService}
-
-
 ]
-
 
 needToGenerateItems.forEach(function(item){
   router.get('/'+item.key, (ctx) => item.service.list(ctx))
@@ -51,22 +49,24 @@ router.post('/node/add', (ctx) => NodeService.add(ctx))
 router.del('/node/:id', (ctx) => NodeService.destroy(ctx))
 router.post('/node/:id', (ctx) => NodeService.update(ctx))
 
+
+
 /* 商品相关接口 */
-router.get('/good/indexGoodShow', (ctx) => GoodService.indexGoodShow(ctx))
-router.get('/good/queryByKeyWord', (ctx) => GoodService.queryByKeyWord(ctx))
+router.get('/good/indexGoodShow', (ctx) => service['good'].indexGoodShow(ctx))
+router.get('/good/queryByKeyWord', (ctx) => service['good'].queryByKeyWord(ctx))
 
 /*购物车相关接口*/
-router.post('/cart/addToCart', (ctx) => CartService.addToCart(ctx))
-router.post('/cart/setCartGood', (ctx) => CartService.setCartGood(ctx))
-router.post('/cart/getUserCart', (ctx) => CartService.getUserCart(ctx))
-router.post('/cart/clearCart', (ctx) => CartService.clearCart(ctx))
-router.post('/cart/delCartGood', (ctx) => CartService.delCartGood(ctx))
+router.post('/cart/addToCart', (ctx) => service['cart'].addToCart(ctx))
+router.post('/cart/setCartGood', (ctx) => service['cart'].setCartGood(ctx))
+router.post('/cart/getUserCart', (ctx) => service['cart'].getUserCart(ctx))
+router.post('/cart/clearCart', (ctx) => service['cart'].clearCart(ctx))
+router.post('/cart/delCartGood', (ctx) => service['cart'].delCartGood(ctx))
 
 /*地址相关接口*/
-router.post('/address/setDefaultAddress', (ctx) => AddressService.setDefaultAddress(ctx))
-router.get('/address/getDefaultAddress', (ctx) => AddressService.getDefaultAddress(ctx))
+router.post('/address/setDefaultAddress', (ctx) => service['address'].setDefaultAddress(ctx))
+router.get('/address/getDefaultAddress', (ctx) => service['address'].getDefaultAddress(ctx))
 
 /*订单相关接口*/
-router.post('/order/saveOrder', (ctx) => OrderService.saveOrder(ctx))
+router.post('/order/saveOrder', (ctx) => service['order'].saveOrder(ctx))
 
 module.exports = router
