@@ -4,6 +4,7 @@ Page({
     data: {
         activeIndex: 0,
         navList: [],
+        orderItems:[],
         order: {},
         prompt: {
             hidden: !0,
@@ -59,18 +60,10 @@ Page({
         const params = order.params
        A.RES['order'].queryAsync(params)
         .then(res => {
-            const data = res.data
-            console.log(data)
-            if (data.meta.code == 0) {
-                order.items = [...order.items, ...data.data.items]
-                order.paginate = data.data.paginate
-                order.params.page = data.data.paginate.next
-                order.params.limit = data.data.paginate.perPage
-                this.setData({
-                    order: order,
-                    'prompt.hidden': order.items.length,
-                })
-            }
+          this.setData({
+            orderItems: res.data.rows,
+            'prompt.hidden': res.data.rows.length,
+          })
         })
     },
     onPullDownRefresh() {
