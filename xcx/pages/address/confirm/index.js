@@ -1,74 +1,39 @@
-const App = getApp()
+const A = getApp()
 
 Page({
     data: {
-        hidden: !0,
-        address: {}
+        addressItems: [],
+        address:{}
     },
     onLoad(option) {
-        console.log(option)
-        this.setData({
-            ret: option.ret
-        })
-        this.onPullDownRefresh()
-    },
-    initData() {
-        this.setData({
-            address: {
-                items: [],
-                params: {
-                    page : 1,
-                    limit: 10,
-                },
-                paginate: {}
-            }
-        })
+      this.setData({
+        address:JSON.parse(option.address)
+      })
+      this.onPullDownRefresh()
     },
     radioChange(e) {
-        console.log('radio发生change事件，携带value值为：', e.detail.value)
-        App.WxService.redirectTo('/pages/order/confirm/index', {
-            id: e.detail.value
+        const index =  e.detail.value
+        A.WxService.redirectTo('/pages/order/confirm/index', {
+          address: this.data.addressItems[index]
         })
     },
     getAddressList() {
-        const address = this.data.address
-        const params = address.params
-
-        this.setData({ 
-            hidden: !1
-        })
-
-        App.HttpService.getAddressList(params)
+        A.RES['address'].queryAsync({userId:1})
         .then(res => {
-            const data = res.data
-            console.log(data)
-            if (data.meta.code == 0) {
-                address.items = address.items.concat(data.data.items)
-                address.paginate = data.data.paginate
-                address.params.page = data.data.paginate.next
-                address.params.limit = data.data.paginate.perPage
-
-                address.items.forEach((n, i) => n.checked = n._id === this.data.ret)
-
-                this.setData({
-                    address: address
-                })
-            }
-
-            this.setData({ 
-                hidden: !0
+          res.data.rows.forEach((item) => item.checked = item.id === this.data.address.id)
+          console.log(res.data.rows)
+          this.setData({
+              addressItems:res.data.rows
             })
         })
     },
     onPullDownRefresh() {
-        this.initData()
         this.getAddressList()
     },
     onReachBottom() {
         this.lower()
     },
     lower() {
-        if (!this.data.address.paginate.hasNext) return
         this.getAddressList()
     },
 })

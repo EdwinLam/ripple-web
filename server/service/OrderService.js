@@ -1,27 +1,45 @@
 const db = require('../models')
-const addressDao = db['address']
+const orderDao = db['order']
 const StringUtil = require('../util/StringUtil.js')
 const SystemUtil = require('../util/SystemUtil.js')
 
-module.exports = class AddressService {
+module.exports = class OrderService {
+  static async saveOrder(ctx){
+    let success = true
+    let message = '查询成功'
+    const goodItems = ctx.request.body.goodItems
+    const address = ctx.request.body.address
+    const totalAmount = goodItems.length
+    let payAmount = 0
+    goodItems.forEach(item=>payAmount+=item.totalPrice)
 
+    const order = await db['order'].create({
+      totalAmount,
+      payAmount,
+      recipientName:address.name,
+      recipientGender:address.gender,
+      recipientTel:address.tel,
+      recipientAddress:address.address
+    })
+    const orderGoods = goodItems.map(item=>{
+      return {
+        orderId:order.id,
+        goodId:item.id,
+        num:item.num,
+        totalPrice:item.totalPrice
+      }
+    })
+    await db['orderGoods'].bulkCreate(orderGoods)
+    ctx.body = SystemUtil.createResult({success, message})
+  }
   static async setDefaultAddress(ctx){
     let success = true
     let message = '查询成功'
     const userId =1
     const id = ctx.request.body.id
-    await db['address'].update({isDef:0}, {where: {userId}})
-    await db['address'].update({isDef:1}, {where: {id}})
+    await db['order'].update({isDef:0}, {where: {userId}})
+    await db['order'].update({isDef:1}, {where: {id}})
     ctx.body = SystemUtil.createResult({success, message})
-  }
-
-  static async getDefaultAddress(ctx){
-    let success = true
-    let message = '查询成功'
-    const userId =1
-    const id = ctx.request.body.id
-    const data = await db['address'].findOne({where: {userId,isDef:1}})
-    ctx.body = SystemUtil.createResult({success, message,data})
   }
 
   /**
@@ -34,14 +52,14 @@ module.exports = class AddressService {
     let pageSize = parseInt(ctx.query.pageSize) || 10
     delete ctx.query.pageNo
     delete ctx.query.pageSize
-    ctx.body = await SystemUtil.queryPage(addressDao, ctx.query, pageNo, pageSize)
+    ctx.body = await SystemUtil.queryPage(orderDao, ctx.query, pageNo, pageSize)
   }
 
   static async get (ctx) {
     let success = true
     let message = '查询成功'
     const id = ctx.params.id
-    const data = addressDao.findById(id)
+    const data = orderDao.findById(id)
     if (data) {
       ctx.body = SystemUtil.createResult({success, message, data})
     } else {
@@ -61,7 +79,7 @@ module.exports = class AddressService {
     let success = true
     let message = '新建成功'
     ctx.request.body.userId = 1
-    const data = await addressDao.create(ctx.request.body)
+    const data = await orderDao.create(ctx.request.body)
     ctx.body = SystemUtil.createResult({success, message, data})
   }
 
@@ -76,7 +94,7 @@ module.exports = class AddressService {
     if (StringUtil.isNull(name)) {
       ctx.body = SystemUtil.createResult({success: false, message: '名称不能为空'})
     }
-    await addressDao.update({where: {id}})
+    await orderDao.update({where: {id}})
     ctx.body = SystemUtil.createResult({success: true, message: '更新成功'})
   }
 
@@ -85,7 +103,7 @@ module.exports = class AddressService {
    * @param {Number} id 唯一id
    */
   static async delete (ctx) {
-    const count = await addressDao.destroy({where: {id: ctx.params.id}})
+    const count = await orderDao.destroy({where: {id: ctx.params.id}})
     const isSuccess = count > 0
     const message = isSuccess ? '删除数据成功' : '删除数据失败'
     ctx.body = SystemUtil.createResult({success: isSuccess, message: message})

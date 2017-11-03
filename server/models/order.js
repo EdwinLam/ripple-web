@@ -1,4 +1,4 @@
-/* 节点表 */
+/* 订单表 */
 module.exports = function(sequelize, DataTypes) {
   const  order = sequelize.define('order', {
     totalAmount: {
@@ -26,8 +26,8 @@ module.exports = function(sequelize, DataTypes) {
   order.associate = function(modules){
     modules.user.hasMany(order)
     order.belongsTo(modules.user)
-    order.belongsToMany(modules.good, {through: 'OrderGoods', foreignKey: 'orderId'})
-    modules.good.belongsToMany(order, {through: 'OrderGoods', foreignKey: 'goodId'})
+    order.belongsToMany(modules.good, {through: modules.orderGoods, foreignKey: 'orderId'})
+    modules.good.belongsToMany(order, {through: modules.orderGoods, foreignKey: 'goodId'})
   }
   return order
 };

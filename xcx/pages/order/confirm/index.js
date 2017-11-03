@@ -1,113 +1,79 @@
-const App = getApp()
+const A = getApp()
 
 Page({
     data: {
         hidden: !0,
         carts: {},
-        address: {
-            item: {},
-        }
+        address: {}
     },
     onLoad(option) {
-        console.log(option)
+        option.address=option.address? JSON.parse(option.address):{}
         this.setData({
-            address_id: option.id
+          address:option.address
         })
-
         const carts = {
-            items: App.WxService.getStorageSync('confirmOrder'), 
+            items: A.WxService.getStorageSync('confirmOrder'), 
             totalAmount: 0, 
         }
+        console.log(carts)
 
-        carts.items.forEach(n => carts.totalAmount+=n.totalAmount)
-        
+        carts.items.forEach(n => carts.totalAmount+=n.price*n.cartGoods.goodNum)
+
         this.setData({
             carts: carts
         })
-
-        console.log(this.data.carts)
     },
     onShow() {
-        const address_id = this.data.address_id
-        if (address_id) {
-            this.getAddressDetail(address_id)
-        } else {
-            this.getDefalutAddress()
+        const address = this.data.address
+        console.log(address)
+        if (!address.id) {
+          this.getDefalutAddress()
         }
     },
     redirectTo(e) {
         console.log(e)
-        App.WxService.redirectTo('/pages/address/confirm/index', {
-            ret: this.data.address_id
+        A.WxService.redirectTo('/pages/address/confirm/index', {
+          address: this.data.address
         })
     },
     getDefalutAddress() {
-        App.HttpService.getDefalutAddress()
+        A.API['address'].getDefaultAddress()
         .then(res => {
-            const data = res.data
-            console.log(data)
-            if (data.meta.code == 0) {
-                this.setData({
-                    address_id: data.data._id, 
-                    'address.item': data.data, 
-                })
-            } else {
-                this.showModal()
-            }
+          this.setData({
+            address: res.data
+          })
         })
     },
     showModal() {
-        App.WxService.showModal({
+        A.WxService.showModal({
             title: '友情提示', 
             content: '没有收货地址，请先设置', 
         })
         .then(data => {
             console.log(data)
             if (data.confirm == 1) {
-                App.WxService.redirectTo('/pages/address/add/index')
+                A.WxService.redirectTo('/pages/address/add/index')
             } else {
-                App.WxService.navigateBack()
-            }
-        })
-    },
-    getAddressDetail(id) {
-        App.HttpService.getAddressDetail(id)
-        .then(res => {
-            const data = res.data
-            console.log(data)
-            if (data.meta.code == 0) {
-                this.setData({
-                    'address.item': data.data
-                })
+                A.WxService.navigateBack()
             }
         })
     },
     addOrder() {
-        const address_id = this.data.address_id
-        const params = {
-            items: [], 
-            address_id: address_id, 
-        }
-        this.data.carts.items.forEach(n => {
-            params.items.push({
-                id: n.goods._id,
-                total: n.total,
-            })
-        })
-        console.log(params)
-        App.HttpService.postOrder(params)
-        .then(res => {
-            const data = res.data
-            console.log(data)
-            if (data.meta.code == 0) {
-                App.WxService.redirectTo('/pages/order/detail/index', {
-                    id: data.data._id
-                })
+        const address = this.data.address
+        const goodItems =this.data.carts.items.map(item=>{
+            return {
+                id: item.id,
+                totalPrice:item.price*item.cartGoods.goodNum,
+                num:item.cartGoods.goodNum
             }
+        })
+        A.API['order'].saveOrder({address,goodItems})
+        .then(res => {
+            console.log(res)
         })
     },
     clear() {
-        App.HttpService.clearCartByUser()
+        A.HttpService.clearCartByUser()
         .then(res => {
             const data = res.data
             console.log(data)

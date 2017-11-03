@@ -1,4 +1,4 @@
-const App = getApp()
+const A = getApp()
 
 Page({
     data: {
@@ -13,7 +13,6 @@ Page({
         },
     },
     onLoad() {
-        this.order = App.HttpResource('/order/:id', {id: '@id'})
         this.setData({
             navList: [
                 {
@@ -46,29 +45,19 @@ Page({
         const type = params && params.type || 'all'
 
         this.setData({
-            order: {
-                items: [],
-                params: {
-                    page : 1,
-                    limit: 10,
-                    type : type,
-                },
-                paginate: {}
-            }
+            orderItems:[]
         })
     },
     navigateTo(e) {
         console.log(e)
-        App.WxService.navigateTo('/pages/order/detail/index', {
+        A.WxService.navigateTo('/pages/order/detail/index', {
             id: e.currentTarget.dataset.id
         })
     },
     getList() {
         const order = this.data.order
         const params = order.params
-
-        // App.HttpService.getOrderList(params)
-        this.order.queryAsync(params)
+       A.RES['order'].queryAsync(params)
         .then(res => {
             const data = res.data
             console.log(data)

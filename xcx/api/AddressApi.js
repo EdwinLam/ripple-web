@@ -6,4 +6,8 @@ export default class GoodApi{
     })
   }
 
+  static getDefaultAddress(){
+    return httpService.getRequest('/api/address/getDefaultAddress')
+  }
+
 }

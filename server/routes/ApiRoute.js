@@ -7,6 +7,7 @@ const ClassifyService = require('../service/ClassifyService')
 const GoodService = require('../service/GoodService')
 const CartService = require('../service/CartService')
 const AddressService = require('../service/AddressService')
+const OrderService = require('../service/OrderService')
 
 /* 基本resource接口生成 */
 const needToGenerateItems = [
@@ -14,7 +15,9 @@ const needToGenerateItems = [
   {key:'classifies',service:ClassifyService},
   {key:'goods',service:GoodService},
   {key:'carts',service:CartService},
-  {key:'addresses',service:AddressService}
+  {key:'addresses',service:AddressService},
+  {key:'orders',service:OrderService}
+
 
 ]
 
@@ -61,5 +64,9 @@ router.post('/cart/delCartGood', (ctx) => CartService.delCartGood(ctx))
 
 /*地址相关接口*/
 router.post('/address/setDefaultAddress', (ctx) => AddressService.setDefaultAddress(ctx))
+router.get('/address/getDefaultAddress', (ctx) => AddressService.getDefaultAddress(ctx))
+
+/*订单相关接口*/
+router.post('/order/saveOrder', (ctx) => OrderService.saveOrder(ctx))
 
 module.exports = router

@@ -5,4 +5,5 @@ export default {
   good:new HttpResource('/goods/:id', {id: '@id'}).init(),
   classify:new HttpResource('/classifies/:id', {id: '@id'}).init(),
   address:new HttpResource('/addresses/:id', {id: '@id'}).init(),
+  order:new HttpResource('/orders/:id', {id: '@id'}).init(),
 }
