@@ -1,0 +1,7 @@
+<swiper class="swiper_box" hidden='{{!!inputVal}}' indicator-dots="0" autoplay="1" current="0" interval="3000" duration="1000" circular="0">
+  <block wx:for="{{ sliderItems }}" wx:key="">
+    <swiper-item>
+      <image src="{{ item.path }}" class="slide-image" />
+    </swiper-item>
+  </block>
+</swiper>

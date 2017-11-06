@@ -7,9 +7,9 @@ const bannerImageDao = db['bannerImage']
 console.log('》 数据库同步开始...')
 const createClassify = (callback) => {
   const goods = [
-    {goodName: '苹果', price: 20,thumbUrl:'../../assets/images/mcb/good/1.jpg', goodImages: [{path: './images/mcb/good/1.jpg'}]},
-    {goodName: '学历', price: 20,thumbUrl:'../../assets/images/mcb/good/1.jpg', goodImages: [{path: './images/mcb/good/1.jpg'}]},
-    {goodName: '香蕉', price: 20,thumbUrl:'../../assets/images/mcb/good/1.jpg', goodImages: [{path: './images/mcb/good/1.jpg'}]}
+    {goodName: '苹果',remark:'测试描述', price: 20,thumbUrl:'../../assets/images/mcb/good/1.jpg', goodImages: [{path: './images/mcb/good/1.jpg'}]},
+    {goodName: '学历',remark:'测试描述', price: 20,thumbUrl:'../../assets/images/mcb/good/1.jpg', goodImages: [{path: './images/mcb/good/1.jpg'}]},
+    {goodName: '香蕉',remark:'测试描述', price: 20,thumbUrl:'../../assets/images/mcb/good/1.jpg', goodImages: [{path: './images/mcb/good/1.jpg'}]}
   ]
   let data = {
     classifyName: '蔬菜瓜果',

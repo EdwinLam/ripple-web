@@ -40,12 +40,14 @@
     font-size:0;
 }
 
-
 .ripple-icon-search__in-box{
     position:absolute;
     left:10px;
     top:7px;
 }
+
+
+
 
 .scroll-list {
     overflow: hidden;

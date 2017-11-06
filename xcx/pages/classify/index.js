@@ -5,11 +5,17 @@ Page({
         classifyItems: [],
         goodItems:[],
         goods: {},
-        classify: {}
+        classify: {},
+        classifyId:-1,
     },
-    onLoad() {
+    onLoad(option) {
         this.getSystemInfo()
-        this.onRefresh()
+
+    },
+    onShow(){
+          const classifyId = A.WxService.getStorageSync('classifyId')
+          this.setData({classifyId:classifyId? classifyId:-1})
+          this.onRefresh()
     },
 
     navigateTo(e) {
@@ -20,9 +26,15 @@ Page({
     getClassifyItems() {
        A.RES['classify'].queryAsync()
         .then(res => {
+          let classify = res.data.rows[0]
+          if(this.data.classifyId!==-1) {
+            res.data.rows.forEach( (el)=> {
+                if(el.id === this.data.classifyId) classify = el
+            })
+          }
           this.setData({
             classifyItems: res.data.rows,
-            classify:res.data.rows[0]
+            classify:classify
           })
           this.getGoodItems()
         })

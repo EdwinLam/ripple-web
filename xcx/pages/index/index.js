@@ -2,9 +2,6 @@ const A = getApp()
 Page({
   data: {
     inputVal:'',
-    prompt: {
-      hidden: !0,
-    },
     classifyItems: [],
     searchItems:[],
     sliderItems:[]
@@ -19,6 +16,7 @@ Page({
     })
   },
   navigateTo(e) {
+    console.log(e)
     A.WxService.navigateTo('/pages/goods/detail/index', {
       id: e.currentTarget.dataset.id
     })
@@ -39,7 +37,16 @@ Page({
         })
     })
   },
-
+  addCart (e) {
+    const goodId = e.currentTarget.dataset.id
+    A.API['cart'].addToCart({goodId}).then((res)=>{
+      A.WxService.showToast({
+        title   : '添加购物车成功！',
+        icon    : 'success',
+        duration: 1500,
+      })
+    })
+  },
   /*搜索框部分*/
   inputTyping:function(e){
     this.setData({
@@ -53,23 +60,21 @@ Page({
       this.setData({
         searchItems: res.data
       })
-      console.log(res)
     })
   },
-
-  /*页面时间部分*/
-  clearInput:()=>{
-    this.inputVal=''
+  clearInput:function(){
+    this.setData({
+      inputVal: ''
+    })
   },
   onPullDownRefresh() {
-    console.info('onPullDownRefresh')
+    this.getClassify()
   },
   onReachBottom() {
     console.info('onReachBottom')
   },
-  onTapTag(e) {
-    const type = e.currentTarget.dataset.type
-    const index = e.currentTarget.dataset.index
-    this.getClassify()
-  },
+  classifyNavigateTo(e) {
+    A.WxService.setStorageSync('classifyId',e.currentTarget.dataset.id)
+    A.WxService.switchTab('/pages/classify/index')
+  }
 })
