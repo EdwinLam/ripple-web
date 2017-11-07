@@ -13,6 +13,7 @@
     "pages/order/detail/index",
     "pages/goods/list/index",
     "pages/goods/detail/index",
+    "pages/goods/spec/index",
     "pages/search/index",
     "pages/about/index",
     "pages/login/index",

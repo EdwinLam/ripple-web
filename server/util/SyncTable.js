@@ -44,10 +44,10 @@ const createBanner = (callback) => {
     sort: 1,
     isShow: 1,
     bannerImages: [
-      {path: '../../assets/images/mcb/mc1.jpg', url: 'http://www.baidu.com'},
-      {path: '../../assets/images/mcb/mc1.jpg', url: 'http://www.baidu.com'},
-      {path: '../../assets/images/mcb/mc1.jpg', url: 'http://www.baidu.com'},
-      {path: '../../assets/images/mcb/mc1.jpg', url: 'http://www.baidu.com'}
+      {path: '../../assets/images/mcb/mc1.jpg', url: '/pages/goods/detail/index?id=1'},
+      {path: '../../assets/images/mcb/mc1.jpg', url: '/pages/goods/detail/index?id=1'},
+      {path: '../../assets/images/mcb/mc1.jpg', url: '/pages/goods/detail/index?id=1'},
+      {path: '../../assets/images/mcb/mc1.jpg', url: '/pages/goods/detail/index?id=1'}
     ]
   }
   bannerDao.create(banner, {

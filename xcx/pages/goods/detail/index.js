@@ -1,10 +1,11 @@
 const A = getApp()
-import CartApi from '../../../api/CartApi'
-
 Page({
     data: {
         current: 0,
         goodItem:{}
+    },
+    chooseSpec(e){
+      A.WxService.redirectTo('/pages/goods/spec/index')
     },
     swiperchange(e) {
       this.setData({
@@ -19,6 +20,7 @@ Page({
     onShow() {
         this.getDetail(this.data.id)
     },
+
     addCart (e) {
       const goodId = this.data.id
       A.API['cart'].addToCart({goodId}).then((res)=>{

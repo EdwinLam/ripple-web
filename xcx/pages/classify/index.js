@@ -15,6 +15,8 @@ Page({
     onShow(){
           const classifyId = A.WxService.getStorageSync('classifyId')
           this.setData({classifyId:classifyId? classifyId:-1})
+          if(classifyId)
+            A.WxService.removeStorageSync('classifyId')
           this.onRefresh()
     },
 

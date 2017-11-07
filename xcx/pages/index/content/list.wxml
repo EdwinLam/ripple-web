@@ -1,12 +1,12 @@
 <view wx:for="{{classifyItems}}" wx:key="" hidden='{{!!inputVal}}'>
-  <image class="classify-banner" src="{{item.thumbUrl}}" />
+  <image class="classify-banner" src="{{item.thumbUrl}}" bindtap="classifyNavigateTo" data-id="{{ item.id }}"/>
   <view class="weui-grids">
-      <navigator url="" class="good-item" hover-class="weui-grid_active" bindtap="navigateTo" wx:for="{{ item.goods }}" wx:key="" wx:for-item="good"  data-id="{{ item.id }}">
-        <image class='item-image' src="{{ good.thumbUrl }}" />
+      <navigator url="" class="good-item" hover-class="weui-grid_active"  wx:for="{{ item.goods }}" wx:key="" wx:for-item="good"  >
+        <image class='item-image' src="{{ good.thumbUrl }}" bindtap="navigateTo" data-id="{{ item.id }}"/>
         <text>{{ good.goodName }}</text>
         <view>
           <text class="text-orangered">¥ {{ good.price }}</text>
-          <image class="icon" src="../../assets/images/iconfont-plus-circle.png" />
+          <image class="icon" src="../../assets/images/iconfont-plus-circle.png" bindtap="addCart" data-id="{{ item.id }}"/>
         </view>
         <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
           <view class="weui-media-box__desc">

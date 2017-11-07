@@ -13,7 +13,7 @@
 <view class="prompt-container" hidden="{{ inputVal==='' || searchItems.length}}">
   <view class="prompt-message">
     <image src="{{'../../assets/images/iconfont-empty.png' }}" class="prompt-icon" />
-    <view class="prompt-title">空空如也</view>
+    <view class="prompt-title">没有匹配记录</view>
     <view class="prompt-text">暂时没有相关数据</view>
   </view>
 </view>
@@ -23,7 +23,7 @@
 <view class="weui-cells searchbar-result" hidden="{{ inputVal==='' || !searchItems.length}}">
   <view class="weui-cell__ft">匹配 {{ searchItems.length}} 个结果</view>
   <view class="weui-panel__bd">
-    <navigator url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" wx:for="{{ searchItems }}" wx:key="" bindtap="redirectTo" data-id="{{ item.id }}" hidden="{{!searchItems.length}}">
+    <view url="" class="weui-media-box weui-media-box_appmsg" wx:for="{{ searchItems }}" wx:key="" bindtap="redirectTo" data-id="{{ item.id }}" hidden="{{!searchItems.length}}">
       <view class="weui-media-box__hd weui-media-box__hd_in-appmsg"  bindtap="navigateTo" data-id="{{ item.id }}">
         <image class="weui-media-box__thumb" src="{{item.thumbUrl}}"/>
       </view>
@@ -35,8 +35,8 @@
         <view class="weui-media-box__desc">{{item.remark}}</view>
       </view>
       <view class="weui-media-box__bd weui-media-box__bd_in-appmsg" style="display:flex;justify-content:flex-end;align-items:center">
-        <view bindtap="addCart"><image src="../../assets/images/iconfont-plus-circle.png" style="width:30px;height:30px;" /></view>
+        <navigator bindtap="addCart" data-id="{{ item.id }}"><image src="../../assets/images/iconfont-plus-circle.png" style="width:30px;height:30px;" /></navigator>
       </view>
-    </navigator>
+    </view>
   </view>
 </view>

@@ -1,5 +1,4 @@
 <import src="../common/list.wxml" />
-
 <view class="classify">
   <view class="nav_left" bindscrolltolower="getMore" bindscrolltoupper="onRefresh">
     <scroll-view scroll-y="true" style="height: {{ deviceHeight + 'px' }}">

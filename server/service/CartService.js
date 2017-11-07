@@ -59,7 +59,7 @@ module.exports = class CartService extends BaseService {
   async addToCart(ctx){
     let success = true
     let message = '添加成功'
-    let goodId = 1
+    let goodId =  ctx.request.body.goodId
     const cart = await this.getCart()
     const cartId = cart[0].dataValues.id
     const cartGoods =await M['cartGoods'].findOrCreate({where: {goodId,cartId},defaults:{goodId,cartId,goodNum:0}})

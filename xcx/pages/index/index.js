@@ -6,6 +6,12 @@ Page({
     searchItems:[],
     sliderItems:[]
   },
+  onShow(){
+    this.setData({
+      inputVal:'',
+      searchItems:[],
+    })
+  },
   onLoad() {
     this.getBanners()
     this.getClassify()
