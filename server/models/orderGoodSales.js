@@ -1,8 +1,8 @@
 /* 分类 */
 module.exports = function(sequelize, DataTypes) {
-  const orderGoods = sequelize.define('orderGoods', {
+  const orderGoodSales = sequelize.define('orderGoodSales', {
     num:{type: DataTypes.INTEGER},
     totalPrice:{type: DataTypes.INTEGER}
   })
-  return orderGoods
+  return orderGoodSales
 }
