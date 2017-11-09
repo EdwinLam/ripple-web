@@ -13,8 +13,12 @@ module.exports = class GoodService extends BaseService{
     let message = '查询成功'
     const id = ctx.params.id
     const data = await M['good'].findById(id,{
-      include:M['goodImage']
+      include:[M['goodImage'],{model:M['goodAttr'],include:M['goodAttrRecord']}]
     })
+    const goodSales = await M['goodSale'].findAll({
+      where:{goodId:data.id},include:M['goodAttrRecord']
+    })
+    data.dataValues.goodSales = goodSales
     if(data){
       ctx.body = SystemUtil.createResult({success, message,data})
     }else{

@@ -38,6 +38,11 @@ Page({
   },
   getClassify() {
     A.API['good'].indexGoodShow(5).then((res)=>{
+        res.data.forEach(function(classifyItem){
+          classifyItem.goods.forEach(function(goodItem){
+            goodItem.thumbUrl=A.renderImage(goodItem.thumbUrl)
+          })
+        })
         this.setData({
           classifyItems: res.data
         })
@@ -59,6 +64,9 @@ Page({
       inputVal: e.detail.value
     })
     this.search()
+  },
+  renderImage:function(url){
+    return A.renderImage(url)
   },
   search:function(){
     if (!this.data.inputVal) return

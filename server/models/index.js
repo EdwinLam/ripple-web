@@ -9,8 +9,8 @@ const sequelize = new Sequelize(DBConfig.database, DBConfig.username, DBConfig.p
   host: DBConfig.host,
   dialect: 'mysql',
   pool: {
-    max: 5,
-    min: 0,
+    max: 8,
+    min: 1,
     idle: 30000
   },
   define: {

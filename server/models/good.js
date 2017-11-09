@@ -12,12 +12,6 @@ module.exports = function(sequelize, DataTypes) {
     },
     thumbUrl:{
       type: DataTypes.STRING
-    },
-    inventory:{
-      type: DataTypes.INTEGER
-    },
-    freight:{
-      type: DataTypes.INTEGER
     }
   })
   good.associate = function(modules){

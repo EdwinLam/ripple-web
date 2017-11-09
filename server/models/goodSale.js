@@ -12,6 +12,8 @@ module.exports = function(sequelize, DataTypes) {
     }
   })
   goodSale.associate = function(modules){
+    modules.good.hasMany(goodSale)
+    goodSale.belongsTo(modules.good)
     //商品销售属性<--n:n-->商品具体属性
     goodSale.belongsToMany(modules.goodAttrRecord, {through: 'GoodSRRelations', foreignKey: 'goodSaleId'})
     modules.goodAttrRecord.belongsToMany(goodSale, {through: 'GoodSRRelations', foreignKey: 'goodAttrRecordId'})
