@@ -1,0 +1,21 @@
+.shopping-container {
+  padding: 0 30rpx;
+}
+
+.shopping-container .name {
+  margin: 10px 0;
+  font-weight: bold;
+  color: #333;
+}
+
+.shopping-container .price {
+  margin: 10px 0;
+  font-weight: normal;
+  color: orangered;
+}
+
+.shopping-container .remark {
+  margin: 10px 0;
+  color: #939393;
+  line-height: 22px;
+}

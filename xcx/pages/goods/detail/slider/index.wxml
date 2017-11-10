@@ -1,0 +1,10 @@
+  <view class="swiper-container">
+    <swiper class="swiper-box" indicator-dots="1" autoplay="1" interval="3000" duration="1000" bindchange="swiperchange">
+      <block wx:for="{{ goodItem.goodImages }}" wx:key="">
+        <swiper-item>
+          <image src="{{ item.path }}" class="slide-image" data-index="{{ index }}" bindtap="previewImage" />
+        </swiper-item>
+      </block>
+    </swiper>
+    <view class="swiper-pager">{{ current + 1 }} / {{ goodItem.goodImages.length }}</view>
+  </view>

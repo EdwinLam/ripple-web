@@ -96,13 +96,8 @@ let createGoodAttrTemplate = async (user) => {
       {name: "尺寸",goodAttrRecords:[
         {val:"小型",isSale:true},
         {val:"中型",isSale:true},
-        {val:"大型",isSale:true}
       ]},
-      {name: "型号",goodAttrRecords:[
-        {val:"64G",isSale:true},
-        {val:"128G",isSale:true},
-        {val:"256G",isSale:true}
-      ]},
+
       {name: "是否需要上门安装",goodAttrRecords:[
         {val:"是",isSale:true},
         {val:"否",isSale:true}

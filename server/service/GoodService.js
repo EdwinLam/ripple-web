@@ -1,8 +1,8 @@
 const M = require('../models')
 const StringUtil = require('../util/StringUtil.js')
 const SystemUtil = require('../util/SystemUtil.js')
-const BaseService = require("./BaseService")
-
+const BaseService = require('./BaseService')
+const _ = require('lodash')
 module.exports = class GoodService extends BaseService{
   constructor () {
     super('good')
@@ -18,6 +18,10 @@ module.exports = class GoodService extends BaseService{
     const goodSales = await M['goodSale'].findAll({
       where:{goodId:data.id},include:M['goodAttrRecord']
     })
+    const maxPrice = _.maxBy(goodSales, function(o) { return o.price; }).price
+    const minPrice = _.minBy(goodSales, function(o) { return o.price; }).price
+    data.dataValues.maxPrice = maxPrice
+    data.dataValues.minPrice = minPrice
     data.dataValues.goodSales = goodSales
     if(data){
       ctx.body = SystemUtil.createResult({success, message,data})

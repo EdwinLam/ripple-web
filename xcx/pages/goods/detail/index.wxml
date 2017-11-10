@@ -1,33 +1,10 @@
 <view class="container">
-    <view class="swiper-container">
-        <swiper class="swiper-box" indicator-dots="1" autoplay="1" interval="3000" duration="1000" bindchange="swiperchange">
-            <block wx:for="{{ goodItem.goodImages }}" wx:key="">
-                <swiper-item>
-                    <image src="{{ item.path }}" class="slide-image" data-index="{{ index }}" bindtap="previewImage" />
-                </swiper-item>
-            </block>
-        </swiper>
-        <view class="swiper-pager">{{ current + 1 }} / {{ goodItem.goodImages.length }}</view>
-    </view>
-    <view class="shopping-container">
-        <view class="name">{{ goodItem.goodName }}</view>
-        <view class="price">¥ {{ goodItem.price }}</view>
-        <text class="remark">{{goodItem.remark }}</text>
-    </view>
-    <view class="weui-panel__ft">
-                <view class="weui-cell weui-cell_access weui-cell_link" bindtap="chooseSpec">
-                    <view class="weui-cell__bd">选择分类</view>
-                    <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-                </view>
-    </view>
-     <!--屏幕背景变暗的背景  -->
-      <view class="commodity_screen" bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
-      <!--弹出框  -->
-      <view animation="{{animationData}}" class="commodity_attr_box" wx:if="{{showModalStatus}}">
-        在这里写弹出框里面的布局
-      </view>
-    <view class="btn-plus" bindtap="addCart">
-        <image class="icon" src="../../../assets/images/iconfont-plus-circle.png" />
-        <text>加入购物车</text>
-    </view>
+  <!--幻灯片部分-->
+  <include src="./slider/index.wxml"/>
+  <!--主要属性部分-->
+  <include src="./mainItemShow/index.wxml"/>
+  <!--属性选择弹窗-->
+  <include src="./attrChooseModal/index.wxml"/>
+  <!--属性选择弹窗-->
+  <include src="./bottomMenu/index.wxml"/>
 </view>

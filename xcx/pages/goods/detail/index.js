@@ -1,13 +1,18 @@
 const A = getApp()
+import attrChooseModal from './attrChooseModal/index'
+import mainItemShow from './mainItemShow/index'
+
 Page({
     data: {
+        ...attrChooseModal.data,
+        ...mainItemShow.data,
         current: 0,
         goodItem:{},
-        showModalStatus:true
+        showPrice:0,
+        showImage:"",
     },
-    chooseSpec(e){
-      A.WxService.redirectTo('/pages/goods/spec/index')
-    },
+    ...mainItemShow.method,
+    ...attrChooseModal.method,
     swiperchange(e) {
       this.setData({
             current: e.detail.current, 
@@ -50,51 +55,12 @@ Page({
         .then(res => {
             const data = res.data
             data.goodImages.forEach(n => n.path = A.renderImage(n.path))
+            const showPrice = data.minPrice===data.maxPrice?data.maxPrice:(data.minPrice+"~"+data.maxPrice)
         		this.setData({
-              goodItem: data
+              goodItem: data,
+              showPrice,
+              showImage: A.renderImage(data.thumbUrl)
             })
         	})
-    },
-  //显示对话框
-  showModal: function () {
-    // 显示遮罩层
-    var animation = A.WxService.createAnimation({
-      duration: 200,
-      timingFunction: "linear",
-      delay: 0
-    })
-    this.animation = animation
-    animation.translateY(300).step()
-    this.setData({
-      animationData: animation.export(),
-      showModalStatus: true
-    })
-    setTimeout(function () {
-      animation.translateY(0).step()
-      this.setData({
-        animationData: animation.export()
-      })
-    }.bind(this), 200)
-  },
-  //隐藏对话框
-  hideModal: function () {
-    // 隐藏遮罩层
-    var animation =  A.WxService.createAnimation({
-      duration: 200,
-      timingFunction: "linear",
-      delay: 0
-    })
-    this.animation = animation
-    animation.translateY(300).step()
-    this.setData({
-      animationData: animation.export(),
-    })
-    setTimeout(function () {
-      animation.translateY(0).step()
-      this.setData({
-        animationData: animation.export(),
-        showModalStatus: false
-      })
-    }.bind(this), 200)
-  }
+    }
 })

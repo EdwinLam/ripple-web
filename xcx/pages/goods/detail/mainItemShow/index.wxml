@@ -1,0 +1,17 @@
+<view class="shopping-container">
+    <view class="name">{{ goodItem.goodName }}</view>
+    <view class="price">¥ {{showPrice}}</view>
+    <text class="remark">{{goodItem.remark }}</text>
+  </view>
+  <view class="weui-panel__ft">
+    <view class="weui-cell weui-cell_access weui-cell_link" bindtap="openAttrChoose">
+      <view class="weui-cell__bd">选择分类</view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </view>
+  </view>
+    <view class="weui-panel__ft">
+      <view class="weui-cell weui-cell_access weui-cell_link" bindtap="chooseSpec">
+        <view class="weui-cell__bd">产品参数</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+      </view>
+    </view>
