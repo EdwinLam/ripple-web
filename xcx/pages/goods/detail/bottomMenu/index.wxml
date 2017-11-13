@@ -1,5 +1,5 @@
 
-  <view class="btn-plus" bindtap="addCart">
-    <image class="icon" src="../../../assets/images/iconfont-plus-circle.png" />
-    <text>加入购物车</text>
+  <view class="btn-plus bottom-op-btns" bindtap="addCart" style="padding:0">
+          <button class="weui-btn" type="warn" bindtap="addCart">加入购物车</button>
+         <button class="weui-btn" type="warn" bindtap="confirmOrder">立即购买</button>
   </view>

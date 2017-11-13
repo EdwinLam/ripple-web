@@ -1,0 +1,23 @@
+  <!--屏幕背景变暗的背景  -->
+  <view class="night-fall" bindtap="hideDetailModal" wx:if="{{showDetailModalStatus}}"></view>
+  <!--弹出框  -->
+  <view animation="{{detailAnimationData}}" class="choose-attr-box" wx:if="{{showDetailModalStatus}}">
+    <view>
+      <view>
+           <view class="weui-flex">
+                    <view class="weui-flex__item"><view class="attr-modal-title">产品参数</view></view>
+            </view>
+            <scroll-view scroll-y>
+              <view class="weui-flex attr-modal-main"  wx:for="{{ goodItem.goodAttrs}}" style="border-bottom:1px #ebebeb solid">
+                   <view class="weui-flex__item" style="flex:2">
+                            <view class="attr-modal-name" >{{item.name}}</view>
+                    </view>
+                   <view class="weui-flex__item" style="flex:5"><view class="attr-modal-val">{{item.goodVals}}</view></view>
+              </view>
+              </scroll-view>
+      </view>
+      <view class="weui-flex">
+           <button class="weui-btn weui-flex__item" type="warn" bindtap="hideDetailModal" style="border-radius:0;">完成</button>
+      </view>
+    </view>
+  </view>

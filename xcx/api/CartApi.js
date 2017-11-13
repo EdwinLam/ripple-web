@@ -1,7 +1,7 @@
 import httpService from '../helpers/HttpService'
 export default class CartApi{
-  static addToCart({goodId}){
-    const data ={goodId}
+  static addToCart({goodSaleId}){
+    const data ={goodSaleId}
     return httpService.postRequest('/api/cart/addToCart', {data})
   }
 

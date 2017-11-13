@@ -1,6 +1,9 @@
 .shopping-container {
   padding: 0 30rpx;
 }
+.shopping-main{
+  margin-bottom:150rpx;
+}
 
 .shopping-container .name {
   margin: 10px 0;

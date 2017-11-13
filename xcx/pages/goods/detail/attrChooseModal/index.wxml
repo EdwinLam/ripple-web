@@ -10,15 +10,15 @@
         </view>
           <view class="good-show-info-item">
             <view class="info-title">¥{{showPrice}}</view>
-             <view>库存422件</view>
-             <view>已选:36/亮白</view>
+             <view>库存{{showInventory}}件</view>
+             <view>已选:{{selectedName===''?'暂无选中':selectedName}}</view>
            </view>
       </view>
       <scroll-view scroll-y class="good-choose">
         <view class="good-choose-item" wx:for="{{ goodItem.goodAttrs }}" wx:key="" wx:for-index="idx">
           <view class="choose-type-name">{{item.name}}</view>
           <view class="choose-type-val">
-            <view class="choose-type-val-item {{goodAttrRecord.selected?'selected':''}}" wx:for="{{ item.goodAttrRecords}}" wx:key="" wx:for-item="goodAttrRecord" data-gindex="{{idx}}" data-id="{{goodAttrRecord.id}}"  bindtap="chooseAttr">{{goodAttrRecord.val}}</view>
+            <view class="choose-type-val-item {{goodAttrRecord.selected?'selected':''}}" wx:for="{{ item.goodAttrRecords}}" wx:key="" wx:for-item="goodAttrRecord" data-gindex="{{idx}}" data-id="{{goodAttrRecord.id}}" data-url="{{goodAttrRecord.thumbUrl}}"  bindtap="chooseAttr">{{goodAttrRecord.val}}</view>
           </view>
         </view>
         <view class="choose-good-num">
@@ -27,7 +27,7 @@
                   <view class="quantity-wrapper"  style="position:relative">
                                 <view class="customize-qua" style="width:auto;">
                                     <view class="quantity-decrease" bindtap="decrease" data-index="{{index}}"></view>
-                                    <input class="quantity" type="number" data-index="{{index}}" value="{{ item.cartGoods.goodNum }}" bindinput="bindKeyInput" />
+                                    <input class="quantity" type="number" data-index="{{index}}" value="{{ goodNum }}" bindinput="bindKeyInput" />
                                     <view class="quantity-increase" bindtap="increase" data-index="{{index}}"></view>
                                 </view>
                    </view>
@@ -35,8 +35,8 @@
         </view>
       </scroll-view>
       <view class="good-op-btns">
-         <button class="weui-btn" type="warn">加入购物车</button>
-         <button class="weui-btn" type="warn">立即购买</button>
+         <button class="weui-btn" type="warn" bindtap="addCart">加入购物车</button>
+         <button class="weui-btn" type="warn" bindtap="confirmOrder">立即购买</button>
       </view>
     </view>
   </view>

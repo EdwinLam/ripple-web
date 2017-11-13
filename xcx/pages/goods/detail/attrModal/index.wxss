@@ -1,0 +1,18 @@
+.attr-modal-title{
+    text-align: center;
+    font-weight:900;
+}
+
+.attr-modal-main{
+    padding-top:20rpx;
+     padding-bottom:40rpx;
+}
+
+.attr-modal-name{
+    padding-left:30rpx;
+    font-weight:bold;
+}
+
+.attr-modal-val{
+
+}

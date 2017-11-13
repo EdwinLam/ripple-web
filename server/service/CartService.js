@@ -17,7 +17,7 @@ module.exports = class CartService extends BaseService {
     let message = '查询成功'
     const userId = 1
     const data = await M['cart'].findOne({where:{userId},include: [
-      M['user'],M['good']
+      M['user'],{model:M['goodSale'],include:M['goodAttrRecord']}
     ]})
     ctx.body = SystemUtil.createResult({success, message,data})
   }
@@ -59,12 +59,12 @@ module.exports = class CartService extends BaseService {
   async addToCart(ctx){
     let success = true
     let message = '添加成功'
-    let goodId =  ctx.request.body.goodId
+    let goodSaleId =  ctx.request.body.goodSaleId
     const cart = await this.getCart()
     const cartId = cart[0].dataValues.id
-    const cartGoods =await M['cartGoods'].findOrCreate({where: {goodId,cartId},defaults:{goodId,cartId,goodNum:0}})
+    const cartGoods =await M['cartGoodSales'].findOrCreate({where: {goodSaleId,cartId},defaults:{goodSaleId,cartId,goodNum:0}})
     const goodNum =cartGoods[0].dataValues.goodNum+1
-    await M['cartGoods'].update({goodNum}, {where: {cartId,goodId}})
+    await M['cartGoodSales'].update({goodNum}, {where: {cartId,goodSaleId}})
     ctx.body = SystemUtil.createResult({success, message})
   }
 }

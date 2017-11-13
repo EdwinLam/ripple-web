@@ -94,8 +94,8 @@ let createGoodAttrTemplate = async (user) => {
     name:"测试属性模板",
     goodAttrs:[
       {name: "尺寸",goodAttrRecords:[
-        {val:"小型",isSale:true},
-        {val:"中型",isSale:true},
+        {val:"小型",isSale:true,thumbUrl:'./images/wj/7.jpg'},
+        {val:"中型",isSale:true,thumbUrl:'./images/wj/7.jpg'},
       ]},
 
       {name: "是否需要上门安装",goodAttrRecords:[

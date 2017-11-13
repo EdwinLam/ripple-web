@@ -2,6 +2,7 @@
 @import './attrChooseModal/index.wxss';
 @import './mainItemShow/index.wxss';
 @import './bottomMenu/index.wxss';
+@import './attrModal/index.wxss';
 
 
 

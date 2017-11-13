@@ -1,22 +1,33 @@
 const A = getApp()
 import attrChooseModal from './attrChooseModal/index'
 import mainItemShow from './mainItemShow/index'
+import attrModal from './attrModal/index'
 
 Page({
     data: {
         ...attrChooseModal.data,
         ...mainItemShow.data,
+        ...attrModal.data,
         current: 0,
         goodItem:{},
         showPrice:0,
-        showImage:"",
     },
     ...mainItemShow.method,
     ...attrChooseModal.method,
+    ...attrModal.method,
     swiperchange(e) {
       this.setData({
             current: e.detail.current, 
        })
+    },
+    confirmOrder(e) {
+      if(!this.data.goodSale.id){
+        this.showModal('请选择属性')
+        return
+      }
+      this.data.goodSale.goodNum = this.data.goodNum
+      A.WxService.setStorageSync('confirmOrder', [this.data.goodSale])
+      A.WxService.navigateTo('/pages/order/confirm/index')
     },
     onLoad(option) {
         this.setData({
@@ -28,8 +39,12 @@ Page({
     },
 
     addCart (e) {
-      const goodId = this.data.id
-      A.API['cart'].addToCart({goodId}).then((res)=>{
+      if(!this.data.goodSale.id){
+        this.showModal('请选择属性')
+        return
+      }
+      const goodSaleId = this.data.goodSale.id
+      A.API['cart'].addToCart({goodSaleId}).then((res)=>{
         console.log(res)
         this.showToast('添加购物车成功！')
       })
@@ -46,10 +61,16 @@ Page({
     showToast(message) {
         A.WxService.showToast({
             title   : message, 
-            icon    : 'success', 
+            icon    : 'error',
             duration: 1500, 
         })
     },
+  showModal:function(msg){
+    A.WxService.showModal({
+      content: msg,
+      showCancel: false
+    });
+  },
     getDetail(id) {
         A.RES['good'].getAsync({id: id})
         .then(res => {
@@ -59,7 +80,8 @@ Page({
         		this.setData({
               goodItem: data,
               showPrice,
-              showImage: A.renderImage(data.thumbUrl)
+              showImage: A.renderImage(data.thumbUrl),
+              showInventory:data.totalInventory
             })
         	})
     }

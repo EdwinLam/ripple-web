@@ -8,6 +8,12 @@ export default {
       this.setData({
         showModalStatus:true
       })
+    },
+    openDetail(e){
+      this.setData({
+        showDetailModalStatus:true
+      })
+      console.log(this.data.showDetailModalStatus)
     }
   }
 }

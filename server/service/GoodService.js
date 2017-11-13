@@ -20,9 +20,17 @@ module.exports = class GoodService extends BaseService{
     })
     const maxPrice = _.maxBy(goodSales, function(o) { return o.price; }).price
     const minPrice = _.minBy(goodSales, function(o) { return o.price; }).price
+    let totalInventory = 0
+    goodSales.forEach((el) =>{
+      totalInventory+=el.inventory
+    })
+    data.goodAttrs.forEach(function(el){
+      el.dataValues.goodVals = el.dataValues.goodAttrRecords.map(el => el.val).join('/')
+    })
     data.dataValues.maxPrice = maxPrice
     data.dataValues.minPrice = minPrice
     data.dataValues.goodSales = goodSales
+    data.dataValues.totalInventory = totalInventory
     if(data){
       ctx.body = SystemUtil.createResult({success, message,data})
     }else{

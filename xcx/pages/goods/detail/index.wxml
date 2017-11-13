@@ -7,4 +7,6 @@
   <include src="./attrChooseModal/index.wxml"/>
   <!--属性选择弹窗-->
   <include src="./bottomMenu/index.wxml"/>
+   <!--参数详情-->
+   <include src="./attrModal/index.wxml"/>
 </view>

@@ -5,13 +5,19 @@ export default {
     showModalStatus:false,
     selectedItemAttrRecord:[],
     goodSale:{},
+    showImage:"",
+    selectedName:'',
+    goodNum:1,
+    showInventory:0,
   },
   method:{
     /*选择属性*/
     chooseAttr:function(e){
       const gindex = e.currentTarget.dataset.gindex
       const id = e.currentTarget.dataset.id
+      const thumbUrl = A.renderImage(e.currentTarget.dataset.url)
       let isSelected = false
+      const goodItem = this.data.goodItem
       this.data.goodItem.goodAttrs[gindex].goodAttrRecords.forEach(function(el){
         if(el.selected && el.id==id)isSelected=true
         el.selected =!el.selected && el.id==id
@@ -20,20 +26,62 @@ export default {
         const values = el.split("_")
         return values[0]!=this.data.goodItem.goodAttrs[gindex].id
       })
-      if(!isSelected)
-        tmpArray.push(this.data.goodItem.goodAttrs[gindex].id+"_"+id)
+      if(!isSelected) {
+        tmpArray.push(this.data.goodItem.goodAttrs[gindex].id + "_" + id)
+        if(thumbUrl)
+          this.setData({
+            showImage:thumbUrl
+          })
+      }else if(isSelected){
+        this.setData({
+          showImage:thumbUrl?A.renderImage(this.data.goodItem.thumbUrl):this.data.showImage,
+          showPrice:thumbUrl?(goodItem.minPrice===goodItem.maxPrice?goodItem.maxPrice:(goodItem.minPrice+"~"+goodItem.maxPrice)):this.data.showPrice,
+          showInventory:goodItem.totalInventory
+        })
+      }
       this.setData({
         goodItem:this.data.goodItem,
-        selectedItemAttrRecord:tmpArray
+        selectedItemAttrRecord:tmpArray,
+        selectedName:this.getSelectedName()
       })
       this.getSaleInfo()
+    },
+    bindKeyInput(e) {
+      var goodNum = e.detail.value
+      if (goodNum < 1 || goodNum>100) return
+      this.setData({
+        goodNum
+      })
+    },
+    decrease(e) {
+      const goodNum =  this.data.goodNum-1
+      if (goodNum < 1) return
+      this.setData({
+        goodNum
+      })
+    },
+    increase(e) {
+      const goodNum =  this.data.goodNum+1
+      if (goodNum > 100) return
+      this.setData({
+        goodNum
+      })
+    },
+    getSelectedName:function(){
+      let selectedName =[]
+      this.data.goodItem.goodAttrs.forEach(function(goodAttr){
+        goodAttr.goodAttrRecords.forEach(function(goodAttrRecord){
+          if(goodAttrRecord.selected){
+            selectedName.push(goodAttrRecord.val)
+          }
+        })
+      })
+      return selectedName.join("/")
     },
     getSaleInfo:function(){
       this.data.goodItem.goodSales.forEach((el)=>{
         const goodAttrRecordArray = el.goodAttrRecords.map((el)=>el.id)
         const selectedId = this.data.selectedItemAttrRecord.map((el=>parseInt(el.split("_")[1])))
-        console.log(goodAttrRecordArray)
-        console.log( selectedId)
         const isSelected = goodAttrRecordArray.every((item)=>{
           return selectedId.indexOf(item)!==-1
         })
@@ -41,7 +89,7 @@ export default {
           this.setData({
             goodSale:el,
             showPrice:el.price,
-            showImage:el.thumbUrl
+            showInventory:el.inventory
           })
         }
       })

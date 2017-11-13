@@ -1,0 +1,13 @@
+.bottom-op-btns {
+  display: -webkit-flex;
+  display: flex;
+  align-items: flex-start;
+  -webkit-align-items: flex-start;
+  flex-flow: row nowrap;
+}
+
+.bottom-op-btns .weui-btn {
+  width: 50%;
+  margin: 0;
+  border-radius: 0;
+}
