@@ -17,7 +17,7 @@ Page({
         }
         console.log(carts)
 
-        carts.items.forEach(n => carts.totalAmount+=n.price*n.cartGoods.goodNum)
+        carts.items.forEach(n => carts.totalAmount+=n.price*n.goodNum)
 
         this.setData({
             carts: carts

@@ -17,7 +17,7 @@ module.exports = class CartService extends BaseService {
     let message = '查询成功'
     const userId = 1
     const data = await M['cart'].findOne({where:{userId},include: [
-      M['user'],{model:M['goodSale'],include:M['goodAttrRecord']}
+      M['user'],{model:M['goodSale'],include:[{model:M['goodAttrRecord'],include:M['goodAttr']},M['good']]}
     ]})
     ctx.body = SystemUtil.createResult({success, message,data})
   }

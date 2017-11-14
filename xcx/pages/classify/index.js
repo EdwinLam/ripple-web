@@ -61,7 +61,7 @@ Page({
         // A.HttpService.getGoods(params)
         A.RES['good'].queryAsync({classifyId:this.data.classify.id})
         .then(res => {
-          console.log(res)
+          res.data.rows.forEach(el=>el.thumbUrl=A.renderImage(el.thumbUrl))
           this.setData({
             goodItems: res.data.rows
           })

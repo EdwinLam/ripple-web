@@ -4,9 +4,6 @@ module.exports = function(sequelize, DataTypes) {
     val:{
       type: DataTypes.STRING
     },
-    thumbUrl:{
-      type: DataTypes.STRING
-    },
     isSale:{
      type:DataTypes.BOOLEAN
     }

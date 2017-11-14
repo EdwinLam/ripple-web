@@ -28,16 +28,6 @@ export default {
       })
       if(!isSelected) {
         tmpArray.push(this.data.goodItem.goodAttrs[gindex].id + "_" + id)
-        if(thumbUrl)
-          this.setData({
-            showImage:thumbUrl
-          })
-      }else if(isSelected){
-        this.setData({
-          showImage:thumbUrl?A.renderImage(this.data.goodItem.thumbUrl):this.data.showImage,
-          showPrice:thumbUrl?(goodItem.minPrice===goodItem.maxPrice?goodItem.maxPrice:(goodItem.minPrice+"~"+goodItem.maxPrice)):this.data.showPrice,
-          showInventory:goodItem.totalInventory
-        })
       }
       this.setData({
         goodItem:this.data.goodItem,
@@ -79,17 +69,28 @@ export default {
       return selectedName.join("/")
     },
     getSaleInfo:function(){
+      let isBreak = false
       this.data.goodItem.goodSales.forEach((el)=>{
+        if(isBreak) return
         const goodAttrRecordArray = el.goodAttrRecords.map((el)=>el.id)
         const selectedId = this.data.selectedItemAttrRecord.map((el=>parseInt(el.split("_")[1])))
         const isSelected = goodAttrRecordArray.every((item)=>{
           return selectedId.indexOf(item)!==-1
         })
         if(isSelected){
+          isBreak = true
           this.setData({
             goodSale:el,
+            showImage:A.renderImage(el.thumbUrl),
             showPrice:el.price,
             showInventory:el.inventory
+          })
+        }else{
+          const goodItem = this.data.goodItem
+          this.setData({
+            showImage:A.renderImage(goodItem.thumbUrl),
+            showPrice:goodItem.minPrice===goodItem.maxPrice?goodItem.maxPrice:(goodItem.minPrice+'~'+goodItem.maxPrice),
+            showInventory:goodItem.totalInventory
           })
         }
       })

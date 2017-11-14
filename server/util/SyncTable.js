@@ -54,7 +54,8 @@ let createGood =async(classifyMap,goodAttrTemplate)=>{
       goodAttrRecordGroups.forEach(async function (el) {
         const goodSaleData = {
           inventory: _.random(1, 100),
-          price: _.random(1, 100)
+          price: _.random(1, 100),
+          thumbUrl:'./images/wj/7.jpg'
         }
         const goodSale = await db['goodSale'].create(goodSaleData,{include:db['goodAttrRecord']})
         await goodSale.setGoodAttrRecords(el)
@@ -94,8 +95,8 @@ let createGoodAttrTemplate = async (user) => {
     name:"测试属性模板",
     goodAttrs:[
       {name: "尺寸",goodAttrRecords:[
-        {val:"小型",isSale:true,thumbUrl:'./images/wj/7.jpg'},
-        {val:"中型",isSale:true,thumbUrl:'./images/wj/7.jpg'},
+        {val:"小型",isSale:true},
+        {val:"中型",isSale:true},
       ]},
 
       {name: "是否需要上门安装",goodAttrRecords:[

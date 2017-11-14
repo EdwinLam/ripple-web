@@ -2,6 +2,7 @@ const A = getApp()
 
 Page({
     data: {
+        goodSales: [],
         goodItems: [],
         prompt: {
             hidden: !0,
@@ -26,22 +27,21 @@ Page({
                 break
         }
     },
-    onLoad() {
-    },
     onShow() {
         this.getCarts()
     },
     getCarts() {
       A.API['cart'].getUserCart()
         .then(res => {
-          res.data.goods=res.data.goods?res.data.goods:[]
-          res.data.goods.forEach(function(el){
+          res.data.goodSales=res.data.goodSales?res.data.goodSales:[]
+          res.data.goodSales.forEach(function(el){
+              el.thumbUrl = A.renderImage(el.thumbUrl)
               el.isCanEdit = false
           })
           console.log(res)
           this.setData({
-            goodItems:  res.data.goods,
-            'prompt.hidden': res.data.goods.length,
+            goodSales: res.data.goodSales,
+            'prompt.hidden': res.data.goodSales.length,
           })
         })
     },
