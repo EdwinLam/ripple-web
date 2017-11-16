@@ -37,7 +37,6 @@ Page({
               el.thumbUrl = A.renderImage(el.thumbUrl)
               el.isCanEdit = false
           })
-          console.log(res)
           this.setData({
             goodSales: res.data.goodSales,
             'prompt.hidden': res.data.goodSales.length,
@@ -66,7 +65,7 @@ Page({
             if (data.confirm == 1) {
                 A.API['cart'].delCartGood(id)
                 .then(res => {
-                    console.log(data)
+                  this.getCarts()
                 })
             }
         })
@@ -84,35 +83,36 @@ Page({
         })
     },
     onTapEdit(e) {
-      const good = A.COM.getEl(e,this.data.goodItems)
+      const good = A.COM.getEl(e,this.data.goodSales)
       good.isCanEdit=!good.isCanEdit
       this.setData({
-        goodItems: this.data.goodItems
+        goodSales: this.data.goodSales
       })
     },
     bindKeyInput(e) {
       var total = e.detail.value
-      const good = A.COM.getEl(e,this.data.goodItems)
+      const good = A.COM.getEl(e,this.data.goodSales)
       if (total < 1 || total>100) return
       this.saveCartGood({goodId:good.id,goodNum:total,good})
     },
     decrease(e) {
-      const good = A.COM.getEl(e,this.data.goodItems)
-      const goodNum =  good.cartGoods.goodNum-1
+      const goodSale = A.COM.getEl(e,this.data.goodSales)
+      const goodNum =  goodSale.cartGoodSales.goodNum-1
       if (goodNum < 1) return
-      this.saveCartGood({goodId:good.id,goodNum,good})
+      this.saveCartGood({goodNum,goodSale})
     },
     increase(e) {
-      const good = A.COM.getEl(e,this.data.goodItems)
-      const goodNum =  good.cartGoods.goodNum+1
+      const goodSale = A.COM.getEl(e,this.data.goodSales)
+      const goodNum =  goodSale.cartGoodSales.goodNum+1
       if (goodNum > 100) return
-      this.saveCartGood({goodId:good.id,goodNum,good})
+      this.saveCartGood({goodNum,goodSale})
     },
-    saveCartGood({goodId,goodNum,good}){
-      good.cartGoods.goodNum = goodNum
+    saveCartGood({goodNum,goodSale}){
+      goodSale.cartGoodSales.goodNum = goodNum
       this.setData({
-        goodItems: this.data.goodItems
+        goodSales: this.data.goodSales
       })
-      A.API['cart'].setCartGood({goodId,goodNum})
+      const goodSaleId = goodSale.id
+      A.API['cart'].setCartGood({goodSaleId,goodNum})
     }
 })

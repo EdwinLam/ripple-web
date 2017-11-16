@@ -5,8 +5,8 @@ export default class CartApi{
     return httpService.postRequest('/api/cart/addToCart', {data})
   }
 
-  static setCartGood({goodId,goodNum}){
-    const data = {goodId,goodNum}
+  static setCartGood({goodSaleId,goodNum}){
+    const data = {goodSaleId,goodNum}
     return httpService.postRequest('/api/cart/setCartGood', {data})
   }
 

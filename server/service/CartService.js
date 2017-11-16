@@ -32,27 +32,27 @@ module.exports = class CartService extends BaseService {
     let success = true
     let message = '清空成功'
     const cart = await this.getCart()
-    await M['cartGoods'].destroy({where: {cartId:cart[0].dataValues.id}})
+    await M['cartGoodSales'].destroy({where: {cartId:cart[0].dataValues.id}})
     ctx.body = SystemUtil.createResult({success, message})
   }
 
   async delCartGood(ctx){
     const userId = 1
-    const goodId = ctx.request.body.goodId
+    const goodSaleId = ctx.request.body.goodSaleId
     let success = true
     let message = '删除成功'
-    await M['cartGoods'].destroy({where: {goodId,userId}})
+    await M['cartGoodSales'].destroy({where: {goodSaleId,userId}})
     ctx.body = SystemUtil.createResult({success, message})
   }
 
   async setCartGood(ctx){
     const goodNum = ctx.request.body.goodNum
-    const goodId = ctx.request.body.goodId
+    const goodSaleId = ctx.request.body.goodSaleId
     const cart = await this.getCart()
     const cartId = cart[0].dataValues.id
     let success = true
     let message = '修改成功'
-    await M['cartGoods'].update({goodNum}, {where: {cartId,goodId}})
+    await M['cartGoodSales'].update({goodNum}, {where: {cartId,goodSaleId}})
     ctx.body = SystemUtil.createResult({success, message})
   }
 

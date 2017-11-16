@@ -10,12 +10,12 @@ module.exports = class OrderService  extends BaseService{
    async saveOrder(ctx){
     let success = true
     let message = '查询成功'
-    const goodItems = ctx.request.body.goodItems
+    const goodSaleItems = ctx.request.body.goodSaleItems
     const address = ctx.request.body.address
-    const totalAmount = goodItems.length
+    const totalAmount = goodSaleItems.length
     let payAmount = 0
-    goodItems.forEach(item=>payAmount+=item.totalPrice)
-    const goodIds =  goodItems.map(item=>{return item.id})
+     goodSaleItems.forEach(item=>payAmount+=item.totalPrice)
+    const goodSaleIds =  goodSaleItems.map(item=>{return item.id})
     const order = await M['order'].create({
       totalAmount,
       payAmount,
@@ -26,16 +26,16 @@ module.exports = class OrderService  extends BaseService{
     })
     const userId = 1
     const cart = await M['cart'].findOne({where:{userId}})
-    const orderGoods = goodItems.map(item=>{
+    const orderGoodSales = goodSaleItems.map(item=>{
       return {
         orderId:order.id,
-        goodId:item.id,
+        goodSaleId:item.id,
         num:item.num,
         totalPrice:item.totalPrice
       }
     })
-    await M['orderGoods'].bulkCreate(orderGoods)
-    await M['cartGoods'].destroy({where: {cartId:cart.dataValues.id,goodId:{$in:goodIds}}})
+    await M['orderGoodSales'].bulkCreate(orderGoodSales)
+    await M['cartGoodSales'].destroy({where: {cartId:cart.dataValues.id,goodSaleId:{$in:goodSaleIds}}})
     ctx.body = SystemUtil.createResult({success, message,data:order})
   }
 }

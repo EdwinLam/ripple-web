@@ -27,7 +27,7 @@ module.exports = function(sequelize, DataTypes) {
     modules.user.hasMany(order)
     order.belongsTo(modules.user)
     order.belongsToMany(modules.goodSale, {through: modules.orderGoodSales, foreignKey: 'orderId'})
-    modules.goodSale.belongsToMany(order, {through: modules.orderGoodSales, foreignKey: 'goodId'})
+    modules.goodSale.belongsToMany(order, {through: modules.orderGoodSales, foreignKey: 'goodSaleId'})
   }
   return order
 };

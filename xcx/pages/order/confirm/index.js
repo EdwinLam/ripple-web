@@ -4,10 +4,16 @@ Page({
     data: {
         hidden: !0,
         carts: {},
-        address: {}
+        address: {},
+        addressId:-1
     },
     onLoad(option) {
-        const carts = {
+        if(option.addressId){
+          this.setData({
+            addressId:option.addressId
+          })
+        }
+      const carts = {
             items: A.WxService.getStorageSync('confirmOrder'), 
             totalAmount: 0, 
         }
@@ -17,14 +23,23 @@ Page({
         })
     },
     onShow() {
-        const address = this.data.address
-        console.log(address)
-        if (!address.id) {
+      const addressId = this.data.addressId
+      if (addressId=== -1) {
           this.getDefalutAddress()
+        }else{
+          this.getAddressDetail(this.data.addressId)
         }
     },
+  getAddressDetail(id) {
+    A.RES['address'].queryAsync({id})
+      .then(res => {
+          this.setData({
+             address : res.data
+          })
+
+      })
+  },
     redirectTo(e) {
-        console.log(e)
         A.WxService.redirectTo('/pages/address/confirm/index', {
           address: this.data.address
         })
@@ -32,7 +47,6 @@ Page({
     getDefalutAddress() {
         A.API['address'].getDefaultAddress()
         .then(res => {
-            console.log(res)
           this.setData({
             address: res.data
           })
@@ -53,14 +67,14 @@ Page({
     },
     addOrder() {
         const address = this.data.address
-        const goodItems =this.data.carts.items.map(item=>{
+        const goodSaleItems =this.data.carts.items.map(item=>{
             return {
                 id: item.id,
-                totalPrice:item.price*item.cartGoods.goodNum,
-                num:item.cartGoods.goodNum
+                totalPrice:item.price*item.cartGoodSales.goodNum,
+                num:item.cartGoodSales.goodNum
             }
         })
-        A.API['order'].saveOrder({address,goodItems})
+        A.API['order'].saveOrder({address,goodSaleItems})
         .then(res => {
           A.WxService.redirectTo('/pages/order/detail/index', {
             id: res.data.id
