@@ -3,7 +3,6 @@ const A = getApp()
 Page({
     data: {
         goodSales: [],
-        goodItems: [],
         prompt: {
             hidden: !0,
             icon: '../../assets/images/iconfont-cart-empty.png',
@@ -54,7 +53,7 @@ Page({
         })
     },
     confirmOrder(e) {
-        A.WxService.setStorageSync('confirmOrder', this.data.goodItems)
+        A.WxService.setStorageSync('confirmOrder', this.data.goodSales)
         A.WxService.navigateTo('/pages/order/confirm/index')
     },
     del(e) {

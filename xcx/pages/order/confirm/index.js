@@ -7,18 +7,11 @@ Page({
         address: {}
     },
     onLoad(option) {
-        option.address=option.address? JSON.parse(option.address):{}
-        this.setData({
-          address:option.address
-        })
         const carts = {
             items: A.WxService.getStorageSync('confirmOrder'), 
             totalAmount: 0, 
         }
-        console.log(carts)
-
-        carts.items.forEach(n => carts.totalAmount+=n.price*n.goodNum)
-
+        carts.items.forEach(n => carts.totalAmount+=n.price*n.cartGoodSales.goodNum)
         this.setData({
             carts: carts
         })
@@ -39,6 +32,7 @@ Page({
     getDefalutAddress() {
         A.API['address'].getDefaultAddress()
         .then(res => {
+            console.log(res)
           this.setData({
             address: res.data
           })
@@ -50,7 +44,6 @@ Page({
             content: '没有收货地址，请先设置', 
         })
         .then(data => {
-            console.log(data)
             if (data.confirm == 1) {
                 A.WxService.redirectTo('/pages/address/add/index')
             } else {

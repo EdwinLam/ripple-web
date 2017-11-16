@@ -4,7 +4,7 @@
     <template is="prompt" data="{{ prompt }}"/>
     
     <view class="scroll-list">
-        <view class="weui-panel" wx:if="{{ !!addressItems.length }}">
+        <view class="weui-panel" wx:if="{{ !!addressItems.length }}" style="padding-bottom:100rpx">
             <view class="weui-panel__bd">
                 <view class="weui-media-box weui-media-box_text" wx:for="{{ addressItems }}" wx:key="">
                     <view class="weui-media-box__title weui-media-box__title_in-text">{{ item.name }} {{ item.gender === 'female' ? '女士' : '先生' }} {{ item.tel }}</view>
@@ -13,15 +13,14 @@
                         <view class="weui-media-box__info__meta text-orangered" wx:if="{{ item.is_def }}">默认地址</view>
                         <view class="weui-media-box__info__meta" wx:if="{{ !item.isDef }}" bindtap="setDefaultAddress" data-id="{{ item.id }}">设为默认</view>
                     </view>
-                    <view class="edit" bindtap="toAddressEdit" data-id="{{ item._id }}">
+                    <view class="edit" bindtap="toAddressEdit" data-id="{{ item.id }}">
                         <image class="icon" src="../../../assets/images/iconfont-edit.png" />
                     </view>
                 </view>
             </view>
         </view>
-        <view class="btn-plus" bindtap="toAddressAdd">
-            <image class="icon" src="../../../assets/images/iconfont-plus-circle.png" />
-            <text>新增地址</text>
+        <view class="button-sp-area" >
+            <button class="weui-btn" type="primary" bindtap="confirmOrder" bindtap="toAddressAdd">新增地址</button>
         </view>
     </view>
 </view>

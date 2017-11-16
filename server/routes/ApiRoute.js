@@ -29,7 +29,7 @@ for(let key in  S){
   router.get('/'+key, (ctx) => S[key].list(ctx))
   router.get('/'+key+'/:id', (ctx) => S[key].get(ctx))
   router.post('/'+key, (ctx) => S[key].save(ctx))
-  router.post('/'+key+'/:id', (ctx) => S[key].update(ctx))
+  router.put('/'+key+'/:id', (ctx) => S[key].update(ctx))
   router.del('/'+key+'/:id', (ctx) =>S[key].delete(ctx))
 }
 
