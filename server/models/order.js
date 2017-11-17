@@ -1,6 +1,9 @@
 /* 订单表 */
 module.exports = function(sequelize, DataTypes) {
   const  order = sequelize.define('order', {
+    orderNo:{
+      type: DataTypes.STRING
+    },
     totalAmount: {
       type: DataTypes.INTEGER
     },
@@ -11,6 +14,13 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING
     },
     recipientName:{
+      type:DataTypes.STRING
+    },
+    /*
+    * 0-cash 现金支付
+    * 1-wechat 微信支付
+    * */
+    payType:{
       type:DataTypes.STRING
     },
     recipientGender:{

@@ -20,6 +20,7 @@ module.exports = class OrderService  extends BaseService{
     if(ctx.query.status==='all')
       delete ctx.query.status
     const include = [M['user'],{model:M['goodSale'],include:[M['goodAttrRecord'],M['good']]}]
+    const orderItems = await SystemUtil.queryPage(M[this.key], ctx.query, pageNo, pageSize,include)
     ctx.body = await SystemUtil.queryPage(M[this.key], ctx.query, pageNo, pageSize,include)
   }
 
