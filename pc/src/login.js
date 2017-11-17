@@ -1,6 +1,7 @@
 import '@/css/login.css'
 import AuthApi from 'api/AuthApi'
 import AuthService from '@/service/AuthService'
+import COM from '@/service/CommonService'
 
 const loginVm = avalon.define({
   $id: 'loginVm',
@@ -15,7 +16,7 @@ const loginVm = avalon.define({
   validate: {
     onValidateAll:async function(reasons) {
       if(reasons.length) {
-        avalon.vmodels.topAlert.alert({message:reasons[0].message})
+        COM.topAlert({message:reasons[0].message})
         return false;
       } else {
         const res = await AuthApi.login(loginVm.phone,loginVm.password)
@@ -23,7 +24,7 @@ const loginVm = avalon.define({
           AuthService.setToken(res.data.token)
           window.location.href='/index.html'
         }else{
-          avalon.vmodels.topAlert.alert(res.message, {icon: 2})
+          COM.topAlert(res.message, {icon: 2})
         }
       }
     }

@@ -1,10 +1,20 @@
+import alertTemplate from './template/topAlert.html'
+import _ from 'lodash'
 export default class commonUtil {
     constructor() {
         this.loadingIndex = -1
         this.loadingCount = 0
     }
-    static alert(config){
-        avalon.vmodels['alert'].openInit(config)
+  static alert(config){
+    avalon.vmodels['commonAlert'].openInit(config)
+  }
+    static topAlert({message}){
+      const alertEl=$(alertTemplate.replace("{{message}}",message))
+      alertEl.alert()
+      $('body').append(alertEl)
+      _.delay(()=>{
+        alertEl.alert('close')
+      },300)
     }
     static confirm(config){
         avalon.vmodels['confirm'].openInit(config)
