@@ -38,7 +38,8 @@ Page({
                 },
             ]
         })
-        this.onPullDownRefresh()
+      this.initData()
+      this.getList()
     },
     initData() {
         const order = this.data.order
@@ -67,22 +68,19 @@ Page({
         })
     },
     onPullDownRefresh() {
-        console.info('onPullDownRefresh')
         this.initData()
         this.getList()
     },
     onReachBottom() {
-        console.info('onReachBottom')
-        if (!this.data.order.paginate.hasNext) return
-        this.getList()
+
     },
     onTapTag(e) {
-        const type = e.currentTarget.dataset.type
+        let type = e.currentTarget.dataset.type
         const index = e.currentTarget.dataset.index
         this.initData()
         this.setData({
             activeIndex: index,
-            'order.params.type': type,
+            'order.params.status': type,
         })
         this.getList()
     },

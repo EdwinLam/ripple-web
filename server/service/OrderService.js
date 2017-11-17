@@ -7,6 +7,24 @@ module.exports = class OrderService  extends BaseService{
   constructor () {
     super('order')
   }
+  /**
+   * 根据条件查询
+   * @param {pageNo} 当前页
+   * @param {pageNo} 总页数
+   */
+  async list (ctx) {
+    let pageNo = parseInt(ctx.query.pageNo) || 1
+    let pageSize = parseInt(ctx.query.pageSize) || 10
+    delete ctx.query.pageNo
+    delete ctx.query.pageSize
+    if(ctx.query.status==='all')
+      delete ctx.query.status
+    const include = [M['user'],{model:M['goodSale'],include:[M['goodAttrRecord'],M['good']]}]
+    ctx.body = await SystemUtil.queryPage(M[this.key], ctx.query, pageNo, pageSize,include)
+  }
+
+
+
    async saveOrder(ctx){
     let success = true
     let message = '查询成功'
