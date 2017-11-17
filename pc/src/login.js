@@ -1,6 +1,7 @@
 import '@/css/login.css'
 import AuthApi from 'api/AuthApi'
 import AuthService from '@/service/AuthService'
+
 const loginVm = avalon.define({
   $id: 'loginVm',
   phone: '',
@@ -14,15 +15,15 @@ const loginVm = avalon.define({
   validate: {
     onValidateAll:async function(reasons) {
       if(reasons.length) {
-        layer.alert(reasons[0].message, {icon: 2})
+        avalon.vmodels.topAlert.alert({message:reasons[0].message})
         return false;
       } else {
         const res = await AuthApi.login(loginVm.phone,loginVm.password)
         if(res.success){
-          AuthService.setToken(res.values.token)
+          AuthService.setToken(res.data.token)
           window.location.href='/index.html'
         }else{
-          layer.alert(res.message, {icon: 2})
+          avalon.vmodels.topAlert.alert(res.message, {icon: 2})
         }
       }
     }

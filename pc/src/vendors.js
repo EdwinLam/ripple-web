@@ -3,7 +3,7 @@ import "babel-polyfill"
 import 'bootstrap'
 import 'avalon2'
 import 'libs/avalon/mmRouter'
-
+import 'components/top-alert'
 import 'components/alert'
 import 'components/confirm'
 import 'components/pagination.js'

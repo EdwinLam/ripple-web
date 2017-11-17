@@ -1,6 +1,40 @@
-body{overflow:hidden;background-color:#ebebeb}
-.login{ height:260px;width:260px;padding: 20px;background-color:rgba(0,0,0,0.5);border-radius: 4px;position:absolute;left: 50%;top: 50%; margin:-150px 0 0 -150px;z-index:99;}
-.login h1{ text-align:center; color:#fff; font-size:24px; margin-bottom:20px; }
-.form_code{ position:relative; }
-.form_code .code{ position:absolute; right:0; top:1px; cursor:pointer; }
-.login_btn{ width:100%; }
+body {
+    padding-top:0 !important;
+    overflow: hidden;
+    background-color: #ebebeb;
+}
+
+.login-area{
+    position:fixed;
+    display:flex;
+    flex-flow:row nowrap;
+    justify-content:center;
+    align-items:center;
+    align-content:center;
+    height: 100%;
+    width: 100%;
+}
+
+.login-item{
+    width:18rem;
+    margin-bottom: 10rem;
+    align-self:center;
+}
+
+.login-item .title{
+    color: #ebebeb;
+    text-align: center;
+    padding: 0.5rem 0 0.5rem;
+    border-bottom:none;
+}
+.login-item .input-area{
+    padding-top:0.5rem;
+    padding-bottom:0.5rem;
+}
+
+.login-item .input-item{
+    width: 100%;
+    border-radius: 5px;
+    border:1px solid #ebebeb;
+    padding:0.5rem;
+}

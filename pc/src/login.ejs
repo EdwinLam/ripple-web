@@ -6,20 +6,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[0] %>">
-    <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css[1] %>">
 </head>
-<body class="layui-layout-body" ms-controller="loginVm">
-<div class="login">
-    <h1>Ripple</h1>
-    <form :validate="@validate">
-        <div class="layui-form-item">
-            <input class="layui-input" name="phone" placeholder="手机号" lay-verify="required" type="text" autocomplete="off" :duplex="@phone" :rules="{ required: true}" data-required-message="请输入手机号">
+<body ms-controller="loginVm">
+
+<wbr :widget="{$id:'topAlert',is:'top-alert'}" />
+
+<div class="login-area">
+        <div class="login-item">
+            <h2 class="title">Ripple</h2>
+            <form :validate="@validate" autocomplete="off">
+                <div class="input-area form-text">
+                    <input class="input-item" name="phone" placeholder="手机号" lay-verify="required" type="text" autocomplete="new-password" :duplex="@phone" :rules="{ required: true}" data-required-message="请输入手机号" >
+                </div>
+                <div class="input-area">
+                    <input class="input-item" name="password" placeholder="密码" lay-verify="required" type="password" autocomplete="new-password" :duplex="@password" :rules="{ required: true}" data-required-message="请输入密码">
+                </div>
+                <button type="button" class="btn btn-outline-secondary  btn-block" :click="@login">登录</button>
+            </form>
         </div>
-        <div class="layui-form-item">
-            <input class="layui-input" name="password" placeholder="密码" lay-verify="required" type="password" autocomplete="off" :duplex="@password" :rules="{ required: true}" data-required-message="请输入密码">
-        </div>
-        <button class="layui-btn login_btn" type="button" :click="@login">登录</button>
-    </form>
 </div>
 <!--[if lt IE 9]>
   <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -27,9 +31,5 @@
   <![endif]-->
   <script type="text/javascript" src="<%= htmlWebpackPlugin.files.js[0] %>"></script>
   <script type="text/javascript" src="<%= htmlWebpackPlugin.files.js[1] %>"></script>
-    <script type="text/javascript" src="./layui/layui.js "></script>
-    <script>
-        layui.use('layer')
-    </script>
 </body>
 </html>
