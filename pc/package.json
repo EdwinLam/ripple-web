@@ -4,6 +4,8 @@
   "description": "ripple",
   "main": "",
   "dependencies": {
+    "bootstrap-fileinput": "^4.4.6",
+    "font-awesome": "FortAwesome/Font-Awesome",
     "precss": "^2.0.0"
   },
   "devDependencies": {

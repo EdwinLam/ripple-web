@@ -21,6 +21,9 @@ export default class RouterService {
         const hash = location.hash.replace(/#!?/, '')
         const args = Array.prototype.slice.call(arguments)
         const key = hash === '' ? '' : args.join('/')
+        if(key===''){
+          window.location.href=defaultIndex
+        }
         try {
           var vm = require('@/modules/' + key + '.js')
           rootVm.currPage = require('@/modules/' + key + '.html')

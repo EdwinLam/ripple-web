@@ -1,9 +1,11 @@
 const router = require('koa-router')()
 const S = require('../service')
-
+const multer = require('koa-multer')
+const upload = multer({ dest: 'uploads/' })
 /* 用户相关接口 */
 router.get('/user/getUserInfo', (ctx) => S['user'].getUserInfo(ctx))
-
+/*种类相关接口*/
+router.post('/classify/upLoadIcon', upload.single('file'),(ctx)=>S['classify'].upLoadIcon(ctx))
 /* 节点相关接口 */
 router.get('/node/getAllModules', (ctx) => S['node'].getAllModules(ctx))
 

@@ -7,18 +7,7 @@ module.exports = class UserService extends BaseService{
   constructor () {
     super('user')
   }
-  /**
-   * 分页查询数据
-   * @param {pageNo} 当前页
-   * @param {pageNo} 总页数
-   */
-  async queryPage (ctx) {
-    let pageNo = parseInt(ctx.query.pageNo) || 1
-    let pageSize = parseInt(ctx.query.pageSize) || 10
-    delete ctx.query.pageNo
-    delete ctx.query.pageSize
-    ctx.body =await SystemUtil.queryPage(M['user'],ctx.query,pageNo,pageSize)
-  }
+
 
   /**
    * 新建用户

@@ -1,11 +1,11 @@
-import API from 'api/index'
+import API from 'api'
 import COM from 'service/CommonService'
-import './user-add'
-import './user-edit'
+import './add'
+import './edit'
 
 const vm = avalon.define({
-  $id: 'userIndexVm',
-  userItems:[],
+  $id: 'classifyIndexVm',
+  dataItems:[],
   currentPage:1,
   totalPages:1,
   totalRecord:1,
@@ -14,25 +14,25 @@ const vm = avalon.define({
     vm.query(1)
   },
   openAdd:function(){
-    avalon.vmodels['userAdd'].openInit({afterSave:function(){
+    avalon.vmodels['classifyAdd'].openInit({afterSave:function(){
       vm.query(1)
     }})
   },
   openEdit:function(el){
-    avalon.vmodels['userEdit'].openInit({afterSave:function(){
+    avalon.vmodels['classifyEdit'].openInit({afterSave:function(){
       vm.query(1)
     },el:el})
   },
   query: async function (currentPage) {
-    const res = await API['user'].list({pageNo: currentPage, pageSize: 10})
-    vm.userItems = res.data.rows
+    const res = await API['classify'].list({pageNo: currentPage, pageSize: 10})
+    vm.dataItems = res.data.rows
     vm.currentPage = currentPage
     vm.totalRecord = res.data.count
     vm.totalPages = Math.ceil(vm.totalRecord / vm.pageSize)
   },
   destroy:async function(el){
-    COM.confirm({message:'是否删除该用户',afterConfirm: async function () {
-      const res = await API['user'].destroy(el.id)
+    COM.confirm({message:'是否删除该数据',afterConfirm: async function () {
+      const res = await API['classify'].destroy(el.id)
       vm.query(1)
     }})
   }

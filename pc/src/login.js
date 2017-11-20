@@ -16,15 +16,17 @@ const loginVm = avalon.define({
   validate: {
     onValidateAll:async function(reasons) {
       if(reasons.length) {
-        COM.topAlert({message:reasons[0].message})
+        const message = reasons[0].message
+        COM.topAlert({message})
         return false;
       } else {
         const res = await AuthApi.login(loginVm.phone,loginVm.password)
+        const message = res.message
         if(res.success){
           AuthService.setToken(res.data.token)
           window.location.href='/index.html'
         }else{
-          COM.topAlert(res.message, {icon: 2})
+          COM.topAlert({message})
         }
       }
     }

@@ -16,7 +16,7 @@ const root = avalon.define({
     // })
     // root.userInfo = res.values.userInfo
     const rootVm = root
-    const defaultIndex = '/index'
+    const defaultIndex = '/index.html#!/user/index'
     RouterService.initRouter({rootVm, defaultIndex})
   }
 })

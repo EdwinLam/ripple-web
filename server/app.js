@@ -12,6 +12,9 @@ const SystemConfig = require('./config/SystemConfig')
 const ApiRoute = require('./routes/ApiRoute')
 const AuthRoute = require('./routes/AuthRoute')
 const session = require('koa-session')
+
+
+
 var path = require('path')
 // error handler
 onerror(app)

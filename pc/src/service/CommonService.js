@@ -11,10 +11,10 @@ export default class commonUtil {
     static topAlert({message}){
       const alertEl=$(alertTemplate.replace("{{message}}",message))
       alertEl.alert()
-      $('body').append(alertEl)
+      $('.alertArea').prepend(alertEl)
       _.delay(()=>{
         alertEl.alert('close')
-      },300)
+      },1000)
     }
     static confirm(config){
         avalon.vmodels['confirm'].openInit(config)

@@ -1,10 +1,9 @@
-<div class="container-fluid" ms-controller="userIndexVm">
-    <wbr :widget="{$id:'userAdd',is:'user-add'}" />
-    <wbr :widget="{$id:'userEdit',is:'user-edit'}" />
+<div class="container-fluid" ms-controller="classifyIndexVm">
+    <wbr :widget="{$id:'classifyAdd',is:'classify-add'}" />
+    <wbr :widget="{$id:'classifyEdit',is:'classify-edit'}" />
     <nav aria-label="breadcrumb" role="navigation">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">权限管理</a></li>
-            <li class="breadcrumb-item"><a href="#">用户管理</a></li>
+            <li class="breadcrumb-item"><a href="#">分类管理</a></li>
         </ol>
     </nav>
     <div class="row">
@@ -17,17 +16,15 @@
             <thead class="thead-dark">
             <tr>
                 <th>ID</th>
-                <th>用户名</th>
-                <th>号码</th>
+                <th>分类名称</th>
                 <th>创建日期</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
-            <tr ms-for="(index,el) in @userItems">
+            <tr ms-for="(index,el) in @dataItems">
                 <td ms-text="el.id"></td>
-                <td ms-text="el.userName"></td>
-                <td ms-text="el.phone"></td>
+                <td ms-text="el.classifyName"></td>
                 <td ms-text="el.createdAt|date"></td>
                 <td>
                     <button type="button" class="btn btn-primary" ms-click="@openEdit(el)">编辑</button>

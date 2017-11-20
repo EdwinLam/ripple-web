@@ -1,6 +1,6 @@
 import template from './user-add.html'
-import UserApi from 'api/UserApi'
-import CommonService from 'service/CommonService'
+import API from 'api/index'
+import COM from 'service/CommonService'
 
 avalon.component('user-add', {
     template: template,
@@ -19,12 +19,12 @@ avalon.component('user-add', {
           phone: this.phone,
           password: this.password
         }
-        const res = await UserApi.add(data)
+        const res = await API['user'].add(data)
         if(res.success){
           $('#user-add').modal('hide')
           this.afterSave()
         }
-        CommonService.alert({message:res.message})
+        COM.topAlert({message:res.message})
       }
     }
 });

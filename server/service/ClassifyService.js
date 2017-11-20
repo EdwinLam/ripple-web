@@ -7,6 +7,11 @@ module.exports = class ClassifyService extends BaseService{
   constructor () {
     super('classify')
   }
+  async upLoadIcon(ctx){
+    console.log( ctx.req.file)
+  }
+
+
   /**
    * 根据条件查询
    * @param {pageNo} 当前页
