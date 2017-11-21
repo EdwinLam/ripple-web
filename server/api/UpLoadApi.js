@@ -8,10 +8,11 @@ var config = new SinaCloud.Config({
 SinaCloud.config = config
 const myBucket = new SinaCloud.S3({params: {Bucket: 'ripple'}})
 
-export default class UploadApi {
-  uploadFile(file,path,name){
+module.exports =class UploadApi {
+  uploadFile(filePath,path,name){
     return new Promise(function (resolve, reject) {
-      var params = {Key: path+'/'+name, Body: file};
+      var file = require('fs').createReadStream(filePath);
+      var params = {Key: path+'/'+name, Body: file}
       myBucket.putObject(params, function(error, response) {
         if (error) {
           reject(error);

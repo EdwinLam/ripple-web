@@ -1,4 +1,4 @@
-import UploadApi from './UpLoadApi'
-export default {
-  upload:UploadApi
+const UploadApi =require('./UpLoadApi')
+module.exports ={
+  upload:new UploadApi()
 }

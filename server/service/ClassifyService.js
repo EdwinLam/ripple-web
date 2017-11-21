@@ -2,13 +2,15 @@ const M = require('../models')
 const StringUtil = require('../util/StringUtil.js')
 const SystemUtil = require('../util/SystemUtil.js')
 const BaseService = require("./BaseService")
-
+const API = require("../api")
 module.exports = class ClassifyService extends BaseService{
   constructor () {
     super('classify')
   }
   async upLoadIcon(ctx){
-    console.log( ctx.req.file)
+    await API['upload'].uploadFile(ctx.req.file.path,'classify',ctx.req.file.filename)
+    ctx.body = ctx.req.file
+
   }
 
 
