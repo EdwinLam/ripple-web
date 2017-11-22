@@ -30,6 +30,7 @@
     "pug": "^2.0.0-rc.1",
     "scs-sdk": "^0.1.4",
     "sequelize": "^4.3.2",
+    "utility": "^1.13.1",
     "uuid": "^3.1.0"
   },
   "devDependencies": {

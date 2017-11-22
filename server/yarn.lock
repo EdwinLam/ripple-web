@@ -592,7 +592,7 @@ es6-promise@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-3.3.1.tgz#a08cdde84ccdbf34d027a1451bc91d4bcd28a613"
 
-escape-html@~1.0.1:
+escape-html@~1.0.1, escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
 
@@ -1526,7 +1526,7 @@ minimist@~0.0.1:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
 
-"mkdirp@>=0.5 0", mkdirp@^0.5.1:
+"mkdirp@>=0.5 0", mkdirp@^0.5.1, mkdirp@~0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
@@ -1585,7 +1585,7 @@ mysql@^2.13.0:
     safe-buffer "5.1.1"
     sqlstring "2.3.0"
 
-mz@^2.3.1, mz@^2.4.0:
+mz@^2.3.1, mz@^2.4.0, mz@~2.7.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/mz/-/mz-2.7.0.tgz#95008057a56cafadc2bc63dde7f9ff6955948e32"
   dependencies:
@@ -2503,6 +2503,15 @@ url-parse-lax@^1.0.0:
 util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
+
+utility@^1.13.1:
+  version "1.13.1"
+  resolved "https://registry.yarnpkg.com/utility/-/utility-1.13.1.tgz#9d72e145e49e4c5a21f2c307b0baf575235023f4"
+  dependencies:
+    copy-to "~2.0.1"
+    escape-html "~1.0.3"
+    mkdirp "~0.5.1"
+    mz "~2.7.0"
 
 uuid@^3.0.0, uuid@^3.1.0:
   version "3.1.0"

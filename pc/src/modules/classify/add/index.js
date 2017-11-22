@@ -7,11 +7,14 @@ avalon.component('classify-add', {
     template: template,
     defaults: {
       id:'classify-add',
-      userName:'',
-      phone:'',
-      password:'',
+      postData:{
+        iconUrl:'',
+        thumbUrl:'',
+        classifyName:''
+      },
       afterSave:avalon.noop,
       openInit: function ({afterSave}) {
+        var ctx = this
         $("#input-fa").fileinput({
           theme: "fa",
           showUpload:false, //是否显示上传按钮
@@ -54,25 +57,34 @@ avalon.component('classify-add', {
         })
         //导入文件上传完成之后的事件
         $("#input-fa").on("filebatchselected", function(event, files) {
-          $(this).fileinput("upload");
-        }).on("fileuploaded", function (event, data, previewId, index) {
-          console.log('ok')
+          $(this).fileinput("upload")
+        })
+        $("#input-fa").on("fileuploaded", function (event, data, previewId, index) {
+          ctx.postData.iconUrl = data.response.data.path
         })
 
         //导入文件上传完成之后的事件
         $("#input-feng").on("filebatchselected", function(event, files) {
           $(this).fileinput("upload");
         }).on("fileuploaded", function (event, data, previewId, index) {
-          console.log('ok')
+          ctx.postData.thumbUrl = data.response.data.path
         })
         $('#'+this.id).modal('show')
         this.afterSave=afterSave
       },
       save: async function () {
-        const data = {
-          userName: this.userName,
-          phone: this.phone,
-          password: this.password
+        const ctx = this
+        if(ctx.postData.classifyName == ''){
+          COM.topAlert({message:'请输入类别名称'})
+          return
+        }
+        if(ctx.postData.iconUrl == ''){
+          COM.topAlert({message:'请选择类别图标'})
+          return
+        }
+        if(ctx.postData.thumbUrl == ''){
+          COM.topAlert({message:'请选择封面图'})
+          return
         }
         const res = await API['classify'].add(data)
         if(res.success){

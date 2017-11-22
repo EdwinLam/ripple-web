@@ -12,7 +12,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">分类名</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" placeholder="请输入用户名" ms-duplex="@userName" autocomplete="off">
+                            <input type="text" class="form-control" placeholder="请输入类别名" ms-duplex="@postData.classifyName" autocomplete="off">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -25,6 +25,12 @@
                         <label  class="col-sm-2 col-form-label">封面页</label>
                         <div class="col-sm-10">
                             <input id="input-feng" type="file" name="file">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label  class="col-sm-2 col-form-label">说明</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control"></textarea>
                         </div>
                     </div>
                 </form>
