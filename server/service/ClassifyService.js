@@ -10,7 +10,7 @@ module.exports = class ClassifyService extends BaseService{
   async upLoadIcon(ctx){
     let success = true
     let message = '上传成功'
-    const path = await API['upload'].uploadFile(ctx.req.file.path,'classify',ctx.req.file.filename)
+    const {md5,path} = await API['upload'].uploadFile(ctx.req.file.path,'classify')
     const data = {path}
     ctx.body = SystemUtil.createResult({success,message,data})
   }

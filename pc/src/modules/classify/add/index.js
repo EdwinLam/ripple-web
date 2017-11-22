@@ -10,7 +10,8 @@ avalon.component('classify-add', {
       postData:{
         iconUrl:'',
         thumbUrl:'',
-        classifyName:''
+        classifyName:'',
+        remark:''
       },
       afterSave:avalon.noop,
       openInit: function ({afterSave}) {
@@ -86,7 +87,7 @@ avalon.component('classify-add', {
           COM.topAlert({message:'请选择封面图'})
           return
         }
-        const res = await API['classify'].add(data)
+        const res = await API['classify'].add(ctx.postData)
         if(res.success){
           $('#'+this.id).modal('hide')
           this.afterSave()
