@@ -7,6 +7,28 @@ avalon.component('classify-add', {
   template: template,
   defaults: {
     id: 'classify-add',
+    iconFileInputConfig:{
+      maxFileSize: 512,
+      allowedPreviewTypes: ['image'],
+      allowedFileExtensions: ['jpg', 'png', 'gif'],
+      minImageWidth: 54, //图片的最小宽度
+      minImageHeight: 54,//图片的最小高度
+      maxImageWidth: 64,//图片的最大宽度
+      maxImageHeight: 64,//
+      showPreview: false,
+      dropZoneEnabled: false,
+    },
+    thumbFileInputConfig:{
+      maxFileSize: 512,
+      allowedPreviewTypes: ['image'],
+      allowedFileExtensions: ['jpg', 'png', 'gif'],
+      minImageWidth: 54, //图片的最小宽度
+      minImageHeight: 54,//图片的最小高度
+      maxImageWidth: 64,//图片的最大宽度
+      maxImageHeight: 64,//
+      showPreview: false,
+      dropZoneEnabled: false,
+    },
     postData: {
       iconUrl: '',
       thumbUrl: '',
