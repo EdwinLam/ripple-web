@@ -24,7 +24,7 @@ const vm = avalon.define({
     },el:el})
   },
   query: async function (currentPage) {
-    const res = await API['classify'].list({pageNo: currentPage, pageSize: 10})
+    const res = await API[API.KEY.CLASSIFY].list({pageNo: currentPage, pageSize: 10})
     vm.dataItems = res.data.rows
     vm.currentPage = currentPage
     vm.totalRecord = res.data.count

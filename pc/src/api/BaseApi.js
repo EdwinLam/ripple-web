@@ -4,11 +4,11 @@ export default class BaseApi {
   constructor (key) {
     if (key) { this.key = key }
   }
-  list (data) {
+  list (params) {
     return fetch({
       url: '/api/'+this.key,
       method: 'get',
-      data
+      params
     })
   }
   add (data) {

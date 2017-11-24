@@ -6,7 +6,10 @@
   "dependencies": {
     "bootstrap-fileinput": "^4.4.6",
     "font-awesome": "FortAwesome/Font-Awesome",
-    "precss": "^2.0.0"
+    "md5": "^2.2.1",
+    "precss": "^2.0.0",
+    "spark-md5": "^3.0.0",
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
     "avalon2": "^2.2.7",
