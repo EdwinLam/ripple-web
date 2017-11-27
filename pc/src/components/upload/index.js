@@ -3,116 +3,105 @@
  * 上传组件
  * ------------------------------------------------------------------
  */
+import WebUploader from 'webuploader'
 import uuidv1 from 'uuid/v1'
-import SparkMD5 from 'spark-md5'
 import template from './index.html'
-import AuthService from '@/service/AuthService'
 import API from 'api'
+import AuthService from '@/service/AuthService'
 
 avalon.component('r-upload', {
   template: template,
   defaults: {
     tid: '',
+    previewId:'',
     $uploadTarget: {},
+    fileItems:[],
     /*文件上传默认配置*/
-    fileInputDefaultConfig: {
-      uploadExtraData: {},
-      theme: 'fa',
-      showUpload: false, //是否显示上传按钮
-      language: 'zh', //设置语言,
-      uploadUrl: '/api/file/upLoadFile',
-      ajaxSettings: {
-        headers: {
-          Authorization: 'Bearer ' + AuthService.getToken()
-        }
-      }
+    webUploaderDefaultConfig: {
+      // 选完文件后，是否自动上传。
+      auto: true,
+      // 文件接收服务端。
+      server: '/api/file/upLoadFile',
+      // 选择文件的按钮。可选。
+      // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+      pick: '#filePicker',
+      // 只允许选择图片文件。
+      accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/*'
+      },
+      thumbnailWidth:100,
+      thumbnailHeight:100,
+      formData:{},
     },
     /*上传配置*/
-    fileInputConfig: {},
+    webUploaderConfig: {},
     onInit: async function () {
       const ctx = this
       ctx.tid = uuidv1()
+      ctx.previewId = uuidv1()
+      ctx.webUploaderDefaultConfig.pick = '#'+ ctx.tid
     },
     /*成功回调*/
     successCall: avalon.noop,
+    getFileItem:function(id){
+      let result = {}
+      this.fileItems.forEach(function(el){
+        if(el.id == id)
+          result = el
+      })
+      return result
+    },
     onReady: function () {
       const ctx = this
-      ctx.$uploadTarget = $("#" + ctx.tid)
-      ctx.$uploadTarget.fileinput(avalon.mix(ctx.fileInputDefaultConfig.$model, ctx.fileInputConfig.$model))
-      ctx.$uploadTarget.on('fileuploaded', function (event, data, previewId, index) {
-        ctx.successCall(data)
+      ctx.webUploaderConfig = avalon.mix(ctx.webUploaderDefaultConfig.$model,ctx.webUploaderConfig.$model)
+      const uploader = WebUploader.create(ctx.webUploaderConfig)
+      // 防止模态窗按钮无效
+      $('#'+ctx.tid).find('.webuploader-pick').mouseenter(function(){
+        uploader.refresh()
       })
-      /*绑定选择文件后获取md5事件*/
-      ctx.bindMD5Upload(async (md5) => {
+      uploader.on('uploadBeforeSend', function(block, data, headers) {
+        headers.Authorization='Bearer ' + AuthService.getToken()
+      })
+      uploader.on('beforeFileQueued',function(){
+        ctx.fileItems = []
+        uploader.reset()
+      })
+      // 当有文件添加进来的时候
+      uploader.on( 'fileQueued', async function (file) {
+        console.log(uploader)
+        const md5 = await uploader.md5File(file)
         const res = await API[API.KEY.FILE].getFileByMd5({md5})
-        if (res.data.rows.length) {
-          ctx.fakeUpload(function(){
-            ctx.successCall(res.data.rows[0])
-          })
-        } else {
-          ctx.$uploadTarget.data('fileinput').uploadExtraData = {md5}
-          ctx.$uploadTarget.fileinput("upload")
-        }
-      })
-    },
-    fakeUpload:function(callback){
-      const ctx = this
-      const self = ctx.$uploadTarget.data('fileinput')
-      self._resetUpload();
-      self.$progress.show();
-      self.uploadCount = 100;
-      self.uploadStatus = {};
-      self.uploadLog = [];
-      const $h = self.$h
-      var outData = self._getOutData(null, null), key = 0,
-        $thumbs = self._getThumbs(':not(.file-preview-success)')
-      $.each(self.filestack, function (key) {
-        self.updateStack(key, undefined)
-      })
-      self._clearFileInput()
-      if (self.showPreview) {
-        $thumbs.each(function () {
-          var $thumb = $(this);
-          self._setThumbStatus($thumb, 'Success');
-          $thumb.removeClass('file-uploading');
-          $thumb.find('.kv-file-upload').hide().removeAttr('disabled');
-        })
-        self._initUploadSuccess(null);
-      }
-      self._setProgress(101)
-      callback()
-    },
-    /*绑定选择文件后获取md5事件*/
-    bindMD5Upload: function (callback) {
-      const ctx = this
-      ctx.$uploadTarget.change(function () {
-        const blobSlice = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice
-        const file = this.files[0]
-        const chunkSize = 2097152
-        const chunks = Math.ceil(file.size / chunkSize)
-        let currentChunk = 0
-        let spark = new SparkMD5.ArrayBuffer()
-        const fileReader = new FileReader()
-        fileReader.onload = function (e) {
-          spark.append(e.target.result)
-          currentChunk++
-          if (currentChunk < chunks) {
-            loadNext()
-          } else {
-            callback(spark.end())
+        uploader.makeThumb(file, function (error, src) {
+          let isImage = true
+          if (error) {
+            isImage=false
           }
-        }
-        fileReader.onerror = function () {
-          avalon.warn('上传文件获取md5发生错误!');
-        }
-        function loadNext () {
-          const start = currentChunk * chunkSize
-          const end = ((start + chunkSize) >= file.size) ? file.size : start + chunkSize
-          fileReader.readAsArrayBuffer(blobSlice.call(file, start, end))
-        }
-        loadNext();
+         ctx.fileItems.push({
+            isImage,
+            thumb:src,
+            id:file.id,
+            ext:file.ext,
+            md5:md5,
+            statusText:file.statusText,
+            status:0,
+            name:file.name,
+            percentage:0,
+         })
+        }, ctx.webUploaderDefaultConfig.thumbnailWidth, ctx.webUploaderDefaultConfig.thumbnailHeight);
       })
-
+      uploader.on( 'uploadProgress', function( file, percentage ) {
+        ctx.getFileItem(file.id).percentage = percentage*100
+      })
+      uploader.on( 'uploadSuccess', function( file ) {
+        ctx.getFileItem(file.id).status = 1
+      })
+      uploader.on( 'uploadError', function( file ) {
+        const fileItem = ctx.getFileItem(file.id)
+        fileItem.status = 2
+        fileItem.statusText = '上传失败'
+      })
     }
   }
 })

@@ -32,7 +32,7 @@ const vm = avalon.define({
   },
   destroy:async function(el){
     COM.confirm({message:'是否删除该数据',afterConfirm: async function () {
-      const res = await API['classify'].destroy(el.id)
+      const res = await API[API.KEY.CLASSIFY].destroy(el.id)
       vm.query(1)
     }})
   }

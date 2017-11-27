@@ -14,7 +14,7 @@ module.exports = class ClassifyService extends BaseService {
     let message = '上传成功'
     const reqFile = ctx.req.file
     const file =await M['file'].findOrCreate({where:{md5},defaults:{md5,path:reqFile.path,mimeType:reqFile.mimetype,size:reqFile.size}})
-    await API['upload'].uploadFile(reqFile.path, dirName,md5)
+    await API['upload'].uploadFile(reqFile.path)
     const data =file[0]
     ctx.body = SystemUtil.createResult({success, message, data})
   }

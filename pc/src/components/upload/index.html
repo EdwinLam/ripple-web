@@ -1,3 +1,12 @@
-<div>
-    <input ms-attr="{id:@tid}" type="file" name="file">
+<div class="uploadArea">
+    <div ms-attr='{id:@previewId}' class="uploader-list">
+        <div  class="file-item thumbnail" ms-for="(index,el) in @fileItems" ms-class="{'upload-state-done':el.status==1}">
+            <img ms-attr="{src:el.thumb}" ms-visible="el.isImage">
+            <span ms-visible="!el.isImage">不能预览</span>
+         <div class="info" ms-text="el.name"></div>
+            <p class="progress"  ms-visible="el.status==0"><span ms-css="{width:el.percentage+'%'}"></span></p>
+        </div>
+        <div class="error" ms-visible="el.status==2" ms-text="el.statusText"></div>
+    </div>
+    <div ms-attr="{id:@tid}" class="selectBtn">选择图片</div>
 </div>
