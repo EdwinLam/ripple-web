@@ -70,7 +70,6 @@ avalon.component('r-upload', {
       })
       // 当有文件添加进来的时候
       uploader.on( 'fileQueued', async function (file) {
-        console.log(uploader)
         const md5 = await uploader.md5File(file)
         const res = await API[API.KEY.FILE].getFileByMd5({md5})
         uploader.makeThumb(file, function (error, src) {

@@ -6,13 +6,13 @@ import 'components/upload'
 avalon.component('classify-add', {
   template: template,
   defaults: {
-    id: 'classify-add',
+    modalId: 'classify-add',
     iconFileInputConfig:{
-      resize: true
     },
     thumbFileInputConfig:{
-      resize: true
     },
+    iconFileItems:[],
+    thumbItems:[],
     postData: {
       iconUrl: '',
       thumbUrl: '',
@@ -26,8 +26,8 @@ avalon.component('classify-add', {
         thumbUrl: '',
         classifyName: '',
         remark: ''
-      },
-        $('#' + this.id).modal('show')
+      }
+      $('#' + this.modalId).modal('show')
       this.afterSave = afterSave
     },
     afterIconSelected: function (data) {

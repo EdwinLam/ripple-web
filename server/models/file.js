@@ -1,7 +1,10 @@
 /* 节点表 */
 module.exports = function(sequelize, DataTypes) {
   const  file = sequelize.define('file', {
-    mimeType:{
+    name:{
+      type: DataTypes.STRING
+    },
+    ext:{
       type: DataTypes.STRING
     },
     path: {

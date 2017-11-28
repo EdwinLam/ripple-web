@@ -6,13 +6,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     remark: {
       type: DataTypes.STRING
-    },
-    iconUrl:{
-      type: DataTypes.STRING
-    },
-    thumbUrl:{
-      type: DataTypes.STRING
     }
   })
+  classify.associate = function(modules){
+    classify.belongsTo(modules.file,{foreignKey:'iconFileId'})
+    classify.belongsTo(modules.file,{foreignKey:'thumbFileId'})
+  }
   return classify
 };

@@ -5,8 +5,9 @@
             <span ms-visible="!el.isImage">不能预览</span>
          <div class="info" ms-text="el.name"></div>
             <p class="progress"  ms-visible="el.status==0"><span ms-css="{width:el.percentage+'%'}"></span></p>
+            <div class="error" ms-visible="el.status==2" ms-text="el.statusText"></div>
+
         </div>
-        <div class="error" ms-visible="el.status==2" ms-text="el.statusText"></div>
     </div>
     <div ms-attr="{id:@tid}" class="selectBtn">选择图片</div>
 </div>
