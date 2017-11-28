@@ -17,13 +17,15 @@ avalon.component('classify-add', {
       iconUrl: '',
       thumbUrl: '',
       classifyName: '',
-      remark: ''
+      remark: '',
+      iconId:'',
+      coverId:''
     },
     afterSave: avalon.noop,
     openInit: function ({afterSave}) {
       this.postData = {
-        iconUrl: '',
-        thumbUrl: '',
+        iconId: '',
+        coverId: '',
         classifyName: '',
         remark: ''
       }
@@ -31,10 +33,10 @@ avalon.component('classify-add', {
       this.afterSave = afterSave
     },
     afterIconSelected: function (data) {
-      this.postData.iconUrl = data.path
+      this.postData.iconId = data.id
     },
-    afterThumbSelected: function (data) {
-      this.postData.thumbUrl = data.path
+    afterCoverSelected: function (data) {
+      this.postData.coverId = data.id
     },
     save: async function () {
       const ctx = this
@@ -42,11 +44,11 @@ avalon.component('classify-add', {
         COM.topAlert({message: '请输入类别名称'})
         return
       }
-      if (ctx.postData.iconUrl == '') {
+      if (ctx.postData.iconId == '') {
         COM.topAlert({message: '请选择类别图标'})
         return
       }
-      if (ctx.postData.thumbUrl == '') {
+      if (ctx.postData.coverId == '') {
         COM.topAlert({message: '请选择封面图'})
         return
       }

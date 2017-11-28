@@ -9,8 +9,8 @@ module.exports = function(sequelize, DataTypes) {
     }
   })
   classify.associate = function(modules){
-    classify.belongsTo(modules.file,{foreignKey:'iconFileId'})
-    classify.belongsTo(modules.file,{foreignKey:'thumbFileId'})
+    classify.belongsTo(modules.file, {as: 'icon'})
+    classify.belongsTo(modules.file, {as: 'cover'})
   }
   return classify
 };

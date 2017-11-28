@@ -6,6 +6,7 @@ const upload = multer({ dest: 'uploads/' })
 router.get('/user/getUserInfo', (ctx) => S['user'].getUserInfo(ctx))
 /*种类相关接口*/
 router.post('/file/upLoadFile', upload.single('file'),(ctx)=>S['file'].upLoadFile(ctx))
+router.get('/file/getFileByMD5',(ctx)=>S['file'].getFileByMD5(ctx))
 /* 节点相关接口 */
 router.get('/node/getAllModules', (ctx) => S['node'].getAllModules(ctx))
 

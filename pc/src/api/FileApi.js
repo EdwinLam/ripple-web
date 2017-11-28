@@ -5,9 +5,9 @@ export default class FileApi extends BaseApi{
   constructor () {
     super('user')
   }
-  getFileByMd5 (params) {
+  getFileByMD5 (params) {
     return fetch({
-      url: '/api/file',
+      url: '/api/file/getFileByMD5',
       method: 'get',
       params
     })

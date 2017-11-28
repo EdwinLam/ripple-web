@@ -26,11 +26,10 @@ module.exports = class ClassifyService extends BaseService{
     let pageSize = parseInt(ctx.query.pageSize) || 10
     delete ctx.query.pageNo
     delete ctx.query.pageSize
-    const include= [{
-      model: {model:M['classifyImage'],include:M['file']},
-      limit: 2,
-      order: [['id','desc']]
-    }]
+    const include= [
+      {model:M['file'],as:'icon'},
+      {model:M['file'],as:'cover'}
+    ]
     ctx.body =await SystemUtil.queryPage(M['classify'],ctx.query,pageNo,pageSize,include)
   }
 
