@@ -4,13 +4,7 @@ module.exports = function(sequelize, DataTypes) {
     goodName: {
       type: DataTypes.STRING
     },
-    price: {
-      type: DataTypes.STRING
-    },
     remark:{
-      type: DataTypes.STRING
-    },
-    thumbUrl:{
       type: DataTypes.STRING
     }
   })

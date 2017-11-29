@@ -12,7 +12,7 @@ module.exports =class UploadApi {
   uploadFile(filePath,dirName,md5){
     return new Promise(async function (resolve, reject) {
       const file = fs.createReadStream(filePath)
-      const params = {Key: dirName+'/'+md5.replace('\\','/'), Body: file}
+      const params = {Key: dirName+'/'+md5, Body: file}
       myBucket.putObject(params,function(error, response) {
         if (error) {
           reject(error)

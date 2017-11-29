@@ -21,10 +21,15 @@ service.interceptors.request.use(config => {
   Promise.reject(error)
 })
 
+
+
 // respone拦截器
 service.interceptors.response.use(
   response => {
     CommonService.closeLoading()
+    for(let key in response.data){
+
+    }
     return response.data
   },
   error => {

@@ -2,6 +2,7 @@ import '@/css/style.css'
 import RouterService from '@/service/RouterService'
 import 'modules/common/header'
 import 'modules/common/menu'
+import './filter'
 import UserApi from 'api/UserApi'
 const root = avalon.define({
   $id: 'root',

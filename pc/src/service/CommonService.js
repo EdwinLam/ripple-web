@@ -1,9 +1,10 @@
 import alertTemplate from './template/topAlert.html'
 import _ from 'lodash'
-export default class commonUtil {
+export default class commonService {
     constructor() {
-        this.loadingIndex = -1
-        this.loadingCount = 0
+    }
+    static getResUrl(path){
+      return process.env.RES_URL+path
     }
   static alert(config){
     avalon.vmodels['commonAlert'].openInit(config)

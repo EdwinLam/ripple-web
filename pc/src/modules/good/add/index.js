@@ -3,37 +3,37 @@ import API from 'api'
 import COM from 'service/CommonService'
 import 'components/upload'
 
-avalon.component('classify-edit', {
+avalon.component('good-add', {
   template: template,
   defaults: {
-    modalId: 'classify-edit',
-    iconFileInputConfig:{},
-    coverFileInputConfig:{},
+    modalId: 'classify-add',
+    iconFileInputConfig:{
+    },
+    coverFileInputConfig:{
+    },
     iconFileItems:[],
     coverFileItems:[],
     postData: {
-      iconId: '',
-      coverId: '',
       classifyName: '',
-      remark: ''
+      remark: '',
+      iconId:'',
+      coverId:''
     },
     afterSave: avalon.noop,
-    openInit: function ({afterSave,el}) {
+    openInit: function ({afterSave}) {
       this.iconFileItems=[]
       this.coverFileItems=[]
-      this.postData = el
-      if(el.cover){
-        const icon = avalon.mix({isImage:true,thumb:COM.getResUrl(el.icon.path)},el.icon)
-        this.iconFileItems=[icon]
-      }
-      if(el.icon){
-        const cover = avalon.mix({isImage:true,thumb:COM.getResUrl(el.cover.path)},el.cover)
-        this.coverFileItems=[cover]
+      this.postData = {
+        iconId: '',
+        coverId: '',
+        classifyName: '',
+        remark: ''
       }
       $('#' + this.modalId).modal('show')
       this.afterSave = afterSave
     },
     afterIconSelected: function (data) {
+      console.log(data)
       this.postData.iconId = data.id
     },
     afterCoverSelected: function (data) {
@@ -53,7 +53,7 @@ avalon.component('classify-edit', {
         COM.topAlert({message: '请选择封面图'})
         return
       }
-      const res = await API[API.KEY.CLASSIFY].update(ctx.postData)
+      const res = await API[API.KEY.CLASSIFY].add(ctx.postData)
       if (res.success) {
         $('#' + this.modalId).modal('hide')
         this.afterSave()

@@ -3,7 +3,7 @@ import BaseApi from './BaseApi'
 
 export default class FileApi extends BaseApi{
   constructor () {
-    super('user')
+    super('good')
   }
   getFileByMD5 (params) {
     return fetch({

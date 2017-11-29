@@ -3,7 +3,7 @@ import API from 'api'
 import COM from 'service/CommonService'
 import 'components/upload'
 
-avalon.component('classify-edit', {
+avalon.component('good-edit', {
   template: template,
   defaults: {
     modalId: 'classify-edit',

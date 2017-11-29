@@ -9,13 +9,11 @@ avalon.component('classify-add', {
     modalId: 'classify-add',
     iconFileInputConfig:{
     },
-    thumbFileInputConfig:{
+    coverFileInputConfig:{
     },
     iconFileItems:[],
-    thumbItems:[],
+    coverFileItems:[],
     postData: {
-      iconUrl: '',
-      thumbUrl: '',
       classifyName: '',
       remark: '',
       iconId:'',
@@ -23,6 +21,8 @@ avalon.component('classify-add', {
     },
     afterSave: avalon.noop,
     openInit: function ({afterSave}) {
+      this.iconFileItems=[]
+      this.coverFileItems=[]
       this.postData = {
         iconId: '',
         coverId: '',
@@ -33,6 +33,7 @@ avalon.component('classify-add', {
       this.afterSave = afterSave
     },
     afterIconSelected: function (data) {
+      console.log(data)
       this.postData.iconId = data.id
     },
     afterCoverSelected: function (data) {
@@ -54,7 +55,7 @@ avalon.component('classify-add', {
       }
       const res = await API[API.KEY.CLASSIFY].add(ctx.postData)
       if (res.success) {
-        $('#' + this.id).modal('hide')
+        $('#' + this.modalId).modal('hide')
         this.afterSave()
       }
       COM.topAlert({message: res.message})

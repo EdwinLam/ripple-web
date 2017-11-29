@@ -90,12 +90,12 @@ avalon.component('r-upload', {
             md5: md5,
             statusText: file.statusText,
             status: 0,
-            name: file.name,
             percentage: 0,
           }
           if (res.success) {//存在则直接添加就可以了
-            console.log(res)
             fileObj.status = 1
+            fileObj.id = res.data.id
+            ctx.successCall(fileObj)
             uploader.reset()
           } else {
             uploader.upload(file)
@@ -111,7 +111,7 @@ avalon.component('r-upload', {
         const fileItem = ctx.getFileItem(file.id)
         fileItem.status = 1
         fileItem.id = res.data.id
-
+        ctx.successCall(fileItem)
       })
       uploader.on('uploadError', function (file) {
         const fileItem = ctx.getFileItem(file.id)
