@@ -1,4 +1,4 @@
-/* 分类 */
+/* 商品 */
 module.exports = function(sequelize, DataTypes) {
   const  good = sequelize.define('good', {
     goodName: {

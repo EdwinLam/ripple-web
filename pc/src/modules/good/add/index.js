@@ -6,7 +6,7 @@ import 'components/upload'
 avalon.component('good-add', {
   template: template,
   defaults: {
-    modalId: 'classify-add',
+    modalId: 'good-add',
     iconFileInputConfig:{
     },
     coverFileInputConfig:{
@@ -14,7 +14,7 @@ avalon.component('good-add', {
     iconFileItems:[],
     coverFileItems:[],
     postData: {
-      classifyName: '',
+      goodName: '',
       remark: '',
       iconId:'',
       coverId:''
@@ -54,7 +54,7 @@ avalon.component('good-add', {
         return
       }
       const res = await API[API.KEY.CLASSIFY].add(ctx.postData)
-      if (res.success) {
+        if (res.success) {
         $('#' + this.modalId).modal('hide')
         this.afterSave()
       }
