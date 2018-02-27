@@ -27,7 +27,7 @@
                     @on-close="closePage"
                     @click.native="linkTo(item)"
                     :closable="item.name==='home_index'?false:true"
-                    :color="item.children?(item.children[0].name===currentPageName?'blue':'default'):(item.name===currentPageName?'blue':'default')"
+                    :color="item.name===currentPageName?'blue':'default'"
                 >{{ itemTitle(item) }}</Tag>
             </transition-group>
         </div>

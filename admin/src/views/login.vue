@@ -57,7 +57,7 @@ export default {
         };
     },
     methods: {
-        handleSubmit () {
+            handleSubmit () {
             this.$refs.loginForm.validate(async (valid) => {
               if (valid) {
                  this.$store.dispatch('login', {

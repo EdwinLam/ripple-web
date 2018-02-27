@@ -8,6 +8,19 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
+    isModule: {
+      type: DataTypes.INTEGER(1),
+      allowNull: true,
+      defaultValue: '0'
+    },
+    appId: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true
+    },
+    link: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
     parentId: {
       type: DataTypes.INTEGER(11),
       allowNull: false

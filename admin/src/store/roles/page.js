@@ -1,15 +1,13 @@
-import {otherRouter, appRouter} from '@/router/router';
-import Cookies from 'js-cookie';
+import { otherRouter, appRouter } from '@/router/router';
 import Util from '@/libs/util';
-import {router} from '@/router/index';
+import NodeUtil from '@/utils/NodeUtil'
+import { router } from '@/router/index';
 
 const state = {
   cachePage: [],
   lang: '',
   isFullScreen: false,
   openedSubmenuArr: [], // 要展开的菜单数组
-  menuTheme: 'dark', // 主题
-  themeColor: '',
   pageOpenedList: [{
     title: '首页',
     path: '',
@@ -24,60 +22,47 @@ const state = {
     }
   ], // 面包屑数组
   menuList: [],
+  tagsList: [],
   routers: [
     otherRouter,
     ...appRouter
   ],
-  tagsList: [...otherRouter.children],
   messageCount: 0,
-  dontCache: ['text-editor', 'artical-publish'], // 在这里定义你不想要缓存的页面的name属性值(参见路由配置router.js)
-  defaultPageSize : 10
+  defaultPageSize: 10
 }
 
 // getters
-const getters = {
-
-}
+const getters = {}
 
 const actions = {
-  /*初始化router数据*/
-  initRouter:function({commit},{authItems}){
-    // 数据树状处理
-    let hash = {}
-    let list = []
-    let filterData = []
-    authItems.forEach(function(el){
-        el.children = []
-        hash[el.id] = el
-    })
-    authItems.forEach(function(el){
-      hash[el.id] = Object.assign(el,{component:() => import('@/views/'+el.componentPath)})
-      if(hash[el.parentId]){
-        hash[el.parentId].children.push(el)
-      }else{
-        list.push(el)
-      }
-    })
-    router.addRoutes(list)
-    console.log(list)
-    commit("initLeftNav", list)
+  initRouter:function({rootState}){
+    const userState = rootState.user
+    const authItems = userState.authItems
+    let routerList = NodeUtil.filterRouterItems(authItems)
+    router.addRoutes(Util.createTree(routerList))
+  },
+  initPage: function ({commit,rootState,dispatch}) {
+    const userState = rootState.user
+    const authItems = userState.authItems
+    let menuList = authItems
+    let routerList = NodeUtil.filterRouterItems(authItems)
+    let tagList = NodeUtil.filterTagItems(authItems)
+    dispatch("initRouter")
+    commit("initPage", {
+      menuList:Util.createTree(menuList),
+      tagList:tagList,
+      routerList:routerList,
+      userInfo:userState.userInfo})
+  },
+  setCurrentPath:function(){
+
   }
 }
-const mutations =  {
-  initLeftNav (state, menuList) {
-    state.menuList = menuList;
-  },
-  setTagsList (state, list) {
-    state.tagsList.push(...list);
-  },
-  updateMenulist (state, menuList) {
-    // state.menuList = menuList;
-  },
-  changeMenuTheme (state, theme) {
-    state.menuTheme = theme;
-  },
-  changeMainTheme (state, mainTheme) {
-    state.themeColor = mainTheme;
+const mutations = {
+  initPage:function(state,{menuList,tagList,routerList,userInfo}){
+    state.menuList = menuList
+    state.tagsList=tagList
+    state.messageCount = userInfo.messageCount;
   },
   addOpenSubmenu (state, name) {
     let hasThisName = false;
@@ -93,16 +78,7 @@ const mutations =  {
     }
   },
   closePage (state, name) {
-    state.cachePage.forEach((item, index) => {
-      if (item === name) {
-        state.cachePage.splice(index, 1);
-      }
-    });
-  },
-  initCachepage (state) {
-    if (localStorage.cachePage) {
-      state.cachePage = JSON.parse(localStorage.cachePage);
-    }
+
   },
   removeTag (state, name) {
     state.pageOpenedList.map((item, index) => {
@@ -166,19 +142,11 @@ const mutations =  {
   clearOpenedSubmenu (state) {
     state.openedSubmenuArr.length = 0;
   },
-  setMessageCount (state, count) {
-    state.messageCount = count;
-  },
+
   increateTag (state, tagObj) {
-    if (!Util.oneOf(tagObj.name, state.dontCache)) {
-      state.cachePage.push(tagObj.name);
-      localStorage.cachePage = JSON.stringify(state.cachePage);
-    }
     state.pageOpenedList.push(tagObj);
-    localStorage.pageOpenedList = JSON.stringify(state.pageOpenedList);
   }
 }
-
 
 export default {
   state,

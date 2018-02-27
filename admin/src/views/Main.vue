@@ -7,7 +7,6 @@
             <shrinkable-menu
                 :shrink="shrink"
                 @on-change="handleSubmenuChange"
-                :theme="menuTheme"
                 :before-push="beforePush"
                 :open-names="openedSubmenuArr"
                 :menu-list="menuList">
@@ -32,16 +31,12 @@
                     </div>
                 </div>
                 <div class="header-avator-con">
-                    <full-screen v-model="isFullScreen" @on-change="fullscreenChange"></full-screen>
-                    <lock-screen></lock-screen>
-                    <message-tip v-model="mesCount"></message-tip>
-                    <theme-switch></theme-switch>
-                    
+                    <message-tip v-model="userInfo.messageCount"></message-tip>
                     <div class="user-dropdown-menu-con">
                         <Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">
                             <Dropdown transfer trigger="click" @on-click="handleClickUserDropdown">
                                 <a href="javascript:void(0)">
-                                    <span class="main-user-name">{{ userName }}</span>
+                                    <span class="main-user-name">{{ userInfo.userName }}</span>
                                     <Icon type="arrow-down-b"></Icon>
                                 </a>
                                 <DropdownMenu slot="list">
@@ -49,7 +44,7 @@
                                     <DropdownItem name="loginout" divided>退出登录</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
-                            <Avatar :src="avatorPath" style="background: #619fe7;margin-left: 10px;"></Avatar>
+                            <Avatar :src="userInfo.avatar" style="background: #619fe7;margin-left: 10px;"></Avatar>
                         </Row>
                     </div>
                 </div>
@@ -60,9 +55,7 @@
         </div>
         <div class="single-page-con" :style="{left: shrink?'60px':'200px'}">
             <div class="single-page">
-                <keep-alive :include="cachePage">
                     <router-view></router-view>
-                </keep-alive>
             </div>
         </div>
     </div>
@@ -71,73 +64,42 @@
     import shrinkableMenu from './main-components/shrinkable-menu/shrinkable-menu.vue';
     import tagsPageOpened from './main-components/tags-page-opened.vue';
     import breadcrumbNav from './main-components/breadcrumb-nav.vue';
-    import fullScreen from './main-components/fullscreen.vue';
-    import lockScreen from './main-components/lockscreen/lockscreen.vue';
     import messageTip from './main-components/message-tip.vue';
-    import themeSwitch from './main-components/theme-switch/theme-switch.vue';
     import Cookies from 'js-cookie';
     import util from '@/libs/util.js';
-    
+    import { mapState } from 'vuex'
+
     export default {
         components: {
             shrinkableMenu,
             tagsPageOpened,
             breadcrumbNav,
-            fullScreen,
-            lockScreen,
-            messageTip,
-            themeSwitch
+            messageTip
         },
         data () {
             return {
                 shrink: false,
-                userName: '',
-                isFullScreen: false,
                 openedSubmenuArr: this.$store.state.page.openedSubmenuArr
             };
         },
         computed: {
-            menuList () {
-                return this.$store.state.page.menuList;
-            },
-            pageTagsList () {
-                return this.$store.state.page.pageOpenedList; // 打开的页面的页面对象
-            },
-            currentPath () {
-                return this.$store.state.page.currentPath; // 当前面包屑数组
-            },
-            avatorPath () {
-                return localStorage.avatorImgPath;
-            },
-            cachePage () {
-                return this.$store.state.page.cachePage;
-            },
-            lang () {
-                return this.$store.state.page.lang;
-            },
-            menuTheme () {
-                return this.$store.state.page.menuTheme;
-            },
-            mesCount () {
-                return this.$store.state.page.messageCount;
-            }
+            ...mapState({
+              userInfo: ({user}) => user.userInfo,
+              menuList:({page}) => page.menuList,
+              pageTagsList:({page})=>page.pageOpenedList,
+              currentPath:({page})=>page.currentPath
+            })
         },
         methods: {
             async init () {
-              await this.$store.dispatch('getUserAuth')
-              console.log(this.$store.state.user.authItems)
-              await this.$store.dispatch('initRouter',{authItems: this.$store.state.user.authItems})
+              await this.$store.dispatch('initUser')
+              await this.$store.dispatch('initPage')
 
               let pathArr = util.setCurrentPath(this, this.$route.name);
-              this.$store.commit('updateMenulist');
               if (pathArr.length >= 2) {
                 this.$store.commit('addOpenSubmenu', pathArr[1].name);
               }
-              this.userName = Cookies.get('user');
-              let messageCount = 3;
-              this.messageCount = messageCount.toString();
               this.checkTag(this.$route.name);
-              this.$store.commit('setMessageCount', 3);
             },
             toggleClick () {
                 this.shrink = !this.shrink;
@@ -178,9 +140,7 @@
                 // }
                 return true;
             },
-            fullscreenChange (isFullScreen) {
-                // console.log(isFullScreen);
-            }
+
         },
         watch: {
             '$route' (to) {
@@ -191,9 +151,6 @@
                 }
                 this.checkTag(to.name);
                 localStorage.currentPageName = to.name;
-            },
-            lang () {
-                util.setCurrentPath(this, this.$route.name); // 在切换语言时用于刷新面包屑
             }
         },
         mounted () {

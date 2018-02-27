@@ -202,16 +202,12 @@ util.openNewPage = function (vm, name, argu, query) {
         i++;
     }
     if (!tagHasOpened) {
-        let tag = vm.$store.state.castle.tagsList.filter((item) => {
-            if (item.children) {
-                return name === item.children[0].name;
-            } else {
+        let tag = vm.$store.state.page.tagsList.filter((item) => {
                 return name === item.name;
-            }
         });
+        console.log(tag)
         tag = tag[0];
         if (tag) {
-            tag = tag.children ? tag.children[0] : tag;
             if (argu) {
                 tag.argu = argu;
             }
@@ -265,5 +261,25 @@ util.checkUpdate = function (vm) {
         }
     });
 };
+
+util.createTree =function(dataItems,idName,parentIdName){
+  idName = idName||'id'
+  parentIdName = parentIdName || 'parentId'
+  let hash = {}
+  let list = []
+  dataItems.forEach(function(el){
+    el.children = []
+    hash[el[idName]] = el
+  })
+  dataItems.forEach(function(el){
+    if(hash[el[parentIdName]]){
+      hash[el[parentIdName]].children.push(el)
+    }else{
+      list.push(el)
+    }
+  })
+  return list
+}
+
 
 export default util;

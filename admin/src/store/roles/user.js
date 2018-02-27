@@ -6,6 +6,11 @@ import iView from 'iview';
 const state = {
   status:0,
   authItems:[],
+  userInfo:{
+    messageCount:3,
+    userName:'小明',
+    avatar:'',
+  }
 }
 
 // getters
@@ -14,19 +19,26 @@ const getters = {
 }
 
 const actions = {
-  async getUserAuth({commit}){
+  async initUser({commit}){
     return new Promise(async (resolve, reject) => {
       const res = await nodeApi.getUserAuth()
-      commit("changeAuthItems", {authItems: res.data})
-      resolve()
+      commit("inLine", {authItems: res.data})
+      resolve(res.data)
     })
   },
   async login({commit},{phone,password}){
+    commit("identify",{phone,password})
     const res = await authApi.login({phone,password})
     if(res.success){
-      commit("loginSuccess",{message:res.message,phone,password})
+      const authRes = await nodeApi.getUserAuth()
+      commit("inLine",{authItems: authRes.data})
+      router.push({
+        name: 'home_index'
+      })
+      iView.Message.success(message)
     }else{
-      commit("loginFail",{message:res.message})
+      commit("offLine")
+      iView.Message.error(message)
     }
   },
   async createPermission({commit},{phone,password}){
@@ -34,39 +46,17 @@ const actions = {
   }
 }
 const mutations = {
-  changeAuthItems (state,{authItems}) {
-    state.authItems = authItems;
-  },
-  loginFail(state,{message}){
+  offLine(state){
     Cookies.remove('user');
     Cookies.remove('password');
     Cookies.remove('access');
-    iView.Message.error(message)
   },
-  loginSuccess(state,{phone,password,message}){
+  identify(state,{phone,password}){
     Cookies.set('user',phone)
     Cookies.set('password', password)
-    router.push({
-      name: 'home_index'
-    })
-    iView.Message.success(message)
   },
-  logout (state, vm) {
-    Cookies.remove('user');
-    Cookies.remove('password');
-    Cookies.remove('access');
-    // 恢复默认样式
-    let themeLink = document.querySelector('link[name="theme"]');
-    themeLink.setAttribute('href', '');
-    // 清空打开的页面等数据，但是保存主题数据
-    let theme = '';
-    if (localStorage.theme) {
-      theme = localStorage.theme;
-    }
-    localStorage.clear();
-    if (theme) {
-      localStorage.theme = theme;
-    }
+  inLine(state,{authItems}){
+    state.authItems = authItems;
   }
 }
 

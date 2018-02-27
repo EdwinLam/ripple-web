@@ -7,9 +7,7 @@
 <script>
     export default {
         data () {
-            return {
-                theme: this.$store.state.page.themeColor
-            };
+          return { }
         },
         mounted () {
 
